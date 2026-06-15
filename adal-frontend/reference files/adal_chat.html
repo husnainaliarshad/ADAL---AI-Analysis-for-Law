@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADAL Chat Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #1A1814;
+      --surface: #2C2A26;
+      --surface-soft: #3A3832;
+      --surface-deep: #222018;
+      --violet: #7F77DD;
+      --violet-deep: #534AB7;
+      --lavender: #AFA9EC;
+      --fog: #EEEDFE;
+      --text-primary: #EEEDFE;
+      --text-secondary: #B8B3E8;
+      --text-muted: #7A768E;
+      --border: rgba(127, 119, 221, 0.14);
+      --border-bright: rgba(127, 119, 221, 0.34);
+      --grid-line: rgba(127, 119, 221, 0.035);
+      --sidebar-w: 244px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: var(--obsidian);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--surface-deep);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--violet) 0%, transparent 100%);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      height: 58px;
+      padding: 0 1.15rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--violet-deep);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      overflow: hidden;
+    }
+    .brand-mark img,
+    .footer-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .brand-lockup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+    }
+    .brand-logo {
+      width: 92px;
+      height: auto;
+      display: block;
+    }
+    .brand-sub,
+    .nav-label,
+    .eyebrow,
+    .section-label {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .nav {
+      flex: 1;
+      overflow: auto;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 1;
+    }
+    .nav-label { padding: 0.5rem 1.1rem 0.25rem; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.68rem 1.1rem;
+      position: relative;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .nav-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--violet);
+      transform: scaleY(0);
+      transition: transform 0.18s ease;
+    }
+    .nav-item:hover,
+    .nav-item.active {
+      background: rgba(127, 119, 221, 0.08);
+      color: var(--fog);
+    }
+    .nav-item.active::before { transform: scaleY(1); }
+    .nav-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(127, 119, 221, 0.08);
+      border: 1px solid rgba(127, 119, 221, 0.16);
+      flex-shrink: 0;
+    }
+    .nav-icon svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .nav-text { font-size: 0.83rem; }
+    .nav-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 0.7rem 1.1rem;
+    }
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .footer-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet-deep) 0%, #3C3489 100%);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      overflow: hidden;
+    }
+    .footer-name { font-size: 0.82rem; }
+    .footer-role {
+      color: var(--text-muted);
+      font-size: 0.64rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-top: 0.12rem;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 58px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(26, 24, 20, 0.78);
+      backdrop-filter: blur(8px);
+    }
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+    .topbar-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    .ghost-btn, .solid-btn, .mini-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .ghost-btn, .solid-btn {
+      min-height: 36px;
+      padding: 0 0.95rem;
+      font-size: 0.78rem;
+    }
+    .solid-btn {
+      background: var(--violet);
+      border-color: var(--violet);
+      color: var(--fog);
+      box-shadow: 0 10px 20px rgba(127, 119, 221, 0.24);
+    }
+    .mini-btn {
+      min-height: 30px;
+      padding: 0.45rem 0.68rem;
+      font-size: 0.66rem;
+    }
+
+    .chat-shell {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 284px minmax(0, 1fr);
+      gap: 1rem;
+      padding: 1.15rem;
+    }
+    .panel {
+      background: linear-gradient(180deg, rgba(127, 119, 221, 0.05) 0%, rgba(44, 42, 38, 0.98) 22%, rgba(44, 42, 38, 0.98) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(127, 119, 221, 0.12) 0%, transparent 36%);
+      pointer-events: none;
+    }
+    .panel-head {
+      padding: 1.15rem 1.2rem 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: end;
+    }
+    .panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.28rem;
+      line-height: 1;
+      margin-top: 0.18rem;
+    }
+
+    .history-toolbar {
+      padding: 0.95rem 1.2rem 0;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .thread-search {
+      min-height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(127, 119, 221, 0.03);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      padding: 0 0.85rem;
+      font-size: 0.75rem;
+    }
+    .thread-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .thread-chip {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.22rem 0.52rem;
+      font-size: 0.62rem;
+      color: var(--text-secondary);
+      background: rgba(127, 119, 221, 0.04);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .thread-chip.active {
+      color: var(--fog);
+      background: rgba(127, 119, 221, 0.12);
+      border-color: rgba(127, 119, 221, 0.26);
+    }
+    .history-body {
+      padding: 0.95rem 1.2rem 1.2rem;
+      display: grid;
+      gap: 0.9rem;
+      height: calc(100% - 142px);
+      overflow: auto;
+    }
+    .history-card {
+      border: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.04);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    .history-card.active {
+      background: rgba(127, 119, 221, 0.1);
+      border-color: rgba(127, 119, 221, 0.28);
+      box-shadow: 0 12px 22px rgba(0, 0, 0, 0.14);
+    }
+    .history-title {
+      font-size: 0.84rem;
+      color: var(--text-primary);
+      margin-bottom: 0.28rem;
+    }
+    .history-copy {
+      color: var(--text-secondary);
+      font-size: 0.73rem;
+      line-height: 1.62;
+    }
+    .history-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.72rem;
+    }
+    .history-tag {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.2rem 0.48rem;
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      background: rgba(127, 119, 221, 0.04);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .history-meta {
+      color: var(--text-muted);
+      font-size: 0.64rem;
+      margin-top: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .chat-body {
+      padding: 1.15rem 1.2rem 1.2rem;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 1rem;
+      height: calc(100% - 66px);
+      min-height: 0;
+    }
+    .context-banner {
+      border: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.05);
+      border-radius: 14px;
+      padding: 0.95rem 1rem;
+    }
+    .banner-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.32rem;
+      line-height: 1;
+      margin: 0.22rem 0 0.42rem;
+    }
+    .banner-copy {
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      line-height: 1.6;
+      max-width: 68ch;
+    }
+    .banner-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.75rem;
+    }
+    .tag {
+      border: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.05);
+      color: var(--text-secondary);
+      border-radius: 999px;
+      padding: 0.24rem 0.54rem;
+      font-size: 0.64rem;
+    }
+
+    .messages {
+      min-height: 0;
+      overflow: auto;
+      display: grid;
+      gap: 1rem;
+      padding: 0.2rem 0.3rem 0.2rem 0;
+    }
+    .message-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+    .message-row.user {
+      justify-content: flex-end;
+    }
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--border-bright);
+      background: linear-gradient(135deg, var(--violet-deep) 0%, #3C3489 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 6px;
+      overflow: hidden;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .avatar.user {
+      background: rgba(127, 119, 221, 0.16);
+      color: var(--fog);
+      border-color: rgba(127, 119, 221, 0.26);
+      padding: 0;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .message {
+      max-width: 74%;
+      border-radius: 14px;
+      padding: 1rem 1.05rem;
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      line-height: 1.68;
+    }
+    .message.user {
+      background: rgba(127, 119, 221, 0.16);
+      color: var(--fog);
+      border-color: rgba(127, 119, 221, 0.24);
+    }
+    .message.ai {
+      background: rgba(127, 119, 221, 0.04);
+      color: var(--text-secondary);
+    }
+    .message strong {
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 0.32rem;
+      font-weight: 500;
+    }
+    .message-section {
+      margin-top: 0.75rem;
+      padding-top: 0.72rem;
+      border-top: 1px solid rgba(127, 119, 221, 0.12);
+    }
+    .message-section:first-of-type {
+      margin-top: 0.6rem;
+    }
+    .message-label {
+      color: var(--lavender);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.28rem;
+    }
+    .message-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.42rem;
+      margin-top: 0.55rem;
+    }
+    .message-chip {
+      border: 1px solid rgba(127, 119, 221, 0.18);
+      border-radius: 999px;
+      padding: 0.22rem 0.5rem;
+      font-size: 0.62rem;
+      color: var(--text-secondary);
+      background: rgba(127, 119, 221, 0.04);
+    }
+
+    .composer {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(127, 119, 221, 0.04);
+      padding: 1rem;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .composer-context {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .context-pill {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.24rem 0.56rem;
+      font-size: 0.62rem;
+      color: var(--text-secondary);
+      background: rgba(127, 119, 221, 0.05);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .compose-box {
+      min-height: 104px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      padding: 1rem;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+    .composer-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+    .composer-meta {
+      color: var(--text-muted);
+      font-size: 0.68rem;
+    }
+
+    @media (max-width: 960px) {
+      body, html { overflow: auto; }
+      .app { min-height: 100vh; height: auto; display: block; }
+      .sidebar { width: 100%; min-width: 100%; }
+      .chat-shell { grid-template-columns: 1fr; }
+      .topbar {
+        height: auto;
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .message-row { align-items: flex-start; }
+      .message { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div class="brand-lockup">
+          <img class="brand-logo" src="../frontend/public/adal-logo.svg" alt="ADAL">
+          <div class="brand-sub">AI Analysis for Law</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-label">Main</div>
+        <a class="nav-item" href="adal_dashboard.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+          </div>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a class="nav-item" href="adal_documents.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <span class="nav-text">Documents</span>
+        </a>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-label">AI Tools</div>
+        <a class="nav-item" href="adal_legal_assistant.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <span class="nav-text">Legal Assistant</span>
+        </a>
+        <a class="nav-item active" href="adal_chat.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M8 10h8"></path><path d="M8 14h5"></path><path d="M21 12c0 4.4-4 8-9 8-1.1 0-2.1-.2-3.1-.6L3 21l1.9-4.6A7.7 7.7 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z"></path></svg>
+          </div>
+          <span class="nav-text">Chat</span>
+        </a>
+        <a class="nav-item" href="adal_analytics.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </div>
+          <span class="nav-text">Analytics</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="footer-avatar">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div>
+          <div class="footer-name">ADAL Workspace</div>
+          <div class="footer-role">Authenticated Session</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Threaded Conversations</div>
+          <div class="page-title">Chat</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-btn">Search Threads</button>
+          <button class="solid-btn">New Conversation</button>
+        </div>
+      </header>
+
+      <section class="chat-shell">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="section-label">History</div>
+              <div class="panel-title">Conversation threads</div>
+            </div>
+            <button class="mini-btn">New</button>
+          </div>
+          <div class="history-toolbar">
+            <div class="thread-search">Search by topic, matter, or draft</div>
+            <div class="thread-filters">
+              <span class="thread-chip active">All</span>
+              <span class="thread-chip">Drafts</span>
+              <span class="thread-chip">Research</span>
+              <span class="thread-chip">Citations</span>
+            </div>
+          </div>
+          <div class="history-body">
+            <div class="history-card active">
+              <div class="history-title">Review procedural fairness argument</div>
+              <div class="history-copy">Need a cleaner response structure using Article 10A and two cited authorities.</div>
+              <div class="history-tags">
+                <span class="history-tag">Draft linked</span>
+                <span class="history-tag">Matter active</span>
+              </div>
+              <div class="history-meta">Updated 8 min ago</div>
+            </div>
+            <div class="history-card">
+              <div class="history-title">Summarize scanned petition bundle</div>
+              <div class="history-copy">Extract the main issues and note any OCR uncertainty affecting legal interpretation.</div>
+              <div class="history-tags">
+                <span class="history-tag">OCR review</span>
+              </div>
+              <div class="history-meta">Updated yesterday</div>
+            </div>
+            <div class="history-card">
+              <div class="history-title">Weak citations in draft response</div>
+              <div class="history-copy">Check which extracted references need manual validation before filing.</div>
+              <div class="history-tags">
+                <span class="history-tag">Citations</span>
+                <span class="history-tag">Review</span>
+              </div>
+              <div class="history-meta">Updated 2 days ago</div>
+            </div>
+            <div class="history-card">
+              <div class="history-title">Board resolution clause refinement</div>
+              <div class="history-copy">Tighten the drafting language and remove duplication across the approval section.</div>
+              <div class="history-tags">
+                <span class="history-tag">Drafting</span>
+              </div>
+              <div class="history-meta">Updated 4 days ago</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="section-label">Current Thread</div>
+              <div class="panel-title">Review procedural fairness argument</div>
+            </div>
+          </div>
+          <div class="chat-body">
+            <div class="context-banner">
+              <div class="eyebrow">Active Context</div>
+              <div class="banner-title">A lighter conversation space, still grounded in the matter.</div>
+              <div class="banner-copy">
+                Use chat for follow-up questions, iterative refinement, and ongoing discussion. Context should stay visible, but the conversation itself should remain the visual center.
+              </div>
+              <div class="banner-tags">
+                <span class="tag">Matter: Petition Bundle</span>
+                <span class="tag">Sources attached: 3</span>
+                <span class="tag">Draft linked</span>
+              </div>
+            </div>
+
+            <div class="messages">
+              <div class="message-row user">
+                <div class="message user">
+                  Can you refine the procedural fairness argument and tell me which citations are safest to rely on first?
+                </div>
+                <div class="avatar user">You</div>
+              </div>
+              <div class="message-row ai">
+                <div class="avatar ai">
+                  <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+                </div>
+                <div class="message ai">
+                  <strong>ADAL</strong>
+                  The safest opening is the due process frame under Article 10A, because it is supported by the strongest available source set.
+                  <div class="message-section">
+                    <div class="message-label">Safe To Use First</div>
+                    Bhutto v. State and the Article 10A notes can carry the opening section with the cleanest confidence profile.
+                  </div>
+                  <div class="message-section">
+                    <div class="message-label">Caution</div>
+                    Two extracted citations remain lower confidence, so I would avoid placing them in the opening section until they are validated.
+                    <div class="message-chips">
+                      <span class="message-chip">Article 10A</span>
+                      <span class="message-chip">Bhutto v. State</span>
+                      <span class="message-chip">2 citations need review</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="message-row user">
+                <div class="message user">
+                  Keep it narrow. I do not want a broad merits challenge.
+                </div>
+                <div class="avatar user">You</div>
+              </div>
+              <div class="message-row ai">
+                <div class="avatar ai">
+                  <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+                </div>
+                <div class="message ai">
+                  <strong>ADAL</strong>
+                  Then the thread should stay procedural: irregular treatment of evidence, insufficient opportunity to respond, and inconsistent administrative handling.
+                  <div class="message-section">
+                    <div class="message-label">Next Move</div>
+                    I can turn that into a tighter three-part outline next, with strongest authorities first and disputed citations separated into a review note.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="composer">
+              <div class="composer-context">
+                <span class="context-pill">Petition Bundle</span>
+                <span class="context-pill">Article 10A Notes</span>
+                <span class="context-pill">Bhutto v. State</span>
+              </div>
+              <div class="compose-box">Turn this into a three-part outline with strongest authorities first and note which citations still need manual review.</div>
+              <div class="composer-actions">
+                <div class="composer-meta">Context attached: Petition Bundle, Article 10A Notes, Bhutto v. State</div>
+                <button class="solid-btn">Send</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

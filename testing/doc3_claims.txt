@@ -1,0 +1,1226 @@
+{
+  "document_id": 3,
+  "total_claims": 122,
+  "claims": [
+    {
+      "claim_text": "The first and foremost constitutional and legal points, in addition to those recorded in order dated April 2011, that require consideration are: (1) Whether the Presidential Reference is maintainable under Article of the Constitution; (2) Whether the Presidential Reference requires a - factual inquiry, and if so, whether under Article of the Constitution an opinion can be given in this regard; (3) The constitutional-legal position of the trial and appeal, and its credibility/legitimacy when the person being tried was removed from power by a usurper who himself assumed power and then launched the prosecution of Mr. Bhutto in a criminal case which was filed as ‘untraced’; and (4) Were certain judge(s) removed from the trial and/or hearing the appeal to secure a particular result.",
+      "claim_type": "criminal",
+      "position_start": 10400,
+      "position_end": 11204,
+      "confidence_score": 0.85,
+      "id": 3,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.284943"
+    },
+    {
+      "claim_text": "If the aforesaid aspect is successfully attended to then we will need to consider the trial and appeal which will require expertise in criminal law and procedure. Justice Manzoor Ahmed Malik, former Judge of the Supreme Court, and Justice Assadullah Khan Chamkani, a former Judge of the Peshawar High Court, have vast experience and we want to benefit from their knowledge in this regard, therefore, they are appointed as amici curiae, who may either submit a written brief and/or address us in person.",
+      "claim_type": "criminal",
+      "position_start": 11286,
+      "position_end": 11788,
+      "confidence_score": 0.85,
+      "id": 4,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.284950"
+    },
+    {
+      "claim_text": "The crime was first reported to the police, not by Mr. Kasuri, but by his brother, as Mr. Kasuri himself stated.",
+      "claim_type": "general",
+      "position_start": 69408,
+      "position_end": 69521,
+      "confidence_score": 0.85,
+      "id": 5,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.284955"
+    },
+    {
+      "claim_text": "[Senior Superintendent of Police] Lahore Hakim Ali v State, 1971 SCMR 432, 445C, Habibullah v State, PLD 1969 Supreme Court 127, 130A.",
+      "claim_type": "general",
+      "position_start": 69565,
+      "position_end": 69704,
+      "confidence_score": 0.85,
+      "id": 6,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.284959"
+    },
+    {
+      "claim_text": "Code of Criminal Procedure, 1898, section 164. al wa Reference No. and told him about this incident on the telephone. S.S.P., Lahore at that time was Mr. Asghar Khan, who after, receiving this message on the telephone arrived in the hospital ... alongwith others.",
+      "claim_type": "criminal",
+      "position_start": 69743,
+      "position_end": 70024,
+      "confidence_score": 0.85,
+      "id": 7,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.284964"
+    },
+    {
+      "claim_text": "To legitimize their seizures of power, delegitimize opponents and consolidate authority. A political trial is one whose disposition—the determination of guilt or innocence, followed by punishment—depends ' Reference No. of 2012 PLD 2013 SC (SMB), Cauvery Water Disputes Tribunal case AIR 1992 SC relied upon; Al-Jehad Trust v. Federation of Pakistan PLD 1997 SC (SMB); Reference No, | of 1988 PLD 1989 SC (11MB) and Special Reference No.1 of 1955 PLD 1955 FC (SMB).",
+      "claim_type": "general",
+      "position_start": 98412,
+      "position_end": 98899,
+      "confidence_score": 0.85,
+      "id": 8,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.298597"
+    },
+    {
+      "claim_text": "Fiona Shen-Bayh, Undue Process: Persecution and Punishment in Autocratic Courts, (2022). Presidential Reference No.1 of 2011 primarily on the accused’s professed attitudes and activities in relation to the ruling regime.",
+      "claim_type": "general",
+      "position_start": 98903,
+      "position_end": 99127,
+      "confidence_score": 0.85,
+      "id": 9,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.298604"
+    },
+    {
+      "claim_text": "His amicus brief has been instrumental in navigating these complex topics. Mr. Yasser Kureshi is a departmental lecturer at University of Oxford, UK.",
+      "claim_type": "general",
+      "position_start": 104590,
+      "position_end": 104739,
+      "confidence_score": 0.85,
+      "id": 10,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.298609"
+    },
+    {
+      "claim_text": "° General ® Pervez Musharraf v. Federation of Pakistan PLD 2024 SC and Taufiq Asif v. General ® Pervez Musharraf PLD 2024 SC 610. 1° Sindh High Court Bar Association v. Federation of Pakistan PLD 2009 SC (short order) and PLD 2009 SC (detailed judgment).",
+      "claim_type": "general",
+      "position_start": 104740,
+      "position_end": 105007,
+      "confidence_score": 0.85,
+      "id": 11,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.298613"
+    },
+    {
+      "claim_text": "Nawaz Sharif v. State PLD 2009 SC Presidential Reference No.1 of 2011 under which it was conducted. Instead of independent, substantive evidence, the prosecution relied heavily on confessional statements given by, or procured from, Bhutto’s former associates—accomplices turned approvers.",
+      "claim_type": "general",
+      "position_start": 105009,
+      "position_end": 105308,
+      "confidence_score": 0.85,
+      "id": 12,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.298617"
+    },
+    {
+      "claim_text": "The essence of judicial independence is not found in passivity or retrospective correction but in resisting authoritarian overreach at the time it occurs. Transitional justice, while important, should serve as a sobering reminder to judges: justice delayed by decades is justice diminished. Judges must act as the first and last line of defence for the rule of law, refusing to compromise even under duress, so that societies do not have to rely on transitional processes to correct the damage inflicted by judicial 'S Benazir Bhutto v. Federation of Pakistan PLD 1988 SC 416; Jubilee Insurance v. NBP PLD 1999 SC 1126; Nadeem Anwar v. NAB PLD 2008 SC and Riaz-UI-Haq v. Federation of Pakistan PLD 2013 SC 501. x Presidential Reference No.1 of 2011 capitulation.",
+      "claim_type": "general",
+      "position_start": 110092,
+      "position_end": 110865,
+      "confidence_score": 0.85,
+      "id": 13,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.306366"
+    },
+    {
+      "claim_text": "Let the lesson of transitional justice be clear—judges must uphold their oaths with courage in the face of oppression, for only then can the judiciary truly safeguard democracy and the rights of the people. Transitional justice, however, often becomes necessary because, during oppressive rule, some judges fail to uphold their constitutional duty, succumbing to the pressure of illegitimate authority.",
+      "claim_type": "constitutional",
+      "position_start": 110866,
+      "position_end": 111268,
+      "confidence_score": 0.85,
+      "id": 14,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.306373"
+    },
+    {
+      "claim_text": "Later on, seven persons (Mr. Zulfiqar Ali Bhutto (Mr. Bhutto), Masood Mahmood, Director General Federal Security Force (‘FSF’), Mian Muhammad Abbas, Director FSF, Ghulam Hussain, Inspector FSF, Ghulam Mustafa, Inspector FSF, Arshad Iqbal, Sub-Inspector FSF and Iftikhar Ahmad, Assistant Sub-Inspector (FSF) were nominated and the offences under section 120-B/109 were also added in this case. Reference No.1 of 2011 A Full Court comprising five judges of the High Court was constituted for the trial of this case.",
+      "claim_type": "general",
+      "position_start": 122300,
+      "position_end": 122818,
+      "confidence_score": 0.85,
+      "id": 15,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.306378"
+    },
+    {
+      "claim_text": "After the trial, all the accused persons (except Masood Mahmood and Ghulam Hussain) were convicted and sentenced to death, along with other punishments, as per the judgment dated 18.03.1978, reported as PLD 1978 Lah. A criminal appeal filed against the decision of the High Court was dismissed by this Court vide judgment dated 06.02.1979, reported as PLD 1979 SC 53. The review petition filed by Mr. Bhutto was also dismissed by this Court vide judgment dated 24.03.1979, .",
+      "claim_type": "criminal",
+      "position_start": 122819,
+      "position_end": 123311,
+      "confidence_score": 0.85,
+      "id": 16,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.306382"
+    },
+    {
+      "claim_text": "| Since Mr. Bhutto's execution, one of Pakistan’s major political parties, the Pakistan People's Party (PPP), has consistently questioned the fairness of the judicial process, alleging that it was influenced by the then-military dictatorship as well as political factors and as such lacked impartiality.",
+      "claim_type": "general",
+      "position_start": 123395,
+      "position_end": 123698,
+      "confidence_score": 0.85,
+      "id": 17,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.306386"
+    },
+    {
+      "claim_text": "A fair trial ensures that the accused has the opportunity to present a defence and challenge the evidence, while the victim's rights to be heard and to seek justice are upheld.",
+      "claim_type": "general",
+      "position_start": 130067,
+      "position_end": 130243,
+      "confidence_score": 0.85,
+      "id": 18,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.314757"
+    },
+    {
+      "claim_text": "Mere suspicion of bias, even if it is not unreasonable, is not sufficient to disqualify a Judge. The basis of the disqualification, therefore, is \"personal bias or prejudice\" of such a nature as would necessarily render a Judge unable to exercise his functions Opinion of Justice Muhammad Ali Mazhar on the Reference No.",
+      "claim_type": "general",
+      "position_start": 213776,
+      "position_end": 214098,
+      "confidence_score": 0.85,
+      "id": 111,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.067643"
+    },
+    {
+      "claim_text": "By maintaining impartiality and balancing the interests of both parties, this Court strives to deliver justice and maintain public confidence in the judicial system. For instance, this Court, in the case of Noor Ahmad versus the State (PLD 1964 SC 120), while shedding light on the conduct of criminal trials, observed that it is a fundamental principle that the trial of an accused person should be conducted with the utmost fairness and that anything likely to cause serious embarrassment to the accused in the conduct of their defence should be avoided. The relevant paragraph is quoted below for ease of reference:\" ‘We are also of the same view. Even though sections and of the Criminal Procedure Code give a discretion to the Court to try certain persons and or offences jointly yet there are certain considerations which are more fundamental than merely the convenience of the proceeding or trial which must be kept in view when deciding as to whether the discretion should in given in case be exercised or not.",
+      "claim_type": "criminal",
+      "position_start": 130244,
+      "position_end": 131274,
+      "confidence_score": 0.85,
+      "id": 19,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.314769"
+    },
+    {
+      "claim_text": "Thus, in the present case, it seems to us that whether a collision in such circumstances constituted one transaction or not there should not have been a joint trail of the appellants before us for more than one reason Firstly because the accusations made against them did not allege any kind of joint or concerted action nor disclosed any causal connection between the respective acts of the appellants...’ Z: Later, in the case of Ch.",
+      "claim_type": "general",
+      "position_start": 131554,
+      "position_end": 131990,
+      "confidence_score": 0.85,
+      "id": 20,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.314779"
+    },
+    {
+      "claim_text": "(PLD 1975 SC 66), this Court delved into the concept of 'due process' and on pages 109, 119, and of the judgment provided a detailed explanation of what ‘due process' entails.",
+      "claim_type": "general",
+      "position_start": 132040,
+      "position_end": 132219,
+      "confidence_score": 0.85,
+      "id": 21,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.314790"
+    },
+    {
+      "claim_text": "The Court emphasized the importance of legal procedures that ensure fairness, justice, and the protection of individual rights.",
+      "claim_type": "general",
+      "position_start": 132220,
+      "position_end": 132347,
+      "confidence_score": 0.85,
+      "id": 22,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.314797"
+    },
+    {
+      "claim_text": "The relevant paras of the judgment are reproduced hereunder for ease of A Reference No.1 of 2011 ‘Article may be compared ‘with the due process of law _in_ the American Constitution.",
+      "claim_type": "constitutional",
+      "position_start": 132349,
+      "position_end": 132539,
+      "confidence_score": 0.85,
+      "id": 23,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.324745"
+    },
+    {
+      "claim_text": "The right to apply for transfer of the case to another Court.’ \\ Wr A N . The above rights were approvingly referred to and endorsed by a five-member bench of this Court in the case of Brig.",
+      "claim_type": "general",
+      "position_start": 140474,
+      "position_end": 140668,
+      "confidence_score": 0.85,
+      "id": 24,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.324758"
+    },
+    {
+      "claim_text": "In this case, the Court, with respect to the above list of rights, observed that the rights (except the right mentioned at serial No.7 which is no longer available in Pakistan) enumerated by Mr. Munir are clearly available in a trial even by a Court Martial.",
+      "claim_type": "general",
+      "position_start": 140731,
+      "position_end": 140989,
+      "confidence_score": 0.85,
+      "id": 25,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.324768"
+    },
+    {
+      "claim_text": "HIGH COURT AS A COURT OF ORIGINAL _CRIMINAL JURISDICTION 9.",
+      "claim_type": "criminal",
+      "position_start": 140991,
+      "position_end": 141050,
+      "confidence_score": 0.85,
+      "id": 26,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.324777"
+    },
+    {
+      "claim_text": "As it has been indicated hereinabove the High Court had no jurisdiction to directly take cognizance of the offence excépt upon a commitment made to it in the manner provided Reference No.1 of 2011 thereafter but after the amendment of subsection (1) of section 194, Cr.B.C.",
+      "claim_type": "general",
+      "position_start": 148250,
+      "position_end": 148529,
+      "confidence_score": 0.85,
+      "id": 27,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.324787"
+    },
+    {
+      "claim_text": "Jurisdiction has been conferred upon the High Court to take “cognizance of any offence directly. So far as the term ‘in_manner hereinafter provided’ is concerned it has been noticed that the said term has already been explained by a two-member bench of this court in the case of Dr. Muhammad Afzal and others versus the State (2001 SCMR 1615). The Hon’ble bench, after a thorough examination of the legal provisions on the subject, concluded that, «High Court can take cognizance of offence of Pakistan Penal Code under section 194, Cr.P.C. in the same manner as cognizance is taken under section 190(1)(c), Cr.P.C.",
+      "claim_type": "general",
+      "position_start": 148530,
+      "position_end": 149145,
+      "confidence_score": 0.85,
+      "id": 28,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.332137"
+    },
+    {
+      "claim_text": "Against whom allegations of criminal conspiracy leveled by another politician in connection with the murder of his father.",
+      "claim_type": "criminal",
+      "position_start": 157793,
+      "position_end": 157916,
+      "confidence_score": 0.85,
+      "id": 29,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.332144"
+    },
+    {
+      "claim_text": "This situation Reference No.1 of 2011 es ee ea ee k - created a compelling need for an open trial to ensure that justice was not only done but also perceived to be done transparently. An almost similar observation has been made by a five-member bench of this Court in Syed Ali Nawaz Gardezi versus Lt.-Col. Muhammad Yusuf (PLD 1963 SC 51) wherein the said Hon’ble Bench upheld the findings of the trial court, which ordered an open trial for the accused because the accused was a high-ranking government official.",
+      "claim_type": "general",
+      "position_start": 157917,
+      "position_end": 158436,
+      "confidence_score": 0.85,
+      "id": 30,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.332149"
+    },
+    {
+      "claim_text": "This decision highlights the importance of transparency and public scrutiny in cases involving individuals in significant positions of authority. In light of these considerations, it appears that the Full Bench did not exercise its discretion appropriately by ordering an in-camera trial and caused serious prejudice to the accused, Mr. Bhutto in contumacious disregard of the law previously declared by this Court in the Nawaz Gardezi case supra.",
+      "claim_type": "general",
+      "position_start": 158437,
+      "position_end": 158885,
+      "confidence_score": 0.85,
+      "id": 31,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.332153"
+    },
+    {
+      "claim_text": "But the corroboration required would depend on the ™ facts and circumstances of each particular case and no hard and fast rule can be laid down in this behalf. Surely, one of the factors calling for consideration may be the circumstance that the approver had no ostensible motive to involve any of the accused persons falsely in the case.",
+      "claim_type": "general",
+      "position_start": 162488,
+      "position_end": 162827,
+      "confidence_score": 0.85,
+      "id": 32,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.332158"
+    },
+    {
+      "claim_text": "That does not imply any relaxation of normal standards of corroboration in such cases and Reference No.1 of 2011 indeed, in my humble judgment, the High Court, in the present case, does nor appear to have been guilty of any such lapse.’ The above normal standard of corroboration was followed by a subsequent equal bench of this Court in the case of Abdul Khaliq versus the State (1970 SCMR 307).",
+      "claim_type": "general",
+      "position_start": 162828,
+      "position_end": 163230,
+      "confidence_score": 0.85,
+      "id": 33,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.339522"
+    },
+    {
+      "claim_text": "The bench observed, “The extent and nature of corroboration of the testimony of an accomplice may vary from case to case. The rule of practice requiring corroboration of the evidence of the accomplice is that the cortoboration must be in respect of some material particulars implizating the accused, and it is not necessary that evidence of the accomplice should be corroborated in every detail of the crime.’ Later, a 5-member bench of this Court in the case of Abdul Majid_and anéther versus the State (PLD 1973 SC 595) approvingly referred to the above observations of the earlier 3-member bench regarding the requirement of the normal standard of corroboration of the statement of an approver and decided the case accordingly.",
+      "claim_type": "general",
+      "position_start": 163231,
+      "position_end": 163962,
+      "confidence_score": 0.85,
+      "id": 34,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.339529"
+    },
+    {
+      "claim_text": "That does not imply any relaxation of normal standards of corroboration in such cases and Reference No.1 of 2011 indeed, in my humble judgment, the High Court, in the present case, does nor appear to have been guilty of any such lapse.’ The above normal standard of corroboration was followed by a subsequent equal bench of this Court in the case of Abdul Khaliq versus the State (1970 SCMR 307).",
+      "claim_type": "general",
+      "position_start": 162828,
+      "position_end": 163230,
+      "confidence_score": 0.85,
+      "id": 35,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.339534"
+    },
+    {
+      "claim_text": "This decision highlights the importance of transparency and public scrutiny in cases involving individuals in significant positions of authority. In light of these considerations, it appears that the Full Bench did not exercise its discretion appropriately by ordering an in-camera trial and caused serious prejudice to the accused, Mr. Bhutto in contumacious disregard of the law previously declared by this Court in the Nawaz Gardezi case supra.",
+      "claim_type": "general",
+      "position_start": 158437,
+      "position_end": 158885,
+      "confidence_score": 0.85,
+      "id": 92,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.020731"
+    },
+    {
+      "claim_text": "The bench observed, “The extent and nature of corroboration of the testimony of an accomplice may vary from case to case. The rule of practice requiring corroboration of the evidence of the accomplice is that the cortoboration must be in respect of some material particulars implizating the accused, and it is not necessary that evidence of the accomplice should be corroborated in every detail of the crime.’ Later, a 5-member bench of this Court in the case of Abdul Majid_and anéther versus the State (PLD 1973 SC 595) approvingly referred to the above observations of the earlier 3-member bench regarding the requirement of the normal standard of corroboration of the statement of an approver and decided the case accordingly. Later a matter involving the encounter/murder of six persons by the police came for consideration before this Court in the case of Ch.",
+      "claim_type": "criminal",
+      "position_start": 163231,
+      "position_end": 164098,
+      "confidence_score": 0.85,
+      "id": 36,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.339538"
+    },
+    {
+      "claim_text": "Muhammad Yagoob and others versus the State (1992 SCMR 1983). This Court after analyzing the case law from 1949 to 1991 observed that the testimony of an approver is to be scrutinized with care and caution and the Court should be doubly sure that his (approver's) evidence is corroborated in material particulars by reliable evidence. Further, this Court laid down the following principles for appreciating the evidence of an approver: (i) That if a statement of fact made by an accused in a confession is of the nature that if it is assumed to be true, it would negate the offence alleged to be confessed, it is called an exculpatory confession.",
+      "claim_type": "general",
+      "position_start": 164099,
+      "position_end": 164748,
+      "confidence_score": 0.85,
+      "id": 37,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.339542"
+    },
+    {
+      "claim_text": "Further, the motive is a double-edged weapon, which can be used either way and by either side i.e. Reference in this regard may be made to the cases of Noor Elah v. Zafarul Haque (PLD 1976 SC 557); and Allah Bakhsh Vs.",
+      "claim_type": "general",
+      "position_start": 178032,
+      "position_end": 178281,
+      "confidence_score": 0.85,
+      "id": 38,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.348891"
+    },
+    {
+      "claim_text": "Therefore, to my understanding the prosecution failed to establish the motive part of the case; but the High Court/Trial Court (in para of the judgment) had erroneously held, ‘the motive to kill Anmad Raza Kasuri is proved to be on the part of the principal accused [Mr. Bhutto]’. Similarly, this Court in para of the majority judgment subscribed to the finding of the High Court/Trial Court while ignoring the above apparent fundamental inconsistencies in the case of the prosecution and held that Mr. Bhutto had a strong motive to do away with Ahmad Raza Kasuri owing to their violent political differences, and the manner and the language in which Ahmad Raza Kasuri gave vent to his views against the former Prime Minister and his polices.",
+      "claim_type": "constitutional",
+      "position_start": 178311,
+      "position_end": 179062,
+      "confidence_score": 0.85,
+      "id": 39,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.348898"
+    },
+    {
+      "claim_text": "Where a single bench of the Islamabad High Court tried the case of an ‘qn-duty Additional Sessions Judge, Raja Khurram Ali Khan, and his wife, Maheen Zafar, for torturing their domestic worker, Tayyaba Bibi.",
+      "claim_type": "civil",
+      "position_start": 183514,
+      "position_end": 183721,
+      "confidence_score": 0.85,
+      "id": 40,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.348904"
+    },
+    {
+      "claim_text": "They were both convicted and sentenced and their criminal appeal under section 411-A, Cr.P.C., was dismissed by the Division Bench of the same High Court.",
+      "claim_type": "criminal",
+      "position_start": 183722,
+      "position_end": 183876,
+      "confidence_score": 0.85,
+      "id": 41,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.348908"
+    },
+    {
+      "claim_text": "See Raja Khurram Ali Khan and another versus Tayyaba Bibi and another (2019 YLR 98). A Criminal Appeal filed against the judgment of the Division Bench was also dismissed by this Court.",
+      "claim_type": "criminal",
+      "position_start": 183877,
+      "position_end": 184062,
+      "confidence_score": 0.85,
+      "id": 42,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.348916"
+    },
+    {
+      "claim_text": "See Raja Khurram Ali Khan and others v. Tayyaba Bibi and another (PLD 2020 SC 146). As far as the observation of the Chief Justice in para 27-28 of the detailed opinion regarding confirmation of the death sentence by the High Court is concerned, my understanding of the legal framework as provided under Chapter XXVII titled ‘OF THE Reference No.1 of 2011 + , SUBMISSION OF SENTENCES FOR CONFIRMATION’ is quite different.",
+      "claim_type": "general",
+      "position_start": 184063,
+      "position_end": 184498,
+      "confidence_score": 0.85,
+      "id": 43,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.356170"
+    },
+    {
+      "claim_text": "The Court must remain confined to the proposed questions without making any departure and must keep a tight rein on the reference itself. The Supreme Court may decline to articulate an opinion if the questions framed lack any constitutional significance or public importance.",
+      "claim_type": "constitutional",
+      "position_start": 193563,
+      "position_end": 193838,
+      "confidence_score": 0.85,
+      "id": 44,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.356177"
+    },
+    {
+      "claim_text": "Of 2005 (PLD 2005 SC 873), a nine-member bench of this Court rendered an opinion on the draft Bill titled “HISBA BILL’. The opinion referenced various local and foreign judicial precedents and the insights of eminent jurists on constitutional provisions, and concluded that the opinion on a Presidential Reference is not a decision between parties but entails Opinion of Justice Muhammad Ali Mazhar on the Reference No.",
+      "claim_type": "constitutional",
+      "position_start": 193856,
+      "position_end": 194281,
+      "confidence_score": 0.85,
+      "id": 45,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.356182"
+    },
+    {
+      "claim_text": "Lord Hewart’s aphorism in Rex v. Sussex Justices ([1924] KB 256) aptly applies here: “Justice must not only be done, but must also be seen to be done”.",
+      "claim_type": "general",
+      "position_start": 212593,
+      "position_end": 212746,
+      "confidence_score": 0.85,
+      "id": 46,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.356186"
+    },
+    {
+      "claim_text": "Relevant local and foreign judicial precedents which are essentially concentrated on the question of alleging bias are as .follows:- 1.",
+      "claim_type": "general",
+      "position_start": 212747,
+      "position_end": 212884,
+      "confidence_score": 0.85,
+      "id": 47,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.356190"
+    },
+    {
+      "claim_text": "Ms. Benazir Bhutto v. The President of Pakistan (1992 SCMR 140). Bias in a Judge is the paralysis, complete or partial, of judicial faculties and therefore the allegation of bias against a Judge would be wholly unfounded unless it be shown that the proceedings held by him were irregular and one-sided or the conclusions reached by him were wrong and reasons given in support thereof erroneous. Bias in judicial matters may be caused by the judgment, order or observations of a Superior Court or it may spring from personal, political, religious, communal, racial, commercial or economic considerations.",
+      "claim_type": "general",
+      "position_start": 212885,
+      "position_end": 213488,
+      "confidence_score": 0.85,
+      "id": 48,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.364616"
+    },
+    {
+      "claim_text": "Ref: Dimes v. The Grand Junction Canal (No.1) and others (1852) H.L.C. 759-794) and Rex v. Sussex Justices (1924) K B 256) & Muhammad Ismail Chowdhury v. Abdul Khaleque Dowdagar and another (PLD 1960 SC (Pak.) Islamic Republic of Pakistan v. Abdul Wali Khan (PLD 1976 SC 57).",
+      "claim_type": "general",
+      "position_start": 213489,
+      "position_end": 213775,
+      "confidence_score": 0.85,
+      "id": 49,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.364623"
+    },
+    {
+      "claim_text": "Mere suspicion of bias, even if it is not unreasonable, is not sufficient to disqualify a Judge. The basis of the disqualification, therefore, is \"personal bias or prejudice\" of such a nature as would necessarily render a Judge unable to exercise his functions Opinion of Justice Muhammad Ali Mazhar on the Reference No.",
+      "claim_type": "general",
+      "position_start": 213776,
+      "position_end": 214098,
+      "confidence_score": 0.85,
+      "id": 50,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.364628"
+    },
+    {
+      "claim_text": "Impartially in a particular case, and this must be shown as a matter of fact and not merely as a matter of opinion.",
+      "claim_type": "general",
+      "position_start": 214108,
+      "position_end": 214223,
+      "confidence_score": 0.85,
+      "id": 51,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.364632"
+    },
+    {
+      "claim_text": "The mere assertion of bias can never be sufficient to disqualify a Judge in hearing a cause or matter. In the absence of any pecuniary or proprietary interest in the subject-matter of the proceeding, it is essential that a real likelihood of bias must be shown.",
+      "claim_type": "general",
+      "position_start": 214272,
+      "position_end": 214533,
+      "confidence_score": 0.85,
+      "id": 52,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.364636"
+    },
+    {
+      "claim_text": "Government of NWFP v. Dr. Hussain Ahmed Haroon (2003 SCMR 104). It is an age-old fundamental principle of law that justice should not only be done but manifestly and undoubtedly it should seen to have been done.",
+      "claim_type": "constitutional",
+      "position_start": 214538,
+      "position_end": 214749,
+      "confidence_score": 0.85,
+      "id": 53,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.371695"
+    },
+    {
+      "claim_text": "To achieve this objective/goal it is of prime importance that a Judge/person equipped with the authority of decision should not be having any sort of personal interest in the outcome of the matter under issue before him.",
+      "claim_type": "general",
+      "position_start": 214750,
+      "position_end": 214970,
+      "confidence_score": 0.85,
+      "id": 54,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.371703"
+    },
+    {
+      "claim_text": "The conduct of the proceedings should not generate any reasonable apprehension in the mind of a person that the deciding officer has harboured any grudge or bias against him.",
+      "claim_type": "general",
+      "position_start": 214971,
+      "position_end": 215145,
+      "confidence_score": 0.85,
+      "id": 55,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.371709"
+    },
+    {
+      "claim_text": "The foremost question is what is ‘bias’ has been described in Corpus Juris Secundum, Volume X pp. Primarily, a diagonal or slant, especially of a seam, cut, or line across a fabric; and so derivatively, a leaning of the mind; a mental predilection or prejudice; anything which turns a man to a particular course; a particular influential power which sways the judgment; a preconceived opinion; a sort of emotion constituting untrustworthy partiality; bent, inclination, prepossession, propension, or tendency, which sways the?",
+      "claim_type": "general",
+      "position_start": 215201,
+      "position_end": 215746,
+      "confidence_score": 0.85,
+      "id": 56,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.371714"
+    },
+    {
+      "claim_text": "Hundred guilty persons be acquitted than to convict one innocent or that it is better to run the risk of sparing the guilty than to condemn the innocent. Reliance is placed on the principles elucidated in my judgment, Muhammad Riaz Vs. Khurram Shehzad (2024 SCMR 51).",
+      "claim_type": "general",
+      "position_start": 226040,
+      "position_end": 226311,
+      "confidence_score": 0.85,
+      "id": 57,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.371718"
+    },
+    {
+      "claim_text": "The raison d'étre is to assess and scrutinize whether the police and prosecution have performed their tasks accurately and diligently in apprehending and exposing the actual culprits or whether they dragged innocent persons into the crime due to a defective or botched-up investigation, depriving the victim of justice. The philosophy of this phrase, though, does not imply that the Court should grant any unwarranted favours, indulgences, or preferential treatment to the accused.",
+      "claim_type": "general",
+      "position_start": 226312,
+      "position_end": 226793,
+      "confidence_score": 0.85,
+      "id": 58,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.382598"
+    },
+    {
+      "claim_text": "The right to a fair trial has now been explicitly enshrined in our Constitution by virtue of the 18% Constitutional Amendment in the shape of Article 10-A and in case of apparent bias as done in this case, the accused could not expect right to fair trial.",
+      "claim_type": "constitutional",
+      "position_start": 228564,
+      "position_end": 228819,
+      "confidence_score": 0.85,
+      "id": 59,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.382614"
+    },
+    {
+      "claim_text": "[Reference can be made to some judgments authored by me, such as Junaid Wazir v. Superintendent of Police (2024 SCMR 181), Federation of Pakistan v. Zahid Malik (2023 SCMR 603), Usman Ghani v. The Chief Post Master, GPO Karachi (2022 SCMR 745), Capital Development Authority v. Shabir Hussain (2022 SCMR 627), Raja Muhammad Shahid v. The Inspector General of Police (2023 SCMR 1135), Muhammad Yaseen v. Province of Sindh (2024 PLC(CS) 111), Government of Balochistan v. Ghulam Rasool (2024 SCMR 1155), and Inspector General of Police, Quetta v. Fida Muhammad (2022 SCMR 1583).",
+      "claim_type": "general",
+      "position_start": 228820,
+      "position_end": 229399,
+      "confidence_score": 0.85,
+      "id": 60,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.382624"
+    },
+    {
+      "claim_text": "I cannot ignore another crucial aspect, which is an acid test for considering and appreciating the evidence of an approver: whether their testimony is trustworthy or not.",
+      "claim_type": "general",
+      "position_start": 229437,
+      "position_end": 229607,
+      "confidence_score": 0.85,
+      "id": 61,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.382635"
+    },
+    {
+      "claim_text": "We must also strive to protect the excellent reputation of the Last Messenger of Almighty Allah and abide by what he did, accepting the repentance of one who repents. As he emphasized, “it is not for us to impose punishments and other means of deterrence on the basis of our personal inclinations. Rather, we are bound to act on what appears to be the law of our Prophet (peace and blessings of Allah be upon him)” [Ref: Zubair Saeed Sabri v. The State (PLD 2024 SC 681)]. The unresolved question in my introspection is why the question regarding the doctrine of repentance was framed by this Court?",
+      "claim_type": "general",
+      "position_start": 247595,
+      "position_end": 248199,
+      "confidence_score": 0.85,
+      "id": 62,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.382643"
+    },
+    {
+      "claim_text": "Who had to or has to repent for the unfair and biased trial? Was it the departed souls who tried the case in the High Court?",
+      "claim_type": "general",
+      "position_start": 248200,
+      "position_end": 248324,
+      "confidence_score": 0.85,
+      "id": 63,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:03:44.397085"
+    },
+    {
+      "claim_text": "The first and foremost constitutional and legal points, in addition to those recorded in order dated April 2011, that require consideration are: (1) Whether the Presidential Reference is maintainable under Article of the Constitution; (2) Whether the Presidential Reference requires a - factual inquiry, and if so, whether under Article of the Constitution an opinion can be given in this regard; (3) The constitutional-legal position of the trial and appeal, and its credibility/legitimacy when the person being tried was removed from power by a usurper who himself assumed power and then launched the prosecution of Mr. Bhutto in a criminal case which was filed as ‘untraced’; and (4) Were certain judge(s) removed from the trial and/or hearing the appeal to secure a particular result.",
+      "claim_type": "criminal",
+      "position_start": 10400,
+      "position_end": 11204,
+      "confidence_score": 0.85,
+      "id": 64,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.945710"
+    },
+    {
+      "claim_text": "If the aforesaid aspect is successfully attended to then we will need to consider the trial and appeal which will require expertise in criminal law and procedure. Justice Manzoor Ahmed Malik, former Judge of the Supreme Court, and Justice Assadullah Khan Chamkani, a former Judge of the Peshawar High Court, have vast experience and we want to benefit from their knowledge in this regard, therefore, they are appointed as amici curiae, who may either submit a written brief and/or address us in person.",
+      "claim_type": "criminal",
+      "position_start": 11286,
+      "position_end": 11788,
+      "confidence_score": 0.85,
+      "id": 65,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.945722"
+    },
+    {
+      "claim_text": "The crime was first reported to the police, not by Mr. Kasuri, but by his brother, as Mr. Kasuri himself stated.",
+      "claim_type": "general",
+      "position_start": 69408,
+      "position_end": 69521,
+      "confidence_score": 0.85,
+      "id": 66,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.945733"
+    },
+    {
+      "claim_text": "[Senior Superintendent of Police] Lahore Hakim Ali v State, 1971 SCMR 432, 445C, Habibullah v State, PLD 1969 Supreme Court 127, 130A.",
+      "claim_type": "general",
+      "position_start": 69565,
+      "position_end": 69704,
+      "confidence_score": 0.85,
+      "id": 67,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.945741"
+    },
+    {
+      "claim_text": "Code of Criminal Procedure, 1898, section 164. al wa Reference No. and told him about this incident on the telephone. S.S.P., Lahore at that time was Mr. Asghar Khan, who after, receiving this message on the telephone arrived in the hospital ... alongwith others.",
+      "claim_type": "criminal",
+      "position_start": 69743,
+      "position_end": 70024,
+      "confidence_score": 0.85,
+      "id": 68,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.945750"
+    },
+    {
+      "claim_text": "To legitimize their seizures of power, delegitimize opponents and consolidate authority. A political trial is one whose disposition—the determination of guilt or innocence, followed by punishment—depends ' Reference No. of 2012 PLD 2013 SC (SMB), Cauvery Water Disputes Tribunal case AIR 1992 SC relied upon; Al-Jehad Trust v. Federation of Pakistan PLD 1997 SC (SMB); Reference No, | of 1988 PLD 1989 SC (11MB) and Special Reference No.1 of 1955 PLD 1955 FC (SMB).",
+      "claim_type": "general",
+      "position_start": 98412,
+      "position_end": 98899,
+      "confidence_score": 0.85,
+      "id": 69,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.977681"
+    },
+    {
+      "claim_text": "Fiona Shen-Bayh, Undue Process: Persecution and Punishment in Autocratic Courts, (2022). Presidential Reference No.1 of 2011 primarily on the accused’s professed attitudes and activities in relation to the ruling regime.",
+      "claim_type": "general",
+      "position_start": 98903,
+      "position_end": 99127,
+      "confidence_score": 0.85,
+      "id": 70,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.977693"
+    },
+    {
+      "claim_text": "His amicus brief has been instrumental in navigating these complex topics. Mr. Yasser Kureshi is a departmental lecturer at University of Oxford, UK.",
+      "claim_type": "general",
+      "position_start": 104590,
+      "position_end": 104739,
+      "confidence_score": 0.85,
+      "id": 71,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.977702"
+    },
+    {
+      "claim_text": "° General ® Pervez Musharraf v. Federation of Pakistan PLD 2024 SC and Taufiq Asif v. General ® Pervez Musharraf PLD 2024 SC 610. 1° Sindh High Court Bar Association v. Federation of Pakistan PLD 2009 SC (short order) and PLD 2009 SC (detailed judgment).",
+      "claim_type": "general",
+      "position_start": 104740,
+      "position_end": 105007,
+      "confidence_score": 0.85,
+      "id": 72,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.977710"
+    },
+    {
+      "claim_text": "Nawaz Sharif v. State PLD 2009 SC Presidential Reference No.1 of 2011 under which it was conducted. Instead of independent, substantive evidence, the prosecution relied heavily on confessional statements given by, or procured from, Bhutto’s former associates—accomplices turned approvers.",
+      "claim_type": "general",
+      "position_start": 105009,
+      "position_end": 105308,
+      "confidence_score": 0.85,
+      "id": 73,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.977718"
+    },
+    {
+      "claim_text": "But the corroboration required would depend on the ™ facts and circumstances of each particular case and no hard and fast rule can be laid down in this behalf. Surely, one of the factors calling for consideration may be the circumstance that the approver had no ostensible motive to involve any of the accused persons falsely in the case.",
+      "claim_type": "general",
+      "position_start": 162488,
+      "position_end": 162827,
+      "confidence_score": 0.85,
+      "id": 93,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.020739"
+    },
+    {
+      "claim_text": "The essence of judicial independence is not found in passivity or retrospective correction but in resisting authoritarian overreach at the time it occurs. Transitional justice, while important, should serve as a sobering reminder to judges: justice delayed by decades is justice diminished. Judges must act as the first and last line of defence for the rule of law, refusing to compromise even under duress, so that societies do not have to rely on transitional processes to correct the damage inflicted by judicial 'S Benazir Bhutto v. Federation of Pakistan PLD 1988 SC 416; Jubilee Insurance v. NBP PLD 1999 SC 1126; Nadeem Anwar v. NAB PLD 2008 SC and Riaz-UI-Haq v. Federation of Pakistan PLD 2013 SC 501. x Presidential Reference No.1 of 2011 capitulation.",
+      "claim_type": "general",
+      "position_start": 110092,
+      "position_end": 110865,
+      "confidence_score": 0.85,
+      "id": 74,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.988504"
+    },
+    {
+      "claim_text": "Let the lesson of transitional justice be clear—judges must uphold their oaths with courage in the face of oppression, for only then can the judiciary truly safeguard democracy and the rights of the people. Transitional justice, however, often becomes necessary because, during oppressive rule, some judges fail to uphold their constitutional duty, succumbing to the pressure of illegitimate authority.",
+      "claim_type": "constitutional",
+      "position_start": 110866,
+      "position_end": 111268,
+      "confidence_score": 0.85,
+      "id": 75,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.988515"
+    },
+    {
+      "claim_text": "Later on, seven persons (Mr. Zulfiqar Ali Bhutto (Mr. Bhutto), Masood Mahmood, Director General Federal Security Force (‘FSF’), Mian Muhammad Abbas, Director FSF, Ghulam Hussain, Inspector FSF, Ghulam Mustafa, Inspector FSF, Arshad Iqbal, Sub-Inspector FSF and Iftikhar Ahmad, Assistant Sub-Inspector (FSF) were nominated and the offences under section 120-B/109 were also added in this case. Reference No.1 of 2011 A Full Court comprising five judges of the High Court was constituted for the trial of this case.",
+      "claim_type": "general",
+      "position_start": 122300,
+      "position_end": 122818,
+      "confidence_score": 0.85,
+      "id": 76,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.988524"
+    },
+    {
+      "claim_text": "After the trial, all the accused persons (except Masood Mahmood and Ghulam Hussain) were convicted and sentenced to death, along with other punishments, as per the judgment dated 18.03.1978, reported as PLD 1978 Lah. A criminal appeal filed against the decision of the High Court was dismissed by this Court vide judgment dated 06.02.1979, reported as PLD 1979 SC 53. The review petition filed by Mr. Bhutto was also dismissed by this Court vide judgment dated 24.03.1979, .",
+      "claim_type": "criminal",
+      "position_start": 122819,
+      "position_end": 123311,
+      "confidence_score": 0.85,
+      "id": 77,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.988532"
+    },
+    {
+      "claim_text": "| Since Mr. Bhutto's execution, one of Pakistan’s major political parties, the Pakistan People's Party (PPP), has consistently questioned the fairness of the judicial process, alleging that it was influenced by the then-military dictatorship as well as political factors and as such lacked impartiality.",
+      "claim_type": "general",
+      "position_start": 123395,
+      "position_end": 123698,
+      "confidence_score": 0.85,
+      "id": 78,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.988540"
+    },
+    {
+      "claim_text": "A fair trial ensures that the accused has the opportunity to present a defence and challenge the evidence, while the victim's rights to be heard and to seek justice are upheld.",
+      "claim_type": "general",
+      "position_start": 130067,
+      "position_end": 130243,
+      "confidence_score": 0.85,
+      "id": 79,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.998332"
+    },
+    {
+      "claim_text": "By maintaining impartiality and balancing the interests of both parties, this Court strives to deliver justice and maintain public confidence in the judicial system. For instance, this Court, in the case of Noor Ahmad versus the State (PLD 1964 SC 120), while shedding light on the conduct of criminal trials, observed that it is a fundamental principle that the trial of an accused person should be conducted with the utmost fairness and that anything likely to cause serious embarrassment to the accused in the conduct of their defence should be avoided. The relevant paragraph is quoted below for ease of reference:\" ‘We are also of the same view. Even though sections and of the Criminal Procedure Code give a discretion to the Court to try certain persons and or offences jointly yet there are certain considerations which are more fundamental than merely the convenience of the proceeding or trial which must be kept in view when deciding as to whether the discretion should in given in case be exercised or not.",
+      "claim_type": "criminal",
+      "position_start": 130244,
+      "position_end": 131274,
+      "confidence_score": 0.85,
+      "id": 80,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.998352"
+    },
+    {
+      "claim_text": "Thus, in the present case, it seems to us that whether a collision in such circumstances constituted one transaction or not there should not have been a joint trail of the appellants before us for more than one reason Firstly because the accusations made against them did not allege any kind of joint or concerted action nor disclosed any causal connection between the respective acts of the appellants...’ Z: Later, in the case of Ch.",
+      "claim_type": "general",
+      "position_start": 131554,
+      "position_end": 131990,
+      "confidence_score": 0.85,
+      "id": 81,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.998364"
+    },
+    {
+      "claim_text": "(PLD 1975 SC 66), this Court delved into the concept of 'due process' and on pages 109, 119, and of the judgment provided a detailed explanation of what ‘due process' entails.",
+      "claim_type": "general",
+      "position_start": 132040,
+      "position_end": 132219,
+      "confidence_score": 0.85,
+      "id": 82,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.998375"
+    },
+    {
+      "claim_text": "The Court emphasized the importance of legal procedures that ensure fairness, justice, and the protection of individual rights.",
+      "claim_type": "general",
+      "position_start": 132220,
+      "position_end": 132347,
+      "confidence_score": 0.85,
+      "id": 83,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:13.998384"
+    },
+    {
+      "claim_text": "The relevant paras of the judgment are reproduced hereunder for ease of A Reference No.1 of 2011 ‘Article may be compared ‘with the due process of law _in_ the American Constitution.",
+      "claim_type": "constitutional",
+      "position_start": 132349,
+      "position_end": 132539,
+      "confidence_score": 0.85,
+      "id": 84,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.008954"
+    },
+    {
+      "claim_text": "The right to apply for transfer of the case to another Court.’ \\ Wr A N . The above rights were approvingly referred to and endorsed by a five-member bench of this Court in the case of Brig.",
+      "claim_type": "general",
+      "position_start": 140474,
+      "position_end": 140668,
+      "confidence_score": 0.85,
+      "id": 85,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.008966"
+    },
+    {
+      "claim_text": "In this case, the Court, with respect to the above list of rights, observed that the rights (except the right mentioned at serial No.7 which is no longer available in Pakistan) enumerated by Mr. Munir are clearly available in a trial even by a Court Martial.",
+      "claim_type": "general",
+      "position_start": 140731,
+      "position_end": 140989,
+      "confidence_score": 0.85,
+      "id": 86,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.008974"
+    },
+    {
+      "claim_text": "HIGH COURT AS A COURT OF ORIGINAL _CRIMINAL JURISDICTION 9.",
+      "claim_type": "criminal",
+      "position_start": 140991,
+      "position_end": 141050,
+      "confidence_score": 0.85,
+      "id": 87,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.008985"
+    },
+    {
+      "claim_text": "As it has been indicated hereinabove the High Court had no jurisdiction to directly take cognizance of the offence excépt upon a commitment made to it in the manner provided Reference No.1 of 2011 thereafter but after the amendment of subsection (1) of section 194, Cr.B.C.",
+      "claim_type": "general",
+      "position_start": 148250,
+      "position_end": 148529,
+      "confidence_score": 0.85,
+      "id": 88,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.008993"
+    },
+    {
+      "claim_text": "Jurisdiction has been conferred upon the High Court to take “cognizance of any offence directly. So far as the term ‘in_manner hereinafter provided’ is concerned it has been noticed that the said term has already been explained by a two-member bench of this court in the case of Dr. Muhammad Afzal and others versus the State (2001 SCMR 1615). The Hon’ble bench, after a thorough examination of the legal provisions on the subject, concluded that, «High Court can take cognizance of offence of Pakistan Penal Code under section 194, Cr.P.C. in the same manner as cognizance is taken under section 190(1)(c), Cr.P.C.",
+      "claim_type": "general",
+      "position_start": 148530,
+      "position_end": 149145,
+      "confidence_score": 0.85,
+      "id": 89,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.020699"
+    },
+    {
+      "claim_text": "Against whom allegations of criminal conspiracy leveled by another politician in connection with the murder of his father.",
+      "claim_type": "criminal",
+      "position_start": 157793,
+      "position_end": 157916,
+      "confidence_score": 0.85,
+      "id": 90,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.020712"
+    },
+    {
+      "claim_text": "This situation Reference No.1 of 2011 es ee ea ee k - created a compelling need for an open trial to ensure that justice was not only done but also perceived to be done transparently. An almost similar observation has been made by a five-member bench of this Court in Syed Ali Nawaz Gardezi versus Lt.-Col. Muhammad Yusuf (PLD 1963 SC 51) wherein the said Hon’ble Bench upheld the findings of the trial court, which ordered an open trial for the accused because the accused was a high-ranking government official.",
+      "claim_type": "general",
+      "position_start": 157917,
+      "position_end": 158436,
+      "confidence_score": 0.85,
+      "id": 91,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.020722"
+    },
+    {
+      "claim_text": "That does not imply any relaxation of normal standards of corroboration in such cases and Reference No.1 of 2011 indeed, in my humble judgment, the High Court, in the present case, does nor appear to have been guilty of any such lapse.’ The above normal standard of corroboration was followed by a subsequent equal bench of this Court in the case of Abdul Khaliq versus the State (1970 SCMR 307).",
+      "claim_type": "general",
+      "position_start": 162828,
+      "position_end": 163230,
+      "confidence_score": 0.85,
+      "id": 94,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.032648"
+    },
+    {
+      "claim_text": "The bench observed, “The extent and nature of corroboration of the testimony of an accomplice may vary from case to case. The rule of practice requiring corroboration of the evidence of the accomplice is that the cortoboration must be in respect of some material particulars implizating the accused, and it is not necessary that evidence of the accomplice should be corroborated in every detail of the crime.’ Later, a 5-member bench of this Court in the case of Abdul Majid_and anéther versus the State (PLD 1973 SC 595) approvingly referred to the above observations of the earlier 3-member bench regarding the requirement of the normal standard of corroboration of the statement of an approver and decided the case accordingly.",
+      "claim_type": "general",
+      "position_start": 163231,
+      "position_end": 163962,
+      "confidence_score": 0.85,
+      "id": 95,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.032661"
+    },
+    {
+      "claim_text": "That does not imply any relaxation of normal standards of corroboration in such cases and Reference No.1 of 2011 indeed, in my humble judgment, the High Court, in the present case, does nor appear to have been guilty of any such lapse.’ The above normal standard of corroboration was followed by a subsequent equal bench of this Court in the case of Abdul Khaliq versus the State (1970 SCMR 307).",
+      "claim_type": "general",
+      "position_start": 162828,
+      "position_end": 163230,
+      "confidence_score": 0.85,
+      "id": 96,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.032671"
+    },
+    {
+      "claim_text": "The bench observed, “The extent and nature of corroboration of the testimony of an accomplice may vary from case to case. The rule of practice requiring corroboration of the evidence of the accomplice is that the cortoboration must be in respect of some material particulars implizating the accused, and it is not necessary that evidence of the accomplice should be corroborated in every detail of the crime.’ Later, a 5-member bench of this Court in the case of Abdul Majid_and anéther versus the State (PLD 1973 SC 595) approvingly referred to the above observations of the earlier 3-member bench regarding the requirement of the normal standard of corroboration of the statement of an approver and decided the case accordingly. Later a matter involving the encounter/murder of six persons by the police came for consideration before this Court in the case of Ch.",
+      "claim_type": "criminal",
+      "position_start": 163231,
+      "position_end": 164098,
+      "confidence_score": 0.85,
+      "id": 97,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.032681"
+    },
+    {
+      "claim_text": "Muhammad Yagoob and others versus the State (1992 SCMR 1983). This Court after analyzing the case law from 1949 to 1991 observed that the testimony of an approver is to be scrutinized with care and caution and the Court should be doubly sure that his (approver's) evidence is corroborated in material particulars by reliable evidence. Further, this Court laid down the following principles for appreciating the evidence of an approver: (i) That if a statement of fact made by an accused in a confession is of the nature that if it is assumed to be true, it would negate the offence alleged to be confessed, it is called an exculpatory confession.",
+      "claim_type": "general",
+      "position_start": 164099,
+      "position_end": 164748,
+      "confidence_score": 0.85,
+      "id": 98,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.032690"
+    },
+    {
+      "claim_text": "Further, the motive is a double-edged weapon, which can be used either way and by either side i.e. Reference in this regard may be made to the cases of Noor Elah v. Zafarul Haque (PLD 1976 SC 557); and Allah Bakhsh Vs.",
+      "claim_type": "general",
+      "position_start": 178032,
+      "position_end": 178281,
+      "confidence_score": 0.85,
+      "id": 99,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.046042"
+    },
+    {
+      "claim_text": "Therefore, to my understanding the prosecution failed to establish the motive part of the case; but the High Court/Trial Court (in para of the judgment) had erroneously held, ‘the motive to kill Anmad Raza Kasuri is proved to be on the part of the principal accused [Mr. Bhutto]’. Similarly, this Court in para of the majority judgment subscribed to the finding of the High Court/Trial Court while ignoring the above apparent fundamental inconsistencies in the case of the prosecution and held that Mr. Bhutto had a strong motive to do away with Ahmad Raza Kasuri owing to their violent political differences, and the manner and the language in which Ahmad Raza Kasuri gave vent to his views against the former Prime Minister and his polices.",
+      "claim_type": "constitutional",
+      "position_start": 178311,
+      "position_end": 179062,
+      "confidence_score": 0.85,
+      "id": 100,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.046059"
+    },
+    {
+      "claim_text": "Where a single bench of the Islamabad High Court tried the case of an ‘qn-duty Additional Sessions Judge, Raja Khurram Ali Khan, and his wife, Maheen Zafar, for torturing their domestic worker, Tayyaba Bibi.",
+      "claim_type": "civil",
+      "position_start": 183514,
+      "position_end": 183721,
+      "confidence_score": 0.85,
+      "id": 101,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.046070"
+    },
+    {
+      "claim_text": "They were both convicted and sentenced and their criminal appeal under section 411-A, Cr.P.C., was dismissed by the Division Bench of the same High Court.",
+      "claim_type": "criminal",
+      "position_start": 183722,
+      "position_end": 183876,
+      "confidence_score": 0.85,
+      "id": 102,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.046082"
+    },
+    {
+      "claim_text": "See Raja Khurram Ali Khan and another versus Tayyaba Bibi and another (2019 YLR 98). A Criminal Appeal filed against the judgment of the Division Bench was also dismissed by this Court.",
+      "claim_type": "criminal",
+      "position_start": 183877,
+      "position_end": 184062,
+      "confidence_score": 0.85,
+      "id": 103,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.046095"
+    },
+    {
+      "claim_text": "See Raja Khurram Ali Khan and others v. Tayyaba Bibi and another (PLD 2020 SC 146). As far as the observation of the Chief Justice in para 27-28 of the detailed opinion regarding confirmation of the death sentence by the High Court is concerned, my understanding of the legal framework as provided under Chapter XXVII titled ‘OF THE Reference No.1 of 2011 + , SUBMISSION OF SENTENCES FOR CONFIRMATION’ is quite different.",
+      "claim_type": "general",
+      "position_start": 184063,
+      "position_end": 184498,
+      "confidence_score": 0.85,
+      "id": 104,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.057374"
+    },
+    {
+      "claim_text": "The Court must remain confined to the proposed questions without making any departure and must keep a tight rein on the reference itself. The Supreme Court may decline to articulate an opinion if the questions framed lack any constitutional significance or public importance.",
+      "claim_type": "constitutional",
+      "position_start": 193563,
+      "position_end": 193838,
+      "confidence_score": 0.85,
+      "id": 105,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.057381"
+    },
+    {
+      "claim_text": "Of 2005 (PLD 2005 SC 873), a nine-member bench of this Court rendered an opinion on the draft Bill titled “HISBA BILL’. The opinion referenced various local and foreign judicial precedents and the insights of eminent jurists on constitutional provisions, and concluded that the opinion on a Presidential Reference is not a decision between parties but entails Opinion of Justice Muhammad Ali Mazhar on the Reference No.",
+      "claim_type": "constitutional",
+      "position_start": 193856,
+      "position_end": 194281,
+      "confidence_score": 0.85,
+      "id": 106,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.057386"
+    },
+    {
+      "claim_text": "Lord Hewart’s aphorism in Rex v. Sussex Justices ([1924] KB 256) aptly applies here: “Justice must not only be done, but must also be seen to be done”.",
+      "claim_type": "general",
+      "position_start": 212593,
+      "position_end": 212746,
+      "confidence_score": 0.85,
+      "id": 107,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.057390"
+    },
+    {
+      "claim_text": "Relevant local and foreign judicial precedents which are essentially concentrated on the question of alleging bias are as .follows:- 1.",
+      "claim_type": "general",
+      "position_start": 212747,
+      "position_end": 212884,
+      "confidence_score": 0.85,
+      "id": 108,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.057396"
+    },
+    {
+      "claim_text": "Ms. Benazir Bhutto v. The President of Pakistan (1992 SCMR 140). Bias in a Judge is the paralysis, complete or partial, of judicial faculties and therefore the allegation of bias against a Judge would be wholly unfounded unless it be shown that the proceedings held by him were irregular and one-sided or the conclusions reached by him were wrong and reasons given in support thereof erroneous. Bias in judicial matters may be caused by the judgment, order or observations of a Superior Court or it may spring from personal, political, religious, communal, racial, commercial or economic considerations.",
+      "claim_type": "general",
+      "position_start": 212885,
+      "position_end": 213488,
+      "confidence_score": 0.85,
+      "id": 109,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.067621"
+    },
+    {
+      "claim_text": "Ref: Dimes v. The Grand Junction Canal (No.1) and others (1852) H.L.C. 759-794) and Rex v. Sussex Justices (1924) K B 256) & Muhammad Ismail Chowdhury v. Abdul Khaleque Dowdagar and another (PLD 1960 SC (Pak.) Islamic Republic of Pakistan v. Abdul Wali Khan (PLD 1976 SC 57).",
+      "claim_type": "general",
+      "position_start": 213489,
+      "position_end": 213775,
+      "confidence_score": 0.85,
+      "id": 110,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.067634"
+    },
+    {
+      "claim_text": "Impartially in a particular case, and this must be shown as a matter of fact and not merely as a matter of opinion.",
+      "claim_type": "general",
+      "position_start": 214108,
+      "position_end": 214223,
+      "confidence_score": 0.85,
+      "id": 112,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.067652"
+    },
+    {
+      "claim_text": "The mere assertion of bias can never be sufficient to disqualify a Judge in hearing a cause or matter. In the absence of any pecuniary or proprietary interest in the subject-matter of the proceeding, it is essential that a real likelihood of bias must be shown.",
+      "claim_type": "general",
+      "position_start": 214272,
+      "position_end": 214533,
+      "confidence_score": 0.85,
+      "id": 113,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.067661"
+    },
+    {
+      "claim_text": "Government of NWFP v. Dr. Hussain Ahmed Haroon (2003 SCMR 104). It is an age-old fundamental principle of law that justice should not only be done but manifestly and undoubtedly it should seen to have been done.",
+      "claim_type": "constitutional",
+      "position_start": 214538,
+      "position_end": 214749,
+      "confidence_score": 0.85,
+      "id": 114,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.079379"
+    },
+    {
+      "claim_text": "To achieve this objective/goal it is of prime importance that a Judge/person equipped with the authority of decision should not be having any sort of personal interest in the outcome of the matter under issue before him.",
+      "claim_type": "general",
+      "position_start": 214750,
+      "position_end": 214970,
+      "confidence_score": 0.85,
+      "id": 115,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.079392"
+    },
+    {
+      "claim_text": "The conduct of the proceedings should not generate any reasonable apprehension in the mind of a person that the deciding officer has harboured any grudge or bias against him.",
+      "claim_type": "general",
+      "position_start": 214971,
+      "position_end": 215145,
+      "confidence_score": 0.85,
+      "id": 116,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.079402"
+    },
+    {
+      "claim_text": "The foremost question is what is ‘bias’ has been described in Corpus Juris Secundum, Volume X pp. Primarily, a diagonal or slant, especially of a seam, cut, or line across a fabric; and so derivatively, a leaning of the mind; a mental predilection or prejudice; anything which turns a man to a particular course; a particular influential power which sways the judgment; a preconceived opinion; a sort of emotion constituting untrustworthy partiality; bent, inclination, prepossession, propension, or tendency, which sways the?",
+      "claim_type": "general",
+      "position_start": 215201,
+      "position_end": 215746,
+      "confidence_score": 0.85,
+      "id": 117,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.079410"
+    },
+    {
+      "claim_text": "Hundred guilty persons be acquitted than to convict one innocent or that it is better to run the risk of sparing the guilty than to condemn the innocent. Reliance is placed on the principles elucidated in my judgment, Muhammad Riaz Vs. Khurram Shehzad (2024 SCMR 51).",
+      "claim_type": "general",
+      "position_start": 226040,
+      "position_end": 226311,
+      "confidence_score": 0.85,
+      "id": 118,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.079418"
+    },
+    {
+      "claim_text": "The raison d'étre is to assess and scrutinize whether the police and prosecution have performed their tasks accurately and diligently in apprehending and exposing the actual culprits or whether they dragged innocent persons into the crime due to a defective or botched-up investigation, depriving the victim of justice. The philosophy of this phrase, though, does not imply that the Court should grant any unwarranted favours, indulgences, or preferential treatment to the accused.",
+      "claim_type": "general",
+      "position_start": 226312,
+      "position_end": 226793,
+      "confidence_score": 0.85,
+      "id": 119,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.090228"
+    },
+    {
+      "claim_text": "The right to a fair trial has now been explicitly enshrined in our Constitution by virtue of the 18% Constitutional Amendment in the shape of Article 10-A and in case of apparent bias as done in this case, the accused could not expect right to fair trial.",
+      "claim_type": "constitutional",
+      "position_start": 228564,
+      "position_end": 228819,
+      "confidence_score": 0.85,
+      "id": 120,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.090236"
+    },
+    {
+      "claim_text": "[Reference can be made to some judgments authored by me, such as Junaid Wazir v. Superintendent of Police (2024 SCMR 181), Federation of Pakistan v. Zahid Malik (2023 SCMR 603), Usman Ghani v. The Chief Post Master, GPO Karachi (2022 SCMR 745), Capital Development Authority v. Shabir Hussain (2022 SCMR 627), Raja Muhammad Shahid v. The Inspector General of Police (2023 SCMR 1135), Muhammad Yaseen v. Province of Sindh (2024 PLC(CS) 111), Government of Balochistan v. Ghulam Rasool (2024 SCMR 1155), and Inspector General of Police, Quetta v. Fida Muhammad (2022 SCMR 1583).",
+      "claim_type": "general",
+      "position_start": 228820,
+      "position_end": 229399,
+      "confidence_score": 0.85,
+      "id": 121,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.090242"
+    },
+    {
+      "claim_text": "I cannot ignore another crucial aspect, which is an acid test for considering and appreciating the evidence of an approver: whether their testimony is trustworthy or not.",
+      "claim_type": "general",
+      "position_start": 229437,
+      "position_end": 229607,
+      "confidence_score": 0.85,
+      "id": 122,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.090246"
+    },
+    {
+      "claim_text": "We must also strive to protect the excellent reputation of the Last Messenger of Almighty Allah and abide by what he did, accepting the repentance of one who repents. As he emphasized, “it is not for us to impose punishments and other means of deterrence on the basis of our personal inclinations. Rather, we are bound to act on what appears to be the law of our Prophet (peace and blessings of Allah be upon him)” [Ref: Zubair Saeed Sabri v. The State (PLD 2024 SC 681)]. The unresolved question in my introspection is why the question regarding the doctrine of repentance was framed by this Court?",
+      "claim_type": "general",
+      "position_start": 247595,
+      "position_end": 248199,
+      "confidence_score": 0.85,
+      "id": 123,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.090251"
+    },
+    {
+      "claim_text": "Who had to or has to repent for the unfair and biased trial? Was it the departed souls who tried the case in the High Court?",
+      "claim_type": "general",
+      "position_start": 248200,
+      "position_end": 248324,
+      "confidence_score": 0.85,
+      "id": 124,
+      "document_id": 3,
+      "created_at": "2026-03-03T07:09:14.098363"
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "adal-citation-api",
+		"name": "ADAL Citation Detection API",
+		"description": "Postman collection for testing ADAL Citation Detection endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Files",
+			"item": [
+				{
+					"name": "Upload File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('document_id', jsonData.id);",
+									"    console.log('Document ID saved:', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/files/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"upload"
+							]
+						},
+						"description": "Upload a legal document file (PDF, JPG, PNG, TXT, or JSON). Save the returned 'id' as document_id for citation extraction."
+					},
+					"response": []
+				},
+				{
+					"name": "List Files",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/files/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								""
+							]
+						},
+						"description": "Get list of all uploaded files"
+					},
+					"response": []
+				},
+				{
+					"name": "Get File Text",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/files/{{filename}}/text",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"{{filename}}",
+								"text"
+							]
+						},
+						"description": "Get extracted text from a file"
+					},
+					"response": []
+				}
+			],
+			"description": "File upload and management endpoints"
+		},
+		{
+			"name": "Citations",
+			"item": [
+				{
+					"name": "Extract Citations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/citations/documents/{{document_id}}/extract",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"citations",
+								"documents",
+								"{{document_id}}",
+								"extract"
+							]
+						},
+						"description": "Extract legal citations from a document's OCR text. Detects Pakistani legal citations (PLD, SCMR, PPC, Constitution, etc.) and saves them to the database."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Document Citations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/citations/documents/{{document_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"citations",
+								"documents",
+								"{{document_id}}"
+							]
+						},
+						"description": "Get all citations extracted from a specific document"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Citation by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/citations/{{citation_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"citations",
+								"{{citation_id}}"
+							]
+						},
+						"description": "Get details of a specific citation by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Document Citations",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/citations/documents/{{document_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"citations",
+								"documents",
+								"{{document_id}}"
+							]
+						},
+						"description": "Delete all citations for a document. Useful for re-extracting citations."
+					},
+					"response": []
+				}
+			],
+			"description": "Citation detection and management endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8001",
+			"type": "string"
+		},
+		{
+			"key": "document_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "citation_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "filename",
+			"value": "test_document.pdf",
+			"type": "string"
+		}
+	]
+}

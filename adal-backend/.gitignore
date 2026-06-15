@@ -1,0 +1,13 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+# Note: Scripts/ matches venv Scripts folder (case-insensitive on Windows)
+# We want to track our scripts/ directory, so we need to be specific
+**/venv/Scripts/
+**/venv/Lib/
+**/adal/Scripts/
+**/adal/Lib/
+*.cfg
+__pycache__/
+.env
+venv/
+# Track our validation and utility scripts
+!scripts/

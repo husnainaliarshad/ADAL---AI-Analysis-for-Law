@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none">
+  <defs>
+    <linearGradient id="emptyDocGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D9488"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <!-- Stack of documents -->
+  <rect x="60" y="50" width="80" height="100" rx="4" fill="url(#emptyDocGrad)" opacity="0.15"/>
+  <rect x="65" y="45" width="80" height="100" rx="4" fill="url(#emptyDocGrad)" opacity="0.25"/>
+  <rect x="70" y="40" width="80" height="100" rx="4" stroke="url(#emptyDocGrad)" stroke-width="2" fill="none" opacity="0.6"/>
+  <!-- Folded corner -->
+  <path d="M130 40 L150 40 L150 60 Z" fill="url(#emptyDocGrad)" opacity="0.3"/>
+  <!-- Lines on front document -->
+  <line x1="85" y1="70" x2="145" y2="70" stroke="url(#emptyDocGrad)" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <line x1="85" y1="85" x2="130" y2="85" stroke="url(#emptyDocGrad)" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+  <line x1="85" y1="100" x2="140" y2="100" stroke="url(#emptyDocGrad)" stroke-width="2" stroke-linecap="round" opacity="0.25"/>
+</svg>

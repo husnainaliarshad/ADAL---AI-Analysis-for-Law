@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none">
+  <defs>
+    <linearGradient id="claimsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D9488"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <!-- Gavel base -->
+  <rect x="70" y="110" width="60" height="12" rx="2" fill="url(#claimsGrad)" opacity="0.5"/>
+  <!-- Gavel handle -->
+  <rect x="95" y="50" width="10" height="65" rx="2" fill="url(#claimsGrad)" opacity="0.6"/>
+  <!-- Gavel head -->
+  <rect x="75" y="45" width="50" height="18" rx="3" fill="url(#claimsGrad)" opacity="0.6"/>
+  <!-- Document under gavel -->
+  <path d="M55 95 L145 95 L140 125 L60 125 Z" stroke="url(#claimsGrad)" stroke-width="2" fill="none" opacity="0.4"/>
+  <line x1="70" y1="105" x2="130" y2="105" stroke="url(#claimsGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+</svg>

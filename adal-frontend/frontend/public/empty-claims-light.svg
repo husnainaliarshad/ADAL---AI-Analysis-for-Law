@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none">
+  <defs>
+    <linearGradient id="claimsLightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A8783F"/>
+      <stop offset="55%" stop-color="#B98A48"/>
+      <stop offset="100%" stop-color="#C8A477"/>
+    </linearGradient>
+  </defs>
+  <rect x="70" y="110" width="60" height="12" rx="2" fill="url(#claimsLightGrad)" opacity="0.55"/>
+  <rect x="95" y="50" width="10" height="65" rx="2" fill="#2E2A25" opacity="0.78"/>
+  <rect x="75" y="45" width="50" height="18" rx="3" fill="url(#claimsLightGrad)" opacity="0.72"/>
+  <path d="M55 95 L145 95 L140 125 L60 125 Z" stroke="#6B5F52" stroke-width="2" fill="#F5EDE0" opacity="0.82"/>
+  <line x1="70" y1="105" x2="130" y2="105" stroke="#A8783F" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+</svg>

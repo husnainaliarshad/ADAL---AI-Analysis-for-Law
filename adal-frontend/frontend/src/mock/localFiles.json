@@ -1,0 +1,51 @@
+[
+  {
+    "id": "local-architecture-diagram",
+    "document_id": "local-architecture-diagram",
+    "name": "architecture diagram.png",
+    "file_type": "png",
+    "file_size_bytes": 203915,
+    "file_size_mb": 0.203915,
+    "has_ocr_text": false,
+    "ocr_text_length": 0,
+    "path": "adal-backend/data/uploads/architecture diagram.png",
+    "created_at": 1765410212725
+  },
+  {
+    "id": "local-fyp-pdf",
+    "document_id": "local-fyp-pdf",
+    "name": "FYP.pdf",
+    "file_type": "pdf",
+    "file_size_bytes": 126264,
+    "file_size_mb": 0.126264,
+    "has_ocr_text": false,
+    "ocr_text_length": 0,
+    "path": "adal-backend/data/uploads/FYP.pdf",
+    "created_at": 1765412464727
+  },
+  {
+    "id": "local-worldweaver-story",
+    "document_id": "local-worldweaver-story",
+    "name": "worldweaver_story_doc.md",
+    "file_type": "md",
+    "file_size_bytes": 14728,
+    "file_size_mb": 0.014728,
+    "has_ocr_text": false,
+    "ocr_text_length": 0,
+    "path": "adal-backend/data/uploads/worldweaver_story_doc.md",
+    "created_at": 1765412692300
+  },
+  {
+    "id": "2",
+    "document_id": 2,
+    "name": "C.A_supreme (1).txt",
+    "file_type": "txt",
+    "file_size_bytes": 12000,
+    "file_size_mb": 0.012,
+    "has_ocr_text": false,
+    "ocr_text_length": 0,
+    "path": "adal-backend/data/uploads/C.A_supreme (1).txt",
+    "created_at": 1766000000000
+  }
+]
+

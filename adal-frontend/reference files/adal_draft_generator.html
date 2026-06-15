@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADAL Draft Generator Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #1A1814;
+      --surface: #2C2A26;
+      --surface-alt: #322F2A;
+      --surface-soft: #3A3832;
+      --surface-deep: #242220;
+      --violet: #7F77DD;
+      --violet-dim: #6B63C8;
+      --violet-deep: #534AB7;
+      --lavender: #AFA9EC;
+      --fog: #EEEDFE;
+      --text-primary: #EEEDFE;
+      --text-secondary: #AFA9EC;
+      --text-muted: #6B6A7A;
+      --border: rgba(127, 119, 221, 0.15);
+      --border-bright: rgba(127, 119, 221, 0.35);
+      --glow-soft: rgba(127, 119, 221, 0.12);
+      --error: #E24B4A;
+      --success: #1D9E75;
+      --warning: #E3A84B;
+      --paper: #FCFBFF;
+      --paper-text: #2E2A45;
+      --paper-text-soft: #504A69;
+      --shadow-soft: 0 18px 36px rgba(0, 0, 0, 0.22);
+      --shadow-paper: 0 18px 42px rgba(8, 8, 12, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(127, 119, 221, 0.12), transparent 22%),
+        var(--obsidian);
+      color: var(--text-primary);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(127, 119, 221, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127, 119, 221, 0.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .topbar,
+    .tool-bar,
+    .workspace-sidebar,
+    .workspace-chat,
+    .editor-shell {
+      border-color: var(--border);
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.8rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(26, 24, 20, 0.86);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border-bright);
+      background: linear-gradient(180deg, rgba(127, 119, 221, 0.18), rgba(83, 74, 183, 0.28));
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark img,
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-copy {
+      min-width: 0;
+      display: grid;
+      gap: 0.16rem;
+    }
+
+    .brand-logo {
+      width: 94px;
+      height: 18px;
+    }
+
+    .doc-name {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .doc-sub {
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .topbar-center,
+    .topbar-actions,
+    .menu-items,
+    .tool-row,
+    .tool-group,
+    .proposal-actions,
+    .compose-actions,
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .topbar-center {
+      justify-content: center;
+    }
+
+    .chip,
+    .btn,
+    .tool-btn,
+    .menu-item {
+      font-family: inherit;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 0 0.72rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.05);
+      color: var(--text-secondary);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .chip.success {
+      color: #91ebc8;
+      border-color: rgba(29, 158, 117, 0.24);
+      background: rgba(29, 158, 117, 0.12);
+    }
+
+    .chip.warning {
+      color: #ffd79a;
+      border-color: rgba(227, 168, 75, 0.24);
+      background: rgba(227, 168, 75, 0.12);
+    }
+
+    .btn,
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 0.85rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.04);
+      color: var(--text-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .btn.primary {
+      background: var(--violet);
+      border-color: var(--violet);
+      color: var(--fog);
+    }
+
+    .tool-bar {
+      padding: 0.55rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(44, 42, 38, 0.95);
+    }
+
+    .tool-row {
+      gap: 0.8rem;
+    }
+
+    .tool-group {
+      gap: 0.35rem;
+      padding-right: 0.8rem;
+      border-right: 1px solid rgba(127, 119, 221, 0.12);
+    }
+
+    .tool-group:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .tool-btn {
+      min-height: 30px;
+      padding: 0 0.62rem;
+      border-radius: 8px;
+      background: var(--surface-alt);
+      font-size: 0.68rem;
+    }
+
+    .tool-btn.active {
+      color: var(--violet);
+      border-color: var(--border-bright);
+      background: rgba(127, 119, 221, 0.1);
+    }
+
+    .workspace {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 236px minmax(0, 1fr) 280px;
+    }
+
+    .workspace-sidebar,
+    .workspace-chat {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      background: var(--surface);
+    }
+
+    .workspace-sidebar {
+      border-right: 1px solid var(--border);
+    }
+
+    .workspace-chat {
+      border-left: 1px solid var(--border);
+    }
+
+    .sidebar-head,
+    .chat-head {
+      padding: 0.85rem 0.95rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(44, 42, 38, 0.96);
+    }
+
+    .sidebar-head h2,
+    .chat-head h2,
+    .proposal-title,
+    .version-drawer-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.35rem;
+      line-height: 1;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .sidebar-head p,
+    .chat-head p,
+    .proposal-copy,
+    .row-copy,
+    .version-copy,
+    .message p,
+    .compose-hint {
+      margin-top: 0.35rem;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .sidebar-body,
+    .chat-body {
+      min-height: 0;
+      overflow: auto;
+    }
+
+    .section {
+      padding: 0.8rem 0.9rem;
+      border-bottom: 1px solid rgba(127, 119, 221, 0.08);
+    }
+
+    .section-label {
+      font-size: 0.64rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .list {
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .list-row {
+      padding: 0.65rem 0.72rem;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+    }
+
+    .list-row.active {
+      border-color: var(--border-bright);
+      background: rgba(127, 119, 221, 0.08);
+    }
+
+    .row-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
+      align-items: flex-start;
+    }
+
+    .row-title {
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .row-meta {
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .editor-shell {
+      min-height: 0;
+      overflow: auto;
+      background: linear-gradient(180deg, var(--surface-deep), var(--obsidian));
+      padding: 0.85rem 1rem 1.6rem;
+    }
+
+    .editor-frame {
+      width: min(100%, 920px);
+      margin: 0 auto;
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .proposal-strip {
+      border: 1px solid rgba(127, 119, 221, 0.14);
+      border-radius: 14px;
+      background: rgba(44, 42, 38, 0.9);
+      overflow: hidden;
+    }
+
+    .proposal-main {
+      padding: 0.8rem 0.95rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .proposal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .proposal-tag {
+      font-size: 0.64rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 0.2rem;
+    }
+
+    .proposal-preview {
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      line-height: 1.55;
+    }
+
+    .proposal-sources {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .source-pill {
+      padding: 0.34rem 0.56rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.04);
+      color: var(--text-secondary);
+      font-size: 0.66rem;
+    }
+
+    .page-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 0.1rem 0 0.8rem;
+    }
+
+    .page {
+      width: min(100%, 820px);
+      min-height: 1020px;
+      background: var(--paper);
+      color: var(--paper-text);
+      border: 1px solid rgba(83, 74, 183, 0.12);
+      border-radius: 4px;
+      box-shadow: var(--shadow-paper);
+      padding: 2rem 2.15rem 2.6rem;
+    }
+
+    .page-kicker {
+      color: #7C74B6;
+      font-size: 0.64rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.3rem;
+      line-height: 0.96;
+      color: #241E3C;
+      margin-bottom: 1rem;
+    }
+
+    .page-copy,
+    .page-list {
+      font-size: 1.02rem;
+      line-height: 1.82;
+      color: var(--paper-text-soft);
+    }
+
+    .page-section {
+      margin-top: 1.55rem;
+    }
+
+    .page-section h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.42rem;
+      line-height: 1;
+      color: #2B2350;
+      margin-bottom: 0.45rem;
+    }
+
+    .page-list {
+      padding-left: 1.25rem;
+    }
+
+    .chat-status {
+      padding: 0.8rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.08);
+      color: var(--text-primary);
+      font-size: 0.76rem;
+      line-height: 1.6;
+    }
+
+    .thread {
+      padding: 0.9rem;
+      display: grid;
+      gap: 0.7rem;
+      border-bottom: 1px solid rgba(127, 119, 221, 0.08);
+    }
+
+    .message {
+      display: grid;
+      gap: 0.3rem;
+    }
+
+    .message.user {
+      padding-left: 1rem;
+      border-left: 2px solid rgba(127, 119, 221, 0.3);
+    }
+
+    .message.assistant {
+      padding-left: 1rem;
+      border-left: 2px solid rgba(127, 119, 221, 0.12);
+    }
+
+    .message strong {
+      font-size: 0.78rem;
+      color: var(--text-primary);
+    }
+
+    .message-state {
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-top: 0.18rem;
+    }
+
+    .version-drawer {
+      padding: 0.9rem;
+      display: grid;
+      gap: 0.55rem;
+      border-bottom: 1px solid rgba(127, 119, 221, 0.08);
+    }
+
+    .version-row {
+      padding: 0.78rem 0;
+      border-top: 1px solid rgba(127, 119, 221, 0.08);
+    }
+
+    .version-row:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .compose {
+      padding: 0.9rem;
+      display: grid;
+      gap: 0.6rem;
+      background: rgba(44, 42, 38, 0.96);
+    }
+
+    .compose-box {
+      min-height: 110px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(26, 24, 20, 0.56);
+      padding: 0.95rem;
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1280px) {
+      .workspace {
+        grid-template-columns: 220px minmax(0, 1fr);
+      }
+
+      .workspace-chat {
+        grid-column: 1 / -1;
+        min-height: 560px;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .workspace-sidebar,
+      .workspace-chat {
+        border-left: none;
+        border-right: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div class="brand-copy">
+          <div class="brand-logo">
+            <img src="../frontend/public/adal-logo.svg" alt="ADAL">
+          </div>
+          <div class="doc-name">Industrial Matter Reply</div>
+          <div class="doc-sub">Draft Generator Workspace</div>
+        </div>
+      </div>
+
+      <div class="topbar-center">
+        <span class="chip success">Saved 10:44 AM</span>
+        <span class="chip">Draft draft-1</span>
+        <span class="chip warning">Proposal pending</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="btn">Version history</button>
+        <button class="btn">Reload</button>
+        <button class="btn primary">Save</button>
+      </div>
+    </header>
+
+    <div class="tool-bar">
+      <div class="tool-row">
+        <div class="tool-group">
+          <button class="tool-btn">Undo</button>
+          <button class="tool-btn">Redo</button>
+        </div>
+        <div class="tool-group">
+          <button class="tool-btn">100%</button>
+          <button class="tool-btn">Normal</button>
+          <button class="tool-btn">12</button>
+        </div>
+        <div class="tool-group">
+          <button class="tool-btn active">B</button>
+          <button class="tool-btn">I</button>
+          <button class="tool-btn">U</button>
+        </div>
+        <div class="tool-group">
+          <button class="tool-btn">H1</button>
+          <button class="tool-btn">H2</button>
+          <button class="tool-btn">H3</button>
+        </div>
+        <div class="tool-group">
+          <button class="tool-btn">Bullets</button>
+          <button class="tool-btn">Numbered</button>
+          <button class="tool-btn">Quote</button>
+        </div>
+        <div class="tool-group">
+          <button class="tool-btn">Left</button>
+          <button class="tool-btn">Center</button>
+          <button class="tool-btn">Right</button>
+          <button class="tool-btn">Justify</button>
+          <button class="tool-btn">Link</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <aside class="workspace-sidebar">
+        <div class="sidebar-head">
+          <h2>Resources</h2>
+          <p>Flatter list treatment, closer to a professional editor sidebar than a dashboard card stack.</p>
+        </div>
+
+        <div class="sidebar-body">
+          <section class="section">
+            <div class="section-label">Legal templates</div>
+            <div class="list">
+              <div class="list-row">
+                <div class="row-head">
+                  <div class="row-title">Board Resolution</div>
+                  <div class="row-meta">Template</div>
+                </div>
+                <div class="row-copy">Starter structure for a new legal draft.</div>
+              </div>
+              <div class="list-row">
+                <div class="row-head">
+                  <div class="row-title">Petition Response</div>
+                  <div class="row-meta">Template</div>
+                </div>
+                <div class="row-copy">Response layout with legal headings ready to edit.</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-label">My drafts</div>
+            <div class="list">
+              <div class="list-row active">
+                <div class="row-head">
+                  <div class="row-title">Industrial Matter Reply</div>
+                  <div class="row-meta">Active</div>
+                </div>
+                <div class="row-copy">Updated May 13, 2026, 10:44 AM</div>
+              </div>
+              <div class="list-row">
+                <div class="row-head">
+                  <div class="row-title">Licensing Suspension Draft</div>
+                  <div class="row-meta">Saved</div>
+                </div>
+                <div class="row-copy">Updated May 12, 2026, 6:18 PM</div>
+              </div>
+              <div class="list-row">
+                <div class="row-head">
+                  <div class="row-title">Untitled Draft</div>
+                  <div class="row-meta">Unsaved</div>
+                </div>
+                <div class="row-copy">New document state before persistence.</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-label">Version history</div>
+            <div class="list">
+              <div class="list-row">
+                <div class="row-head">
+                  <div class="row-title">Version 12</div>
+                  <div class="row-meta">Latest</div>
+                </div>
+                <div class="row-copy">Added preliminary objections and rewrote relief.</div>
+              </div>
+              <div class="list-row">
+                <div class="row-head">
+                  <div class="row-title">Version 11</div>
+                  <div class="row-meta">Earlier</div>
+                </div>
+                <div class="row-copy">Imported hearing chronology and refreshed sources.</div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </aside>
+
+      <main class="editor-shell">
+        <div class="editor-frame">
+          <section class="proposal-strip">
+            <div class="proposal-main">
+              <div class="proposal-top">
+                <div>
+                  <div class="proposal-tag">Pending AI Proposal</div>
+                  <div class="proposal-title">Review before apply</div>
+                </div>
+                <div class="meta-row">
+                  <span class="chip">3 sources</span>
+                </div>
+              </div>
+
+              <div class="proposal-preview">
+                The assistant prepared a rewrite for the current section. The live document will stay unchanged until you apply or reject it.
+              </div>
+
+              <div class="proposal-actions">
+                <button class="btn primary">Review proposal</button>
+                <button class="btn">Reject</button>
+              </div>
+            </div>
+          </section>
+
+          <div class="page-wrap">
+            <article class="page">
+              <div class="page-kicker">Live Draft</div>
+              <div class="page-title">Response to Petition Regarding Licensing Suspension</div>
+              <p class="page-copy">The Respondent respectfully submits this response and states that the impugned action must be assessed against the procedural record as a whole, including the notices issued, the grounds later relied upon, and the opportunities for representation afforded during the relevant period. The dispute therefore turns not only on the outcome, but on whether the process itself remained legally coherent throughout.</p>
+
+              <section class="page-section">
+                <h3>I. Preliminary Objections</h3>
+                <p class="page-copy">The strongest opening remains procedural unfairness. The current record supports that path more directly than a broad merits attack, and the editor keeps that reasoning visible without surrounding the document with heavy dashboard treatment.</p>
+              </section>
+
+              <section class="page-section">
+                <h3>II. Procedural Irregularities</h3>
+                <p class="page-copy">Where the factual basis of the authority’s position shifted across communications without a corresponding opportunity to respond, the defect lies in the structure of decision-making itself. The chat panel can request a rewrite of this section, but the document remains unchanged until the proposal is accepted.</p>
+                <ul class="page-list">
+                  <li>Saved draft state remains visible in the top chrome.</li>
+                  <li>Template and draft loading remain visible in the left rail.</li>
+                  <li>Proposal review stays separate from the paper until accepted.</li>
+                </ul>
+              </section>
+            </article>
+          </div>
+        </div>
+      </main>
+
+      <aside class="workspace-chat">
+        <div class="chat-head">
+          <h2>Draft Copilot</h2>
+          <p>Google Docs-like in structure, but still your drafting workflow: chat, source-backed proposals, and explicit review gates.</p>
+        </div>
+
+        <div class="chat-body">
+          <div class="chat-status">
+            Review the current proposal in the editor before starting another AI drafting step.
+          </div>
+
+          <div class="thread">
+            <div class="message user">
+              <strong>User</strong>
+              <p>Rewrite the preliminary objections so they focus on procedural unfairness first and keep the relief narrower.</p>
+            </div>
+
+            <div class="message assistant">
+              <strong>Assistant</strong>
+              <p>I prepared a revised paragraph and a narrower relief direction based on the current draft context and selected sources.</p>
+              <div class="message-state">Proposal generated</div>
+            </div>
+
+            <div class="message assistant">
+              <strong>Sources used</strong>
+              <p>Article 10A notes, hearing chronology extract, and one precedent summary. Lower-confidence citation clusters were excluded.</p>
+            </div>
+          </div>
+
+          <div class="version-drawer">
+            <div class="version-drawer-title">Version Restore</div>
+            <div class="version-copy">Restoring an older version creates a new latest draft state instead of deleting history.</div>
+            <div class="version-row">
+              <div class="row-head">
+                <div class="row-title">Version 12</div>
+                <div class="row-meta">2 min ago</div>
+              </div>
+              <div class="row-copy">Added preliminary objections and rewrote relief language.</div>
+            </div>
+            <div class="version-row">
+              <div class="row-head">
+                <div class="row-title">Version 11</div>
+                <div class="row-meta">11 min ago</div>
+              </div>
+              <div class="row-copy">Imported hearing chronology and refreshed source links.</div>
+            </div>
+          </div>
+
+          <div class="compose">
+            <div class="compose-box">Ask for a clause, rewrite, or drafting improvement...</div>
+            <div class="compose-actions">
+              <div class="compose-hint">Input remains disabled while a proposal is pending.</div>
+              <button class="btn primary">Send</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

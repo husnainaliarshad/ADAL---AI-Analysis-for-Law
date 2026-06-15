@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADAL Analytics Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #1A1814;
+      --surface: #2C2A26;
+      --surface-soft: #3A3832;
+      --surface-deep: #222018;
+      --violet: #7F77DD;
+      --violet-deep: #534AB7;
+      --lavender: #AFA9EC;
+      --fog: #EEEDFE;
+      --text-primary: #EEEDFE;
+      --text-secondary: #B8B3E8;
+      --text-muted: #7A768E;
+      --border: rgba(127, 119, 221, 0.14);
+      --border-bright: rgba(127, 119, 221, 0.34);
+      --success: #1D9E75;
+      --warning: #E3A84B;
+      --danger: #E24B4A;
+      --grid-line: rgba(127, 119, 221, 0.035);
+      --glow: rgba(127, 119, 221, 0.14);
+      --sidebar-w: 244px;
+      --topbar-h: 58px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: var(--obsidian);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 560px;
+      height: 560px;
+      right: -140px;
+      top: -180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 68%);
+      pointer-events: none;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--surface-deep);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(127, 119, 221, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127, 119, 221, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--violet) 0%, transparent 100%);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      height: 58px;
+      padding: 0 1.15rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--violet-deep);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      overflow: hidden;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-lockup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: auto;
+      display: block;
+    }
+
+    .brand-sub {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 0.18rem;
+    }
+
+    .nav {
+      flex: 1;
+      overflow: auto;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-label {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.1rem 0.25rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.68rem 1.1rem;
+      position: relative;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--violet);
+      transform: scaleY(0);
+      transition: transform 0.18s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(127, 119, 221, 0.06);
+      color: var(--lavender);
+    }
+
+    .nav-item.active {
+      background: rgba(127, 119, 221, 0.1);
+      color: var(--fog);
+    }
+
+    .nav-item.active::before { transform: scaleY(1); }
+
+    .nav-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-item:hover .nav-icon,
+    .nav-item.active .nav-icon {
+      background: rgba(127, 119, 221, 0.12);
+      border-color: rgba(127, 119, 221, 0.18);
+    }
+
+    .nav-icon svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-text {
+      font-size: 0.83rem;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--violet);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 2px 6px;
+    }
+
+    .nav-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 0.7rem 1.1rem;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet-deep) 0%, #3C3489 100%);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      overflow: hidden;
+    }
+
+    .footer-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .footer-name { font-size: 0.82rem; }
+
+    .footer-role {
+      color: var(--text-muted);
+      font-size: 0.64rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-top: 0.12rem;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: var(--topbar-h);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.9rem;
+      gap: 1.25rem;
+      backdrop-filter: blur(8px);
+      background: rgba(26, 24, 20, 0.78);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .ghost-btn, .solid-btn {
+      border-radius: 8px;
+      height: 36px;
+      padding: 0 0.95rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .solid-btn {
+      background: var(--violet);
+      border-color: var(--violet);
+      color: var(--fog);
+      box-shadow: 0 10px 20px rgba(127, 119, 221, 0.24);
+    }
+
+    .content {
+      flex: 1;
+      overflow: auto;
+      padding: 1.6rem 1.8rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(127, 119, 221, 0.05) 0%, rgba(44, 42, 38, 0.98) 22%, rgba(44, 42, 38, 0.98) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(127, 119, 221, 0.12) 0%, transparent 36%);
+      pointer-events: none;
+    }
+
+    .hero-card {
+      padding: 1.45rem 1.5rem;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.1rem;
+      line-height: 1.02;
+      max-width: 15ch;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-title span { color: var(--violet); }
+
+    .hero-copy {
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-size: 0.9rem;
+      max-width: 58ch;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.1rem;
+    }
+
+    .filter-chip {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.42rem 0.78rem;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(127, 119, 221, 0.04);
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      min-height: 210px;
+    }
+
+    .metric-card {
+      background: var(--surface);
+      padding: 1.1rem 1.2rem;
+    }
+
+    .metric-label {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      margin-bottom: 0.65rem;
+    }
+
+    .metric-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.95rem;
+      line-height: 1;
+    }
+
+    .metric-sub {
+      color: var(--text-secondary);
+      font-size: 0.73rem;
+      margin-top: 0.42rem;
+    }
+
+    .metric-sub.good { color: var(--success); }
+    .metric-sub.warn { color: var(--warning); }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 1rem;
+    }
+
+    .column {
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 1.15rem 1.2rem 0;
+    }
+
+    .panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      line-height: 1;
+      margin-bottom: 0.22rem;
+    }
+
+    .panel-kicker {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .panel-link {
+      color: var(--lavender);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+    }
+
+    .chart-card {
+      padding: 1rem 1.2rem 1.2rem;
+    }
+
+    .chart-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.95rem;
+    }
+
+    .chart-name {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .chart-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      line-height: 1;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0.24rem 0.58rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status.ok { background: rgba(29, 158, 117, 0.12); color: var(--success); }
+    .status.pending { background: rgba(127, 119, 221, 0.12); color: var(--lavender); }
+
+    .line-stage {
+      position: relative;
+      height: 250px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background:
+        linear-gradient(to top, rgba(127, 119, 221, 0.03), rgba(127, 119, 221, 0.01)),
+        repeating-linear-gradient(to top, transparent 0 47px, rgba(127,119,221,0.08) 47px 48px);
+      overflow: hidden;
+    }
+
+    .line-stage svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .line-axis {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.4rem;
+      margin-top: 0.55rem;
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .donut-box,
+    .heatmap-box,
+    .bars-box,
+    .table-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(127, 119, 221, 0.03);
+      padding: 1rem;
+    }
+
+    .donut-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 176px;
+    }
+
+    .donut {
+      width: 146px;
+      height: 146px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, var(--surface) 0 43%, transparent 44%),
+        conic-gradient(var(--success) 0 58%, var(--violet) 58% 84%, var(--warning) 84% 95%, var(--danger) 95% 100%);
+      position: relative;
+    }
+
+    .donut-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .donut-center strong {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .donut-center span {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .legend {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 0.9rem;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+
+    .legend-key {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .stacked-rows {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .stacked-row { display: grid; gap: 0.35rem; }
+
+    .stacked-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+    }
+
+    .stacked-bar {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(127, 119, 221, 0.08);
+      border: 1px solid rgba(127, 119, 221, 0.08);
+      overflow: hidden;
+      display: flex;
+    }
+
+    .seg-a { background: var(--success); }
+    .seg-b { background: var(--violet); }
+    .seg-c { background: var(--warning); }
+
+    .heatmap {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.35rem;
+      margin-top: 0.8rem;
+    }
+
+    .heat {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      border: 1px solid rgba(127, 119, 221, 0.08);
+      background: rgba(127, 119, 221, 0.05);
+    }
+
+    .h1 { background: rgba(127, 119, 221, 0.12); }
+    .h2 { background: rgba(127, 119, 221, 0.2); }
+    .h3 { background: rgba(127, 119, 221, 0.28); }
+    .h4 { background: rgba(127, 119, 221, 0.38); }
+    .h5 { background: rgba(127, 119, 221, 0.48); }
+
+    .heat-labels {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.35rem;
+      margin-top: 0.55rem;
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .tool-bars {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 0.7rem;
+    }
+
+    .tool-row {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .tool-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+
+    .tool-track {
+      width: 100%;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(127, 119, 221, 0.08);
+      border: 1px solid rgba(127, 119, 221, 0.08);
+      overflow: hidden;
+    }
+
+    .tool-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--violet) 0%, var(--lavender) 100%);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.4rem;
+      font-size: 0.74rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    th {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    td strong { color: var(--text-primary); font-weight: 500; }
+
+    @media (max-width: 1180px) {
+      .hero,
+      .analytics-grid,
+      .split-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      body, html { overflow: auto; }
+      .app { min-height: 100vh; height: auto; display: block; }
+      .sidebar { width: 100%; min-width: 100%; }
+      .main { min-height: 100vh; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .content { padding: 1rem; }
+      .topbar {
+        height: auto;
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div class="brand-lockup">
+          <img class="brand-logo" src="../frontend/public/adal-logo.svg" alt="ADAL">
+          <div class="brand-sub">AI Analysis for Law</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-section">
+          <div class="nav-label">Main</div>
+          <a class="nav-item" href="adal_dashboard.html">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+            </div>
+            <span class="nav-text">Dashboard</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            </div>
+            <span class="nav-text">Documents</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </div>
+            <span class="nav-text">Upload Document</span>
+          </a>
+        </div>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-section">
+          <div class="nav-label">AI Tools</div>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            </div>
+            <span class="nav-text">Citation Verifier</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 12c0 4.4-4 8-9 8-1.1 0-2.1-.2-3.1-.6L3 21l1.9-4.6A7.7 7.7 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z"></path><path d="M9 9h6"></path><path d="M9 13h4"></path></svg>
+            </div>
+            <span class="nav-text">AI Summarizer</span>
+            <span class="nav-badge">New</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <span class="nav-text">Legal Assistant</span>
+          </a>
+          <a class="nav-item active" href="adal_analytics.html">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </div>
+            <span class="nav-text">Analytics</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </div>
+            <span class="nav-text">Draft Generator</span>
+          </a>
+        </div>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-section">
+          <div class="nav-label">Account</div>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </div>
+            <span class="nav-text">Settings</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="footer-avatar">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div>
+          <div class="footer-name">ADAL Workspace</div>
+          <div class="footer-role">Authenticated Session</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Reporting And Trends</div>
+          <div class="page-title">Analytics</div>
+        </div>
+        <div class="topbar-actions">
+          <a class="ghost-btn" href="adal_dashboard.html">Back To Dashboard</a>
+          <button class="ghost-btn">Last 30 Days</button>
+          <button class="solid-btn">Export Report</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="hero">
+          <div class="panel hero-card">
+            <div>
+              <div class="eyebrow">Analytics Scope</div>
+              <h1 class="hero-title">This is where trends become <span>decision support</span>.</h1>
+              <p class="hero-copy">
+                The dashboard should tell you what needs attention. The analytics page should explain how workload, tool usage,
+                verification quality, and processing performance are shifting over time.
+              </p>
+            </div>
+            <div class="filters">
+              <span class="filter-chip">All matters</span>
+              <span class="filter-chip">This month</span>
+              <span class="filter-chip">All teams</span>
+              <span class="filter-chip">Urdu + English</span>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric-card">
+              <div class="metric-label">Processed Volume</div>
+              <div class="metric-value">1,284</div>
+              <div class="metric-sub good">+19% from prior period</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Verification Rate</div>
+              <div class="metric-value">96.2%</div>
+              <div class="metric-sub good">Stable across 4 weeks</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Average Turnaround</div>
+              <div class="metric-value">4m 18s</div>
+              <div class="metric-sub">OCR to analysis completion</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Flagged Share</div>
+              <div class="metric-value">6.8%</div>
+              <div class="metric-sub warn">Higher on scan-heavy uploads</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="analytics-grid">
+          <div class="column">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Trend</div>
+                  <div class="panel-title">Document throughput over time</div>
+                </div>
+                <div class="panel-link">Line chart</div>
+              </div>
+
+              <div class="chart-card">
+                <div class="chart-meta">
+                  <div>
+                    <div class="chart-name">Uploads and completions</div>
+                    <div class="chart-value">+24% trend growth</div>
+                  </div>
+                  <div class="status ok">30-day view</div>
+                </div>
+
+                <div class="line-stage">
+                  <svg viewBox="0 0 800 250" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="areaGlow" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="rgba(127,119,221,0.28)"></stop>
+                        <stop offset="100%" stop-color="rgba(127,119,221,0.02)"></stop>
+                      </linearGradient>
+                    </defs>
+                    <path d="M0,210 C70,180 110,188 160,168 C220,144 265,156 320,130 C395,95 440,104 500,82 C560,60 620,68 690,44 C735,30 770,36 800,18 L800,250 L0,250 Z" fill="url(#areaGlow)"></path>
+                    <path d="M0,210 C70,180 110,188 160,168 C220,144 265,156 320,130 C395,95 440,104 500,82 C560,60 620,68 690,44 C735,30 770,36 800,18" fill="none" stroke="#AFA9EC" stroke-width="4"></path>
+                    <path d="M0,224 C70,204 120,208 180,194 C240,180 290,182 360,162 C415,146 470,150 540,132 C600,116 660,118 730,102 C760,96 780,94 800,88" fill="none" stroke="rgba(127,119,221,0.55)" stroke-width="3" stroke-dasharray="8 8"></path>
+                  </svg>
+                </div>
+
+                <div class="line-axis">
+                  <div>Week 1</div><div>Week 2</div><div>Week 3</div><div>Week 4</div><div>Week 5</div><div>Now</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Breakdown</div>
+                  <div class="panel-title">Processing mix by workflow stage</div>
+                </div>
+                <div class="panel-link">Stacked bars</div>
+              </div>
+
+              <div class="chart-card">
+                <div class="bars-box">
+                  <div class="stacked-rows">
+                    <div class="stacked-row">
+                      <div class="stacked-top"><span>Document Intake</span><strong>312 files</strong></div>
+                      <div class="stacked-bar">
+                        <span class="seg-a" style="width: 66%;"></span>
+                        <span class="seg-b" style="width: 24%;"></span>
+                        <span class="seg-c" style="width: 10%;"></span>
+                      </div>
+                    </div>
+                    <div class="stacked-row">
+                      <div class="stacked-top"><span>OCR Pipeline</span><strong>284 files</strong></div>
+                      <div class="stacked-bar">
+                        <span class="seg-a" style="width: 58%;"></span>
+                        <span class="seg-b" style="width: 31%;"></span>
+                        <span class="seg-c" style="width: 11%;"></span>
+                      </div>
+                    </div>
+                    <div class="stacked-row">
+                      <div class="stacked-top"><span>Citation Review</span><strong>198 files</strong></div>
+                      <div class="stacked-bar">
+                        <span class="seg-a" style="width: 72%;"></span>
+                        <span class="seg-b" style="width: 18%;"></span>
+                        <span class="seg-c" style="width: 10%;"></span>
+                      </div>
+                    </div>
+                    <div class="stacked-row">
+                      <div class="stacked-top"><span>Draft Generation</span><strong>96 files</strong></div>
+                      <div class="stacked-bar">
+                        <span class="seg-a" style="width: 61%;"></span>
+                        <span class="seg-b" style="width: 27%;"></span>
+                        <span class="seg-c" style="width: 12%;"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="column">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Distribution</div>
+                  <div class="panel-title">Current outcome mix</div>
+                </div>
+                <div class="panel-link">Donut chart</div>
+              </div>
+
+              <div class="chart-card">
+                <div class="donut-box">
+                  <div class="donut-wrap">
+                    <div class="donut">
+                      <div class="donut-center">
+                        <strong>58%</strong>
+                        <span>Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="legend">
+                    <div class="legend-row"><span class="legend-key"><span class="swatch" style="background: var(--success);"></span>Verified</span><strong>742</strong></div>
+                    <div class="legend-row"><span class="legend-key"><span class="swatch" style="background: var(--violet);"></span>Processing</span><strong>333</strong></div>
+                    <div class="legend-row"><span class="legend-key"><span class="swatch" style="background: var(--warning);"></span>Review</span><strong>137</strong></div>
+                    <div class="legend-row"><span class="legend-key"><span class="swatch" style="background: var(--danger);"></span>Flagged</span><strong>72</strong></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Engagement</div>
+                  <div class="panel-title">When the system is busiest</div>
+                </div>
+                <div class="panel-link">Heatmap</div>
+              </div>
+
+              <div class="chart-card">
+                <div class="heatmap-box">
+                  <div class="chart-name">Activity density by day</div>
+                  <div class="heatmap">
+                    <div class="heat h2"></div><div class="heat h3"></div><div class="heat h1"></div><div class="heat h4"></div><div class="heat h5"></div><div class="heat h3"></div><div class="heat h2"></div>
+                    <div class="heat h1"></div><div class="heat h2"></div><div class="heat h2"></div><div class="heat h4"></div><div class="heat h5"></div><div class="heat h4"></div><div class="heat h2"></div>
+                    <div class="heat h1"></div><div class="heat h2"></div><div class="heat h3"></div><div class="heat h3"></div><div class="heat h4"></div><div class="heat h3"></div><div class="heat h1"></div>
+                    <div class="heat h2"></div><div class="heat h4"></div><div class="heat h5"></div><div class="heat h3"></div><div class="heat h2"></div><div class="heat h1"></div><div class="heat h1"></div>
+                  </div>
+                  <div class="heat-labels">
+                    <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Usage</div>
+                  <div class="panel-title">Most used tools</div>
+                </div>
+                <div class="panel-link">Ranked bars</div>
+              </div>
+
+              <div class="chart-card">
+                <div class="table-box">
+                  <div class="tool-bars">
+                    <div class="tool-row">
+                      <div class="tool-top"><span>AI Summarizer</span><strong>412 runs</strong></div>
+                      <div class="tool-track"><div class="tool-fill" style="width: 86%;"></div></div>
+                    </div>
+                    <div class="tool-row">
+                      <div class="tool-top"><span>Citation Verifier</span><strong>351 runs</strong></div>
+                      <div class="tool-track"><div class="tool-fill" style="width: 73%;"></div></div>
+                    </div>
+                    <div class="tool-row">
+                      <div class="tool-top"><span>Legal Assistant</span><strong>228 runs</strong></div>
+                      <div class="tool-track"><div class="tool-fill" style="width: 51%;"></div></div>
+                    </div>
+                    <div class="tool-row">
+                      <div class="tool-top"><span>Draft Generator</span><strong>163 runs</strong></div>
+                      <div class="tool-track"><div class="tool-fill" style="width: 39%;"></div></div>
+                    </div>
+                  </div>
+
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Source Type</th>
+                        <th>Share</th>
+                        <th>Quality</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>PDF filings</strong></td>
+                        <td>46%</td>
+                        <td>High</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Scanned pleadings</strong></td>
+                        <td>28%</td>
+                        <td>Mixed</td>
+                      </tr>
+                      <tr>
+                        <td><strong>DOCX drafts</strong></td>
+                        <td>18%</td>
+                        <td>High</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Image exhibits</strong></td>
+                        <td>8%</td>
+                        <td>Lower OCR confidence</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

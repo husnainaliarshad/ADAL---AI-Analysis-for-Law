@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none">
+  <defs>
+    <linearGradient id="nfGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D9488"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <!-- 404 text stylized -->
+  <text x="100" y="90" text-anchor="middle" font-family="system-ui, sans-serif" font-size="48" font-weight="800" fill="url(#nfGrad)" opacity="0.7">404</text>
+  <!-- Broken link chain -->
+  <path d="M60 125 Q70 110 85 115 Q95 120 105 115 Q115 110 125 115" stroke="url(#nfGrad)" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M95 115 L105 125 M105 115 L95 125" stroke="url(#nfGrad)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+</svg>

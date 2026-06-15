@@ -1,0 +1,42 @@
+{
+  "documents": [
+    {
+      "document_id": 4,
+      "document_name": "sample_law.pdf",
+      "citations": [
+        {
+          "citation_text": "PLD 2025 SC 123",
+          "citation_type": "case",
+          "position_start": 1234,
+          "position_end": 1248,
+          "jurisdiction": "PK",
+          "court": "Supreme Court of Pakistan",
+          "year": 2025,
+          "reporter": "PLD",
+          "page": 123,
+          "notes": "Example citation - replace with actual data"
+        },
+        {
+          "citation_text": "PPC, S.302",
+          "citation_type": "statute",
+          "position_start": 5678,
+          "position_end": 5686,
+          "jurisdiction": "PK",
+          "section": "302",
+          "notes": "Pakistan Penal Code Section 302"
+        },
+        {
+          "citation_text": "Constitution of Pakistan, Art.25",
+          "citation_type": "statute",
+          "position_start": 9012,
+          "position_end": 9045,
+          "jurisdiction": "PK",
+          "article": "25",
+          "notes": "Constitution Article 25"
+        }
+      ]
+    }
+  ],
+  "notes": "This is a template. Copy this file to citation_ground_truth.json and fill in actual data from your test documents."
+}
+

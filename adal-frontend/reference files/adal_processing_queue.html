@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADAL Processing Queue Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #1A1814;
+      --surface: #2C2A26;
+      --surface-soft: #3A3832;
+      --surface-deep: #222018;
+      --violet: #7F77DD;
+      --violet-deep: #534AB7;
+      --lavender: #AFA9EC;
+      --fog: #EEEDFE;
+      --text-primary: #EEEDFE;
+      --text-secondary: #B8B3E8;
+      --text-muted: #7A768E;
+      --border: rgba(127, 119, 221, 0.14);
+      --border-bright: rgba(127, 119, 221, 0.34);
+      --success: #1D9E75;
+      --warning: #E3A84B;
+      --danger: #E24B4A;
+      --grid-line: rgba(127, 119, 221, 0.035);
+      --glow: rgba(127, 119, 221, 0.14);
+      --sidebar-w: 244px;
+      --topbar-h: 58px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--obsidian);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 560px;
+      height: 560px;
+      right: -150px;
+      top: -180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(226, 75, 74, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--surface-deep);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(127, 119, 221, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127, 119, 221, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--violet) 0%, transparent 100%);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      height: 58px;
+      padding: 0 1.15rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--violet-deep);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      overflow: hidden;
+    }
+
+    .brand-mark img,
+    .footer-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-lockup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: auto;
+      display: block;
+    }
+
+    .brand-sub {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      flex: 1;
+      overflow: auto;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-label {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.1rem 0.25rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.68rem 1.1rem;
+      position: relative;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--violet);
+      transform: scaleY(0);
+      transition: transform 0.18s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(127, 119, 221, 0.06);
+      color: var(--lavender);
+    }
+
+    .nav-item.active {
+      background: rgba(127, 119, 221, 0.1);
+      color: var(--fog);
+    }
+
+    .nav-item.active::before { transform: scaleY(1); }
+
+    .nav-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-item:hover .nav-icon,
+    .nav-item.active .nav-icon {
+      background: rgba(127, 119, 221, 0.12);
+      border-color: rgba(127, 119, 221, 0.18);
+    }
+
+    .nav-icon svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-text {
+      font-size: 0.83rem;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .nav-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 0.7rem 1.1rem;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet-deep) 0%, #3C3489 100%);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      overflow: hidden;
+    }
+
+    .footer-name { font-size: 0.82rem; }
+
+    .footer-role {
+      color: var(--text-muted);
+      font-size: 0.64rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-top: 0.12rem;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: var(--topbar-h);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.9rem;
+      gap: 1.25rem;
+      backdrop-filter: blur(8px);
+      background: rgba(26, 24, 20, 0.78);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .ghost-btn, .solid-btn, .mini-btn {
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .ghost-btn, .solid-btn {
+      height: 36px;
+      padding: 0 0.95rem;
+    }
+
+    .solid-btn {
+      background: var(--violet);
+      border-color: var(--violet);
+      color: var(--fog);
+      box-shadow: 0 10px 20px rgba(127, 119, 221, 0.24);
+    }
+
+    .mini-btn {
+      min-height: 32px;
+      padding: 0.48rem 0.72rem;
+      font-size: 0.68rem;
+    }
+
+    .mini-btn.primary {
+      border-color: var(--violet);
+      background: rgba(127, 119, 221, 0.12);
+      color: var(--lavender);
+    }
+
+    .mini-btn.warn {
+      border-color: rgba(227, 168, 75, 0.3);
+      background: rgba(227, 168, 75, 0.12);
+      color: var(--warning);
+    }
+
+    .mini-btn.danger {
+      border-color: rgba(226, 75, 74, 0.3);
+      background: rgba(226, 75, 74, 0.12);
+      color: var(--danger);
+    }
+
+    .content {
+      flex: 1;
+      overflow: auto;
+      padding: 1.6rem 1.8rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.14fr 0.86fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(127, 119, 221, 0.05) 0%, rgba(44, 42, 38, 0.98) 22%, rgba(44, 42, 38, 0.98) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(127, 119, 221, 0.12) 0%, transparent 36%);
+      pointer-events: none;
+    }
+
+    .hero-card {
+      padding: 1.55rem;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.12rem;
+      line-height: 1.02;
+      max-width: 14ch;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-title span { color: var(--danger); }
+
+    .hero-copy {
+      max-width: 56ch;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-size: 0.92rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.25rem;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      min-height: 220px;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      padding: 1.15rem 1.2rem;
+    }
+
+    .summary-label {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      margin-bottom: 0.65rem;
+    }
+
+    .summary-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.95rem;
+      line-height: 1;
+    }
+
+    .summary-sub {
+      color: var(--text-secondary);
+      font-size: 0.73rem;
+      margin-top: 0.42rem;
+    }
+
+    .summary-sub.ok { color: var(--success); }
+    .summary-sub.warn { color: var(--warning); }
+    .summary-sub.bad { color: var(--danger); }
+
+    .tabs {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .tab {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      color: var(--text-secondary);
+      background: rgba(127, 119, 221, 0.04);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tab.active {
+      background: rgba(226, 75, 74, 0.12);
+      border-color: rgba(226, 75, 74, 0.3);
+      color: #f1b5b5;
+    }
+
+    .queue-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+    }
+
+    .queue-list {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .queue-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(127, 119, 221, 0.03);
+      padding: 1rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .queue-top {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.85rem;
+      align-items: start;
+    }
+
+    .queue-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid transparent;
+    }
+
+    .queue-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .queue-icon.danger {
+      background: rgba(226, 75, 74, 0.12);
+      color: var(--danger);
+      border-color: rgba(226, 75, 74, 0.22);
+    }
+
+    .queue-icon.warn {
+      background: rgba(227, 168, 75, 0.12);
+      color: var(--warning);
+      border-color: rgba(227, 168, 75, 0.22);
+    }
+
+    .queue-icon.pending {
+      background: rgba(127, 119, 221, 0.12);
+      color: var(--lavender);
+      border-color: rgba(127, 119, 221, 0.22);
+    }
+
+    .queue-title {
+      color: var(--text-primary);
+      font-size: 0.88rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .queue-sub {
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      line-height: 1.58;
+    }
+
+    .queue-meta {
+      text-align: right;
+      white-space: nowrap;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0.28rem 0.62rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      margin-bottom: 0.4rem;
+    }
+
+    .status.bad { background: rgba(226, 75, 74, 0.12); color: var(--danger); }
+    .status.warn { background: rgba(227, 168, 75, 0.12); color: var(--warning); }
+    .status.pending { background: rgba(127, 119, 221, 0.12); color: var(--lavender); }
+
+    .queue-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.26rem 0.58rem;
+      color: var(--text-secondary);
+      font-size: 0.66rem;
+      letter-spacing: 0.04em;
+      background: rgba(127, 119, 221, 0.04);
+    }
+
+    .queue-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .detail-panel {
+      padding: 1.15rem 1.2rem 1.2rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .detail-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .detail-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(127, 119, 221, 0.03);
+      padding: 1rem;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+    }
+
+    .detail-copy {
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      line-height: 1.62;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.85rem;
+      line-height: 1;
+      color: var(--warning);
+    }
+
+    .log-list {
+      display: grid;
+      gap: 0.65rem;
+      margin-top: 0.5rem;
+    }
+
+    .log-row {
+      padding-left: 0.8rem;
+      border-left: 2px solid rgba(127, 119, 221, 0.22);
+    }
+
+    .log-time {
+      color: var(--text-muted);
+      font-size: 0.64rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.18rem;
+    }
+
+    .log-text {
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1220px) {
+      .hero,
+      .queue-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      body, html { overflow: auto; }
+      .app { min-height: 100vh; height: auto; display: block; }
+      .sidebar { width: 100%; min-width: 100%; }
+      .main { min-height: 100vh; }
+      .summary-grid,
+      .detail-grid { grid-template-columns: 1fr; }
+      .content { padding: 1rem; }
+      .topbar {
+        height: auto;
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div class="brand-lockup">
+          <img class="brand-logo" src="../frontend/public/adal-logo.svg" alt="ADAL">
+          <div class="brand-sub">AI Analysis for Law</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-label">Main</div>
+        <a class="nav-item" href="adal_dashboard.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+          </div>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a class="nav-item" href="adal_documents.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <span class="nav-text">Documents</span>
+        </a>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          </div>
+          <span class="nav-text">Upload Document</span>
+        </a>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-label">AI Tools</div>
+        <a class="nav-item active" href="adal_processing_queue.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5"></path><path d="M12 16h.01"></path></svg>
+          </div>
+          <span class="nav-text">Processing Queue</span>
+        </a>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 12c0 4.4-4 8-9 8-1.1 0-2.1-.2-3.1-.6L3 21l1.9-4.6A7.7 7.7 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z"></path><path d="M9 9h6"></path><path d="M9 13h4"></path></svg>
+          </div>
+          <span class="nav-text">AI Summarizer</span>
+        </a>
+        <a class="nav-item" href="adal_analytics.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </div>
+          <span class="nav-text">Analytics</span>
+        </a>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-label">Account</div>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <span class="nav-text">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="footer-avatar">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div>
+          <div class="footer-name">ADAL Workspace</div>
+          <div class="footer-role">Authenticated Session</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Operational Triage</div>
+          <div class="page-title">Review Processing Queue</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-btn">Refresh Queue</button>
+          <button class="ghost-btn">Retry Selected</button>
+          <button class="solid-btn">Open Documents</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="hero">
+          <div class="panel hero-card">
+            <div>
+              <div class="eyebrow">Queue focus</div>
+              <h1 class="hero-title">This page should feel like a <span>triage desk</span>, not a file browser.</h1>
+              <p class="hero-copy">
+                Users need to understand what failed, why it stalled, how long it has been waiting, and what action will move it forward.
+                The queue should prioritise intervention, not exploration.
+              </p>
+            </div>
+            <div class="hero-actions">
+              <button class="solid-btn">Retry OCR Failures</button>
+              <button class="ghost-btn">Review Low Confidence</button>
+              <button class="ghost-btn">Resolve Stale Items</button>
+            </div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-label">Urgent Failures</div>
+              <div class="summary-value">03</div>
+              <div class="summary-sub bad">Need manual intervention</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Low Confidence</div>
+              <div class="summary-value">04</div>
+              <div class="summary-sub warn">Review before downstream use</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Pending Too Long</div>
+              <div class="summary-value">02</div>
+              <div class="summary-sub warn">Beyond normal processing window</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Blocked Stages</div>
+              <div class="summary-value">01</div>
+              <div class="summary-sub ok">Recoverable with retry</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="tabs">
+          <span class="tab active">All Issues</span>
+          <span class="tab">Urgent</span>
+          <span class="tab">OCR Issues</span>
+          <span class="tab">Citation Issues</span>
+          <span class="tab">Waiting Too Long</span>
+        </div>
+
+        <section class="queue-layout">
+          <div class="queue-list">
+            <div class="queue-item">
+              <div class="queue-top">
+                <div class="queue-icon danger">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5"></path><path d="M12 16h.01"></path></svg>
+                </div>
+                <div>
+                  <div class="queue-title">Evidence Exhibit Photo Set.zip failed extraction</div>
+                  <div class="queue-sub">Archive packaging prevented OCR ingestion. The current pipeline expects individual image files or a supported document container.</div>
+                </div>
+                <div class="queue-meta">
+                  <div class="status bad">Failed</div>
+                  Waiting 2h 14m
+                </div>
+              </div>
+              <div class="queue-tags">
+                <span class="tag">Stage: OCR Intake</span>
+                <span class="tag">Type: ZIP upload</span>
+                <span class="tag">Recommended: Re-upload</span>
+              </div>
+              <div class="queue-actions">
+                <button class="mini-btn primary">Open Document</button>
+                <button class="mini-btn warn">Retry</button>
+                <button class="mini-btn">Manual Review</button>
+                <button class="mini-btn danger">Mark Resolved</button>
+              </div>
+            </div>
+
+            <div class="queue-item">
+              <div class="queue-top">
+                <div class="queue-icon warn">
+                  <svg viewBox="0 0 24 24"><path d="M10 2h4l8 14-2 4H4l-2-4 8-14z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+                </div>
+                <div>
+                  <div class="queue-title">Scanned Petition Bundle dropped to 61% OCR confidence</div>
+                  <div class="queue-sub">Urdu block detection is inconsistent and several paragraphs show broken line reconstruction. Downstream citation extraction may be unreliable.</div>
+                </div>
+                <div class="queue-meta">
+                  <div class="status warn">Low confidence</div>
+                  Waiting 1h 24m
+                </div>
+              </div>
+              <div class="queue-tags">
+                <span class="tag">Stage: OCR Extraction</span>
+                <span class="tag">Language: Urdu + English</span>
+                <span class="tag">Confidence: 61%</span>
+              </div>
+              <div class="queue-actions">
+                <button class="mini-btn primary">Open Document</button>
+                <button class="mini-btn warn">Retry OCR</button>
+                <button class="mini-btn">Manual Review</button>
+              </div>
+            </div>
+
+            <div class="queue-item">
+              <div class="queue-top">
+                <div class="queue-icon pending">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                </div>
+                <div>
+                  <div class="queue-title">Land Acquisition Act citation extraction is pending beyond expected time</div>
+                  <div class="queue-sub">OCR finished successfully, but citation parsing has been queued for 47 minutes without completion. This may indicate a processing backlog.</div>
+                </div>
+                <div class="queue-meta">
+                  <div class="status pending">Delayed</div>
+                  Waiting 47m
+                </div>
+              </div>
+              <div class="queue-tags">
+                <span class="tag">Stage: Citation Parsing</span>
+                <span class="tag">Status: Backlog</span>
+                <span class="tag">Retry eligible</span>
+              </div>
+              <div class="queue-actions">
+                <button class="mini-btn primary">Open Document</button>
+                <button class="mini-btn warn">Retry Stage</button>
+                <button class="mini-btn">Dismiss</button>
+              </div>
+            </div>
+          </div>
+
+          <section class="panel">
+            <div class="detail-panel">
+              <div>
+                <div class="eyebrow">Selected Queue Item</div>
+                <div class="detail-title">Scanned Petition Bundle</div>
+              </div>
+
+              <div class="detail-card">
+                <div class="detail-label">Issue Summary</div>
+                <div class="detail-copy">
+                  OCR confidence fell below the review threshold after language mixing and skewed scan alignment affected paragraph reconstruction.
+                  The document can still be opened, but automated downstream outputs should not be trusted until reviewed.
+                </div>
+              </div>
+
+              <div class="detail-grid">
+                <div class="detail-card">
+                  <div class="detail-label">Confidence Score</div>
+                  <div class="score">61%</div>
+                  <div class="detail-copy" style="margin-top:0.45rem;">Recommended threshold for clean pass: 78%+</div>
+                </div>
+                <div class="detail-card">
+                  <div class="detail-label">Recommended Action</div>
+                  <div class="detail-copy">
+                    Retry OCR first. If confidence remains low, send the file to manual review and suppress citation extraction.
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-card">
+                <div class="detail-label">Processing Timeline</div>
+                <div class="log-list">
+                  <div class="log-row">
+                    <div class="log-time">10:04 AM</div>
+                    <div class="log-text">Upload accepted and file stored successfully.</div>
+                  </div>
+                  <div class="log-row">
+                    <div class="log-time">10:06 AM</div>
+                    <div class="log-text">OCR pipeline started with bilingual detection enabled.</div>
+                  </div>
+                  <div class="log-row">
+                    <div class="log-time">10:11 AM</div>
+                    <div class="log-text">Confidence dropped in mid-document pages due to image skew and mixed script alignment.</div>
+                  </div>
+                  <div class="log-row">
+                    <div class="log-time">10:13 AM</div>
+                    <div class="log-text">Item moved to review queue and downstream automation paused.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="queue-actions">
+                <button class="mini-btn primary">Open Full Document</button>
+                <button class="mini-btn warn">Retry OCR</button>
+                <button class="mini-btn">Assign Manual Review</button>
+                <button class="mini-btn danger">Resolve Queue Item</button>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

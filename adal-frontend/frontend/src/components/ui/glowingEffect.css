@@ -1,0 +1,70 @@
+.adal-glowing-border-fallback {
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 0;
+}
+
+.adal-glowing-border-fallback.is-visible {
+  opacity: 1;
+}
+
+.adal-glowing-border-fallback.is-hidden {
+  display: none;
+}
+
+.adal-glowing-border-fallback.is-white {
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
+.adal-glowing-border-fallback.is-default {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.adal-glowing-effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  z-index: 0;
+}
+
+.adal-glowing-effect.is-hidden {
+  display: none;
+}
+
+.adal-glowing-effect.is-blurred {
+  filter: blur(var(--blur));
+}
+
+.adal-glow-core {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.adal-glow-core::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--glowingeffect-border-width);
+  background: radial-gradient(
+    circle var(--spot-size) at var(--x) var(--y),
+    var(--spot-color) 0%,
+    var(--spot-color-mid) 34%,
+    rgba(0, 0, 0, 0) 72%
+  );
+  opacity: var(--active);
+  transition: opacity 0.2s ease;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+}

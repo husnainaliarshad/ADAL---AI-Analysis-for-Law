@@ -1,0 +1,409 @@
+
+
+/* ============================================
+   GLOBAL STYLES — ADAL Frontend
+   ============================================ */
+   
+  
+/* ===== Font Imports ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;700&display=swap');
+
+/* ===== CSS Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text-primary);
+  scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+/* ============================================
+   ROOT VARIABLES — Base Theme
+   ============================================ */
+:root {
+  /* Fonts */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* Spacing & Radius */
+  --radius-xs: 2px;
+  --radius-s: 3px;
+  --radius-m: 4px;
+  --radius-l: 12px;
+  --space-unit: 8;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-s: var(--space-2);
+  --space-m: var(--space-4);
+  --space-l: var(--space-6);
+  --page-gutter: clamp(1.5rem, 4vw, 4rem);
+  --content-max: 1100px;
+
+  /* Canonical ADAL tokens */
+  --obsidian: #1A1814;
+  --surface: #2C2A26;
+  --surface-alt: #322F2A;
+  --surface-soft: #3A3832;
+  --surface-deep: #242220;
+  --violet: #7F77DD;
+  --violet-dim: #6B63C8;
+  --violet-deep: #534AB7;
+  --lavender: #AFA9EC;
+  --fog: #EEEDFE;
+  --text-primary: #EEEDFE;
+  --text-secondary: #AFA9EC;
+  --text-muted: #6B6A7A;
+  --border: rgba(127, 119, 221, 0.15);
+  --border-bright: rgba(127, 119, 221, 0.35);
+  --grid-line: rgba(127, 119, 221, 0.04);
+  --glow-soft: rgba(127, 119, 221, 0.12);
+  --glow-strong: rgba(127, 119, 221, 0.18);
+  --surface-overlay: rgba(26, 24, 20, 0.85);
+  --error: #E24B4A;
+  --success: #1D9E75;
+  --info: #AFA9EC;
+  --shadow-soft: 0 16px 36px rgba(0, 0, 0, 0.22);
+
+  /* Compatibility aliases */
+  --bg: var(--obsidian);
+  --bg-secondary: var(--surface);
+  --text: var(--text-primary);
+  --primary: var(--violet);
+  --primary-hover: var(--violet-dim);
+
+  /* MUI Sync Vars */
+  --mui-primary-main: var(--violet);
+  --mui-primary-contrast: var(--fog);
+  --mui-bg-default: var(--obsidian);
+  --mui-bg-paper: var(--surface);
+  --mui-surface-strong: var(--surface-soft);
+  --mui-text-primary: var(--text-primary);
+  --mui-text-secondary: var(--text-secondary);
+  --mui-divider: var(--border);
+}
+
+/* ============================================
+   DARK & LIGHT THEME OVERRIDES
+   ============================================ */
+:root[data-theme='dark'] {
+  --obsidian: #1A1814;
+  --surface: #2C2A26;
+  --surface-alt: #322F2A;
+  --surface-soft: #3A3832;
+  --surface-deep: #242220;
+  --violet: #7F77DD;
+  --violet-dim: #6B63C8;
+  --violet-deep: #534AB7;
+  --lavender: #AFA9EC;
+  --fog: #EEEDFE;
+  --text-primary: #EEEDFE;
+  --text-secondary: #AFA9EC;
+  --text-muted: #6B6A7A;
+  --border: rgba(127, 119, 221, 0.15);
+  --border-bright: rgba(127, 119, 221, 0.35);
+  --grid-line: rgba(127, 119, 221, 0.04);
+  --glow-soft: rgba(127, 119, 221, 0.12);
+  --glow-strong: rgba(127, 119, 221, 0.18);
+  --surface-overlay: rgba(26, 24, 20, 0.85);
+  --error: #E24B4A;
+  --success: #1D9E75;
+  --info: #AFA9EC;
+  --shadow-soft: 0 16px 36px rgba(0, 0, 0, 0.22);
+
+  --bg: var(--obsidian);
+  --bg-secondary: var(--surface);
+  --text: var(--text-primary);
+  --primary: var(--violet);
+  --primary-hover: var(--violet-dim);
+
+  --mui-primary-main: var(--violet);
+  --mui-primary-contrast: var(--fog);
+  --mui-bg-default: var(--obsidian);
+  --mui-bg-paper: var(--surface);
+  --mui-surface-strong: var(--surface-soft);
+  --mui-text-primary: var(--text-primary);
+  --mui-text-secondary: var(--text-secondary);
+  --mui-divider: var(--border);
+}
+
+:root[data-theme='light'] {
+  --obsidian: #F6F4FB;
+  --surface: #FFFFFF;
+  --surface-alt: #F1EEFC;
+  --surface-soft: #E7E3F8;
+  --surface-deep: #DDD7F3;
+  --violet: #6B63C8;
+  --violet-dim: #534AB7;
+  --violet-deep: #3C3489;
+  --lavender: #7C74B6;
+  --fog: #1A1814;
+  --text-primary: #1A1814;
+  --text-secondary: #5E5A73;
+  --text-muted: #8A869C;
+  --border: rgba(83, 74, 183, 0.18);
+  --border-bright: rgba(83, 74, 183, 0.32);
+  --grid-line: rgba(107, 99, 200, 0.08);
+  --glow-soft: rgba(107, 99, 200, 0.16);
+  --glow-strong: rgba(107, 99, 200, 0.22);
+  --surface-overlay: rgba(246, 244, 251, 0.85);
+  --error: #C94A48;
+  --success: #1D9E75;
+  --info: #7F77DD;
+  --shadow-soft: 0 14px 32px rgba(31, 24, 54, 0.08);
+
+  --bg: var(--obsidian);
+  --bg-secondary: var(--surface);
+  --text: var(--text-primary);
+  --primary: var(--violet);
+  --primary-hover: var(--violet-dim);
+
+  --mui-primary-main: var(--violet);
+  --mui-primary-contrast: #FFFFFF;
+  --mui-bg-default: var(--obsidian);
+  --mui-bg-paper: var(--surface);
+  --mui-surface-strong: var(--surface-soft);
+  --mui-text-primary: var(--text-primary);
+  --mui-text-secondary: var(--text-secondary);
+  --mui-divider: var(--border);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+h1 { font-size: 2.5rem; font-weight: 700; }
+h2 { font-size: 1.75rem; font-weight: 600; }
+h3 { font-size: 1.4rem; font-weight: 600; }
+
+p, li {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   LAYOUT HELPERS
+   ============================================ */
+.container {
+  width: min(90%, 1200px);
+  margin: 0 auto;
+  padding: var(--space-l) 0;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: var(--radius-m);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button.primary {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+button.primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+button.secondary {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+button.secondary:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* ============================================
+   FORMS & INPUTS
+   ============================================ */
+input, textarea, select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: border 0.2s ease, background-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+label {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* ============================================
+   CARDS & PANELS
+   ============================================ */
+.card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+.text-center { text-align: center; }
+.mt-s { margin-top: 0.5rem; }
+.mt-m { margin-top: 1rem; }
+.mt-l { margin-top: 2rem; }
+.mb-s { margin-bottom: 0.5rem; }
+.mb-m { margin-bottom: 1rem; }
+.mb-l { margin-bottom: 2rem; }
+.p-s { padding: 0.5rem; }
+.p-m { padding: 1rem; }
+.p-l { padding: 2rem; }
+
+.z-1 { z-index: 1; }
+.z-10 { z-index: 10; }
+.z-50 { z-index: 50; }
+.z-100 { z-index: 100; }
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary);
+}
+
+:root[data-theme='dark']::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes adalScrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

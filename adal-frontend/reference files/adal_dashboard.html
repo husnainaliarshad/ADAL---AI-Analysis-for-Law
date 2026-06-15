@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADAL Dashboard Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #1A1814;
+      --surface: #2C2A26;
+      --surface-soft: #3A3832;
+      --surface-deep: #222018;
+      --violet: #7F77DD;
+      --violet-deep: #534AB7;
+      --lavender: #AFA9EC;
+      --fog: #EEEDFE;
+      --text-primary: #EEEDFE;
+      --text-secondary: #B8B3E8;
+      --text-muted: #7A768E;
+      --border: rgba(127, 119, 221, 0.14);
+      --border-bright: rgba(127, 119, 221, 0.34);
+      --success: #1D9E75;
+      --warning: #E3A84B;
+      --danger: #E24B4A;
+      --grid-line: rgba(127, 119, 221, 0.035);
+      --glow: rgba(127, 119, 221, 0.14);
+      --sidebar-w: 244px;
+      --topbar-h: 58px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--obsidian);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      right: -120px;
+      bottom: -180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 68%);
+      pointer-events: none;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--surface-deep);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(127, 119, 221, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127, 119, 221, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--violet) 0%, transparent 100%);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      height: 58px;
+      padding: 0 1.15rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--violet-deep);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      overflow: hidden;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-lockup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: auto;
+      display: block;
+    }
+
+    .brand-sub {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      flex: 1;
+      overflow: auto;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-section { margin-bottom: 0.35rem; }
+
+    .nav-label {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.1rem 0.25rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.68rem 1.1rem;
+      position: relative;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--violet);
+      transform: scaleY(0);
+      transition: transform 0.18s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(127, 119, 221, 0.06);
+      color: var(--lavender);
+    }
+
+    .nav-item.active {
+      background: rgba(127, 119, 221, 0.1);
+      color: var(--fog);
+    }
+
+    .nav-item.active::before { transform: scaleY(1); }
+
+    .nav-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-item:hover .nav-icon,
+    .nav-item.active .nav-icon {
+      background: rgba(127, 119, 221, 0.12);
+      border-color: rgba(127, 119, 221, 0.18);
+    }
+
+    .nav-icon svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-text {
+      font-size: 0.83rem;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--violet);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 2px 6px;
+    }
+
+    .nav-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 0.7rem 1.1rem;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet-deep) 0%, #3C3489 100%);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      overflow: hidden;
+    }
+
+    .footer-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .footer-name { font-size: 0.82rem; }
+
+    .footer-role {
+      color: var(--text-muted);
+      font-size: 0.64rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-top: 0.12rem;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: var(--topbar-h);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.9rem;
+      gap: 1.25rem;
+      backdrop-filter: blur(8px);
+      background: rgba(26, 24, 20, 0.78);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .ghost-btn, .solid-btn {
+      border-radius: 8px;
+      height: 36px;
+      padding: 0 0.95rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .solid-btn {
+      background: var(--violet);
+      border-color: var(--violet);
+      color: var(--fog);
+      box-shadow: 0 10px 20px rgba(127, 119, 221, 0.24);
+    }
+
+    .content {
+      flex: 1;
+      overflow: auto;
+      padding: 1.6rem 1.8rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(127, 119, 221, 0.05) 0%, rgba(44, 42, 38, 0.98) 22%, rgba(44, 42, 38, 0.98) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(127, 119, 221, 0.12) 0%, transparent 36%);
+      pointer-events: none;
+    }
+
+    .hero-card {
+      padding: 1.55rem;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      line-height: 1.02;
+      max-width: 14ch;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-title span { color: var(--violet); }
+
+    .hero-copy {
+      max-width: 54ch;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-size: 0.92rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.25rem;
+    }
+
+    .stat-stack {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      min-height: 220px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      padding: 1.2rem 1.25rem;
+      position: relative;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+
+    .stat-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .stat-sub {
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      margin-top: 0.45rem;
+    }
+
+    .stat-sub.good { color: var(--success); }
+    .stat-sub.warn { color: var(--warning); }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 1rem;
+    }
+
+    .column {
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 1.15rem 1.2rem 0;
+    }
+
+    .panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      line-height: 1;
+      margin-bottom: 0.22rem;
+    }
+
+    .panel-kicker {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .panel-link {
+      color: var(--lavender);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+    }
+
+    .activity-list, .queue-list {
+      padding: 1rem 1.2rem 1.2rem;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .activity-row, .queue-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.85rem;
+      align-items: start;
+      padding: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(127, 119, 221, 0.03);
+    }
+
+    .row-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--violet);
+      background: rgba(127, 119, 221, 0.1);
+      border: 1px solid rgba(127, 119, 221, 0.18);
+      flex-shrink: 0;
+    }
+
+    .row-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .row-title {
+      font-size: 0.84rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .row-copy {
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      line-height: 1.55;
+    }
+
+    .row-meta {
+      text-align: right;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      white-space: nowrap;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0.24rem 0.58rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .status.ok { background: rgba(29, 158, 117, 0.12); color: var(--success); }
+    .status.pending { background: rgba(127, 119, 221, 0.12); color: var(--lavender); }
+    .status.flagged { background: rgba(226, 75, 74, 0.12); color: var(--danger); }
+    .status.warn { background: rgba(227, 168, 75, 0.12); color: var(--warning); }
+
+    .light-analytics {
+      padding: 1rem 1.2rem 1.2rem;
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 0.85rem;
+    }
+
+    .chart-card {
+      border: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.03);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    .chart-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .chart-name {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .chart-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      line-height: 1;
+    }
+
+    .donut-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 170px;
+    }
+
+    .donut {
+      width: 138px;
+      height: 138px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, var(--surface) 0 43%, transparent 44%),
+        conic-gradient(var(--success) 0 62%, var(--violet) 62% 87%, var(--danger) 87% 100%);
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    }
+
+    .donut-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .donut-center strong {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    .donut-center span {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .legend {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 0.9rem;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+
+    .legend-key {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .bars {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-items: end;
+      gap: 0.45rem;
+      height: 118px;
+    }
+
+    .bar {
+      border-radius: 8px 8px 3px 3px;
+      background: linear-gradient(180deg, rgba(127, 119, 221, 0.95) 0%, rgba(83, 74, 183, 0.7) 100%);
+      border: 1px solid rgba(127, 119, 221, 0.22);
+      position: relative;
+    }
+
+    .bar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .bar-labels {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.45rem;
+      margin-top: 0.55rem;
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    .tool-bars {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .tool-row {
+      display: grid;
+      gap: 0.3rem;
+    }
+
+    .tool-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+
+    .tool-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(127, 119, 221, 0.08);
+      border: 1px solid rgba(127, 119, 221, 0.08);
+      overflow: hidden;
+    }
+
+    .tool-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--violet) 0%, var(--lavender) 100%);
+    }
+
+    .quick-grid {
+      padding: 1rem 1.2rem 1.2rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+
+    .quick-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(127, 119, 221, 0.04);
+      padding: 1rem;
+      min-height: 112px;
+    }
+
+    .quick-card h4 {
+      font-size: 0.82rem;
+      margin-bottom: 0.35rem;
+      font-weight: 500;
+    }
+
+    .quick-card p {
+      color: var(--text-secondary);
+      font-size: 0.72rem;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 1180px) {
+      .hero,
+      .dashboard-grid,
+      .analytics-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      body, html { overflow: auto; }
+      .app { min-height: 100vh; height: auto; display: block; }
+      .sidebar { width: 100%; min-width: 100%; }
+      .main { min-height: 100vh; }
+      .stat-stack,
+      .quick-grid { grid-template-columns: 1fr; }
+      .content { padding: 1rem; }
+      .topbar {
+        height: auto;
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div class="brand-lockup">
+          <img class="brand-logo" src="../frontend/public/adal-logo.svg" alt="ADAL">
+          <div class="brand-sub">AI Analysis for Law</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-section">
+          <div class="nav-label">Main</div>
+          <a class="nav-item active" href="adal_dashboard.html">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+            </div>
+            <span class="nav-text">Dashboard</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            </div>
+            <span class="nav-text">Documents</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </div>
+            <span class="nav-text">Upload Document</span>
+          </a>
+        </div>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-section">
+          <div class="nav-label">AI Tools</div>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            </div>
+            <span class="nav-text">Citation Verifier</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 12c0 4.4-4 8-9 8-1.1 0-2.1-.2-3.1-.6L3 21l1.9-4.6A7.7 7.7 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z"></path><path d="M9 9h6"></path><path d="M9 13h4"></path></svg>
+            </div>
+            <span class="nav-text">AI Summarizer</span>
+            <span class="nav-badge">New</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <span class="nav-text">Legal Assistant</span>
+          </a>
+          <a class="nav-item" href="adal_analytics.html">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </div>
+            <span class="nav-text">Analytics</span>
+          </a>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </div>
+            <span class="nav-text">Draft Generator</span>
+          </a>
+        </div>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-section">
+          <div class="nav-label">Account</div>
+          <a class="nav-item" href="#">
+            <div class="nav-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </div>
+            <span class="nav-text">Settings</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="footer-avatar">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div>
+          <div class="footer-name">ADAL Workspace</div>
+          <div class="footer-role">Authenticated Session</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Operational Overview</div>
+          <div class="page-title">Dashboard</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-btn">Run Summary</button>
+          <button class="ghost-btn">Open Chat</button>
+          <a class="ghost-btn" href="adal_analytics.html">Open Analytics</a>
+          <button class="solid-btn">Upload Document</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="hero">
+          <div class="panel hero-card">
+            <div>
+              <div class="eyebrow">Today at a glance</div>
+              <h1 class="hero-title">Legal work should feel <span>directed</span>, not scattered.</h1>
+              <p class="hero-copy">
+                The dashboard should surface what matters first: active processing, recent casework, flagged verification items,
+                and the next actions your team is most likely to take.
+              </p>
+            </div>
+            <div class="hero-actions">
+              <button class="solid-btn">Continue Last Draft</button>
+              <button class="ghost-btn">Review Flagged Items</button>
+              <a class="ghost-btn" href="adal_analytics.html">View Full Analytics</a>
+            </div>
+          </div>
+
+          <div class="stat-stack">
+            <div class="stat-card">
+              <div class="stat-label">Documents</div>
+              <div class="stat-value">248</div>
+              <div class="stat-sub good">+18 added this week</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Verified Citations</div>
+              <div class="stat-value">1,482</div>
+              <div class="stat-sub good">96.2% confidence trend</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Drafts Generated</div>
+              <div class="stat-value">37</div>
+              <div class="stat-sub">5 awaiting final review</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Attention Needed</div>
+              <div class="stat-value">09</div>
+              <div class="stat-sub warn">3 OCR retries pending</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-grid">
+          <div class="column">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Recent Activity</div>
+                  <div class="panel-title">Continue where the work moved</div>
+                </div>
+                <a class="panel-link" href="#">View all</a>
+              </div>
+
+              <div class="activity-list">
+                <div class="activity-row">
+                  <div class="row-icon">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                  </div>
+                  <div>
+                    <div class="row-title">Bhutto v. State citation review finished</div>
+                    <div class="row-copy">17 citations matched successfully and 2 references were flagged for manual review.</div>
+                  </div>
+                  <div class="row-meta">
+                    <div class="status ok">Verified</div>
+                    12 min ago
+                  </div>
+                </div>
+
+                <div class="activity-row">
+                  <div class="row-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                  </div>
+                  <div>
+                    <div class="row-title">Drafting assistant prepared a board resolution</div>
+                    <div class="row-copy">The latest draft is ready for clause-by-clause review before export.</div>
+                  </div>
+                  <div class="row-meta">
+                    <div class="status pending">Draft</div>
+                    41 min ago
+                  </div>
+                </div>
+
+                <div class="activity-row">
+                  <div class="row-icon">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  </div>
+                  <div>
+                    <div class="row-title">Land Acquisition Act upload completed</div>
+                    <div class="row-copy">OCR is done in English; Urdu extraction is queued in background processing.</div>
+                  </div>
+                  <div class="row-meta">
+                    <div class="status pending">Processing</div>
+                    1 hr ago
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Work Queue</div>
+                  <div class="panel-title">Items that need attention</div>
+                </div>
+                <a class="panel-link" href="#">Open queue</a>
+              </div>
+
+              <div class="queue-list">
+                <div class="queue-row">
+                  <div class="row-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                  </div>
+                  <div>
+                    <div class="row-title">3 scanned filings failed OCR confidence threshold</div>
+                    <div class="row-copy">Review image quality or rerun extraction before downstream analysis.</div>
+                  </div>
+                  <div class="row-meta">
+                    <div class="status warn">Needs review</div>
+                    Queue
+                  </div>
+                </div>
+
+                <div class="queue-row">
+                  <div class="row-icon">
+                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                  </div>
+                  <div>
+                    <div class="row-title">2 citation bundles have low-confidence references</div>
+                    <div class="row-copy">Manual confirmation is recommended before those references are used in a draft.</div>
+                  </div>
+                  <div class="row-meta">
+                    <div class="status flagged">Flagged</div>
+                    Queue
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="column">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Light Analytics</div>
+                  <div class="panel-title">Fast operational read</div>
+                </div>
+                <a class="panel-link" href="adal_analytics.html">Full analytics</a>
+              </div>
+
+              <div class="light-analytics">
+                <div class="analytics-grid">
+                  <div class="chart-card">
+                    <div class="chart-meta">
+                      <div>
+                        <div class="chart-name">Workload split</div>
+                        <div class="chart-value">82 active</div>
+                      </div>
+                      <div class="status pending">Live queue</div>
+                    </div>
+
+                    <div class="donut-wrap">
+                      <div class="donut">
+                        <div class="donut-center">
+                          <strong>62%</strong>
+                          <span>Verified</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="legend">
+                      <div class="legend-row">
+                        <span class="legend-key"><span class="swatch" style="background: var(--success);"></span>Verified</span>
+                        <strong>51</strong>
+                      </div>
+                      <div class="legend-row">
+                        <span class="legend-key"><span class="swatch" style="background: var(--violet);"></span>Processing</span>
+                        <strong>20</strong>
+                      </div>
+                      <div class="legend-row">
+                        <span class="legend-key"><span class="swatch" style="background: var(--danger);"></span>Flagged</span>
+                        <strong>11</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="chart-card">
+                    <div class="chart-meta">
+                      <div>
+                        <div class="chart-name">Weekly throughput</div>
+                        <div class="chart-value">+24%</div>
+                      </div>
+                      <div class="status ok">7-day trend</div>
+                    </div>
+
+                    <div class="bars">
+                      <div class="bar" style="height: 38%;"></div>
+                      <div class="bar" style="height: 50%;"></div>
+                      <div class="bar" style="height: 44%;"></div>
+                      <div class="bar" style="height: 72%;"></div>
+                      <div class="bar" style="height: 64%;"></div>
+                      <div class="bar" style="height: 83%;"></div>
+                      <div class="bar" style="height: 91%;"></div>
+                    </div>
+                    <div class="bar-labels">
+                      <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="chart-card">
+                  <div class="chart-meta">
+                    <div>
+                      <div class="chart-name">Tool usage this week</div>
+                      <div class="chart-value">Top workflows</div>
+                    </div>
+                    <div class="status ok">Compact compare</div>
+                  </div>
+
+                  <div class="tool-bars">
+                    <div class="tool-row">
+                      <div class="tool-top"><span>AI Summarizer</span><strong>78 runs</strong></div>
+                      <div class="tool-track"><div class="tool-fill" style="width: 82%;"></div></div>
+                    </div>
+                    <div class="tool-row">
+                      <div class="tool-top"><span>Citation Verifier</span><strong>61 runs</strong></div>
+                      <div class="tool-track"><div class="tool-fill" style="width: 68%;"></div></div>
+                    </div>
+                    <div class="tool-row">
+                      <div class="tool-top"><span>Draft Generator</span><strong>37 runs</strong></div>
+                      <div class="tool-track"><div class="tool-fill" style="width: 44%;"></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-kicker">Quick Actions</div>
+                  <div class="panel-title">Fast routes into work</div>
+                </div>
+              </div>
+
+              <div class="quick-grid">
+                <div class="quick-card">
+                  <h4>Upload a new case file</h4>
+                  <p>Start ingestion for PDF, DOCX, or scanned image material.</p>
+                </div>
+                <div class="quick-card">
+                  <h4>Open last draft</h4>
+                  <p>Jump back into the document your team last edited.</p>
+                </div>
+                <div class="quick-card">
+                  <h4>Run citation verification</h4>
+                  <p>Check extracted references before they reach drafting.</p>
+                </div>
+                <div class="quick-card">
+                  <h4>Launch full analytics</h4>
+                  <p>Open deeper trends, breakdowns, time views, and category performance.</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

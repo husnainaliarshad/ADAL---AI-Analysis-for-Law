@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADAL Documents Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #1A1814;
+      --surface: #2C2A26;
+      --surface-soft: #3A3832;
+      --surface-deep: #222018;
+      --violet: #7F77DD;
+      --violet-deep: #534AB7;
+      --lavender: #AFA9EC;
+      --fog: #EEEDFE;
+      --text-primary: #EEEDFE;
+      --text-secondary: #B8B3E8;
+      --text-muted: #7A768E;
+      --border: rgba(127, 119, 221, 0.14);
+      --border-bright: rgba(127, 119, 221, 0.34);
+      --success: #1D9E75;
+      --warning: #E3A84B;
+      --danger: #E24B4A;
+      --grid-line: rgba(127, 119, 221, 0.035);
+      --glow: rgba(127, 119, 221, 0.14);
+      --sidebar-w: 244px;
+      --topbar-h: 58px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--obsidian);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 540px;
+      height: 540px;
+      right: -140px;
+      bottom: -200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--surface-deep);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(127, 119, 221, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127, 119, 221, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--violet) 0%, transparent 100%);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      height: 58px;
+      padding: 0 1.15rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--violet-deep);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      overflow: hidden;
+    }
+
+    .brand-mark img,
+    .footer-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-lockup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: auto;
+      display: block;
+    }
+
+    .brand-sub {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      flex: 1;
+      overflow: auto;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-label {
+      color: var(--text-muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.1rem 0.25rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.68rem 1.1rem;
+      position: relative;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--violet);
+      transform: scaleY(0);
+      transition: transform 0.18s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(127, 119, 221, 0.06);
+      color: var(--lavender);
+    }
+
+    .nav-item.active {
+      background: rgba(127, 119, 221, 0.1);
+      color: var(--fog);
+    }
+
+    .nav-item.active::before { transform: scaleY(1); }
+
+    .nav-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-item:hover .nav-icon,
+    .nav-item.active .nav-icon {
+      background: rgba(127, 119, 221, 0.12);
+      border-color: rgba(127, 119, 221, 0.18);
+    }
+
+    .nav-icon svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-text {
+      font-size: 0.83rem;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--violet);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 2px 6px;
+    }
+
+    .nav-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 0.7rem 1.1rem;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet-deep) 0%, #3C3489 100%);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      overflow: hidden;
+    }
+
+    .footer-name { font-size: 0.82rem; }
+
+    .footer-role {
+      color: var(--text-muted);
+      font-size: 0.64rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-top: 0.12rem;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: var(--topbar-h);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.9rem;
+      gap: 1.25rem;
+      backdrop-filter: blur(8px);
+      background: rgba(26, 24, 20, 0.78);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .ghost-btn, .solid-btn {
+      border-radius: 8px;
+      height: 36px;
+      padding: 0 0.95rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .solid-btn {
+      background: var(--violet);
+      border-color: var(--violet);
+      color: var(--fog);
+      box-shadow: 0 10px 20px rgba(127, 119, 221, 0.24);
+    }
+
+    .content {
+      flex: 1;
+      overflow: auto;
+      padding: 1.6rem 1.8rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(127, 119, 221, 0.05) 0%, rgba(44, 42, 38, 0.98) 22%, rgba(44, 42, 38, 0.98) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(127, 119, 221, 0.12) 0%, transparent 36%);
+      pointer-events: none;
+    }
+
+    .hero-card {
+      padding: 1.55rem;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.15rem;
+      line-height: 1.02;
+      max-width: 14ch;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-title span { color: var(--violet); }
+
+    .hero-copy {
+      max-width: 56ch;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-size: 0.92rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.25rem;
+    }
+
+    .stat-stack {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      min-height: 220px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      padding: 1.15rem 1.2rem;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      margin-bottom: 0.65rem;
+    }
+
+    .stat-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.95rem;
+      line-height: 1;
+    }
+
+    .stat-sub {
+      color: var(--text-secondary);
+      font-size: 0.73rem;
+      margin-top: 0.42rem;
+    }
+
+    .stat-sub.good { color: var(--success); }
+    .stat-sub.warn { color: var(--warning); }
+    .stat-sub.bad { color: var(--danger); }
+
+    .toolbar {
+      margin-bottom: 1rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr auto;
+      gap: 0.8rem;
+      align-items: end;
+    }
+
+    .toolbar-group,
+    .search-box,
+    .filter-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(127, 119, 221, 0.03);
+      padding: 0.85rem 0.95rem;
+    }
+
+    .search-input,
+    .fake-select {
+      margin-top: 0.45rem;
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      border-radius: 8px;
+      min-height: 42px;
+      padding: 0 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+    }
+
+    .toolbar-label {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .table-panel {
+      padding: 0;
+    }
+
+    .table-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.15rem 1.2rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      line-height: 1;
+      margin-top: 0.15rem;
+    }
+
+    .table-meta {
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+    }
+
+    .table-wrap {
+      padding: 0 1.2rem 1.2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 1rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+
+    th {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding-top: 0.85rem;
+      padding-bottom: 0.85rem;
+    }
+
+    td:first-child, th:first-child { padding-left: 0; }
+    td:last-child, th:last-child { padding-right: 0; }
+
+    .doc-name {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      min-width: 0;
+    }
+
+    .doc-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--violet);
+      background: rgba(127, 119, 221, 0.1);
+      border: 1px solid rgba(127, 119, 221, 0.18);
+      flex-shrink: 0;
+    }
+
+    .doc-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .doc-text {
+      min-width: 0;
+    }
+
+    .doc-title {
+      color: var(--text-primary);
+      font-size: 0.84rem;
+      margin-bottom: 0.18rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .doc-sub {
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0.28rem 0.62rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .status.ok { background: rgba(29, 158, 117, 0.12); color: var(--success); }
+    .status.pending { background: rgba(127, 119, 221, 0.12); color: var(--lavender); }
+    .status.warn { background: rgba(227, 168, 75, 0.12); color: var(--warning); }
+    .status.bad { background: rgba(226, 75, 74, 0.12); color: var(--danger); }
+
+    .action-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.45rem;
+      white-space: nowrap;
+    }
+
+    .mini-btn {
+      min-width: 0;
+      border: 1px solid var(--border);
+      background: rgba(127, 119, 221, 0.04);
+      color: var(--text-primary);
+      border-radius: 8px;
+      padding: 0.5rem 0.7rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-btn.primary {
+      border-color: var(--violet);
+      background: rgba(127, 119, 221, 0.12);
+      color: var(--lavender);
+    }
+
+    .bottom-grid {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 1rem;
+    }
+
+    .attention-list,
+    .empty-card {
+      padding: 1rem 1.2rem 1.2rem;
+    }
+
+    .attention-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.8rem;
+      align-items: start;
+      padding: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(127, 119, 221, 0.03);
+      margin-top: 0.8rem;
+    }
+
+    .attention-title {
+      font-size: 0.82rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .attention-copy {
+      color: var(--text-secondary);
+      font-size: 0.73rem;
+      line-height: 1.55;
+    }
+
+    .empty-box {
+      border: 1px dashed var(--border-bright);
+      border-radius: 12px;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.6rem;
+      background: rgba(127, 119, 221, 0.03);
+    }
+
+    .empty-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 500;
+      margin-bottom: 0.45rem;
+    }
+
+    .empty-box p {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      line-height: 1.65;
+      max-width: 34ch;
+      margin: 0 auto 1rem;
+    }
+
+    @media (max-width: 1220px) {
+      .hero,
+      .toolbar,
+      .bottom-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      body, html { overflow: auto; }
+      .app { min-height: 100vh; height: auto; display: block; }
+      .sidebar { width: 100%; min-width: 100%; }
+      .main { min-height: 100vh; }
+      .stat-stack { grid-template-columns: 1fr; }
+      .content { padding: 1rem; }
+      .topbar {
+        height: auto;
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        min-width: 760px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div class="brand-lockup">
+          <img class="brand-logo" src="../frontend/public/adal-logo.svg" alt="ADAL">
+          <div class="brand-sub">AI Analysis for Law</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-label">Main</div>
+        <a class="nav-item" href="adal_dashboard.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+          </div>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a class="nav-item active" href="adal_documents.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <span class="nav-text">Documents</span>
+        </a>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          </div>
+          <span class="nav-text">Upload Document</span>
+        </a>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-label">AI Tools</div>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          </div>
+          <span class="nav-text">Citation Verifier</span>
+        </a>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 12c0 4.4-4 8-9 8-1.1 0-2.1-.2-3.1-.6L3 21l1.9-4.6A7.7 7.7 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z"></path><path d="M9 9h6"></path><path d="M9 13h4"></path></svg>
+          </div>
+          <span class="nav-text">AI Summarizer</span>
+          <span class="nav-badge">New</span>
+        </a>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <span class="nav-text">Legal Assistant</span>
+        </a>
+        <a class="nav-item" href="adal_analytics.html">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </div>
+          <span class="nav-text">Analytics</span>
+        </a>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          </div>
+          <span class="nav-text">Draft Generator</span>
+        </a>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-label">Account</div>
+        <a class="nav-item" href="#">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <span class="nav-text">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="footer-avatar">
+          <img src="../frontend/public/adal-icon.svg" alt="ADAL icon">
+        </div>
+        <div>
+          <div class="footer-name">ADAL Workspace</div>
+          <div class="footer-role">Authenticated Session</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Document Workspace</div>
+          <div class="page-title">Documents</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-btn">Refresh</button>
+          <button class="ghost-btn">Bulk Review</button>
+          <button class="solid-btn">Upload Document</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="hero">
+          <div class="panel hero-card">
+            <div>
+              <div class="eyebrow">Document control</div>
+              <h1 class="hero-title">Your legal files should be <span>sortable</span>, readable, and actionable.</h1>
+              <p class="hero-copy">
+                The documents page should let users scan file health quickly, search by filename, filter by status,
+                and move into upload, review, or detail views without fighting the interface.
+              </p>
+            </div>
+            <div class="hero-actions">
+              <button class="solid-btn">Upload New File</button>
+              <button class="ghost-btn">Review Processing Queue</button>
+              <button class="ghost-btn">Open Latest Upload</button>
+            </div>
+          </div>
+
+          <div class="stat-stack">
+            <div class="stat-card">
+              <div class="stat-label">Total Documents</div>
+              <div class="stat-value">248</div>
+              <div class="stat-sub good">+18 this week</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">OCR Ready</div>
+              <div class="stat-value">196</div>
+              <div class="stat-sub good">79% of library</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Processing</div>
+              <div class="stat-value">24</div>
+              <div class="stat-sub warn">7 need review</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Flagged</div>
+              <div class="stat-value">09</div>
+              <div class="stat-sub bad">OCR or extraction issues</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="toolbar">
+          <div class="search-box">
+            <div class="toolbar-label">Search</div>
+            <div class="search-input">Search by filename, matter, or type</div>
+          </div>
+          <div class="toolbar-group" style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem;">
+            <div>
+              <div class="toolbar-label">Status</div>
+              <div class="fake-select">All statuses <span>▾</span></div>
+            </div>
+            <div>
+              <div class="toolbar-label">Sort</div>
+              <div class="fake-select">Newest first <span>▾</span></div>
+            </div>
+          </div>
+          <div class="toolbar-actions">
+            <button class="ghost-btn">Clear</button>
+            <button class="ghost-btn">Filter</button>
+          </div>
+        </section>
+
+        <section class="panel table-panel">
+          <div class="table-head">
+            <div>
+              <div class="eyebrow">Library view</div>
+              <div class="table-title">Recent and active documents</div>
+            </div>
+            <div class="table-meta">Showing 8 of 248 documents</div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Document</th>
+                  <th>Type</th>
+                  <th>Size</th>
+                  <th>Uploaded</th>
+                  <th>OCR Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="doc-name">
+                      <div class="doc-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                      </div>
+                      <div class="doc-text">
+                        <div class="doc-title">Bhutto v. State - PLD 1978 SC 89.pdf</div>
+                        <div class="doc-sub">Matter: Constitutional Review</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>PDF</td>
+                  <td>2.6 MB</td>
+                  <td>Today, 10:42 AM</td>
+                  <td><span class="status ok">OCR Ready</span></td>
+                  <td>
+                    <div class="action-row">
+                      <button class="mini-btn primary">View</button>
+                      <button class="mini-btn">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="doc-name">
+                      <div class="doc-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                      </div>
+                      <div class="doc-text">
+                        <div class="doc-title">Land Acquisition Act 1894 - Annotated.docx</div>
+                        <div class="doc-sub">Matter: Property Acquisition</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>DOCX</td>
+                  <td>1.2 MB</td>
+                  <td>Yesterday</td>
+                  <td><span class="status pending">Processing</span></td>
+                  <td>
+                    <div class="action-row">
+                      <button class="mini-btn primary">View</button>
+                      <button class="mini-btn">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="doc-name">
+                      <div class="doc-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                      </div>
+                      <div class="doc-text">
+                        <div class="doc-title">Scanned Petition Bundle - Lahore High Court.pdf</div>
+                        <div class="doc-sub">Matter: Civil Petition</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>PDF</td>
+                  <td>8.9 MB</td>
+                  <td>Yesterday</td>
+                  <td><span class="status warn">Low confidence</span></td>
+                  <td>
+                    <div class="action-row">
+                      <button class="mini-btn primary">View</button>
+                      <button class="mini-btn">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="doc-name">
+                      <div class="doc-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                      </div>
+                      <div class="doc-text">
+                        <div class="doc-title">Constitution of Pakistan 1973 - Art. 10A Notes.pdf</div>
+                        <div class="doc-sub">Matter: Due Process Research</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>PDF</td>
+                  <td>3.4 MB</td>
+                  <td>2 days ago</td>
+                  <td><span class="status ok">OCR Ready</span></td>
+                  <td>
+                    <div class="action-row">
+                      <button class="mini-btn primary">View</button>
+                      <button class="mini-btn">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="doc-name">
+                      <div class="doc-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                      </div>
+                      <div class="doc-text">
+                        <div class="doc-title">Evidence Exhibit Photo Set.zip</div>
+                        <div class="doc-sub">Matter: Criminal Appeal</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>ZIP</td>
+                  <td>14.7 MB</td>
+                  <td>3 days ago</td>
+                  <td><span class="status bad">Failed</span></td>
+                  <td>
+                    <div class="action-row">
+                      <button class="mini-btn primary">View</button>
+                      <button class="mini-btn">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="bottom-grid">
+          <section class="panel">
+            <div class="table-head">
+              <div>
+                <div class="eyebrow">Attention</div>
+                <div class="table-title">Files needing follow-up</div>
+              </div>
+              <div class="table-meta">9 total issues</div>
+            </div>
+            <div class="attention-list">
+              <div class="attention-row">
+                <div class="doc-icon">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </div>
+                <div>
+                  <div class="attention-title">Scanned Petition Bundle dropped below OCR confidence threshold</div>
+                  <div class="attention-copy">Recommend re-upload or manual review before summary and citation extraction.</div>
+                </div>
+                <span class="status warn">Review</span>
+              </div>
+              <div class="attention-row">
+                <div class="doc-icon">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </div>
+                <div>
+                  <div class="attention-title">Evidence Exhibit Photo Set failed extraction</div>
+                  <div class="attention-copy">The current file packaging blocked OCR ingestion. User should retry with individual images.</div>
+                </div>
+                <span class="status bad">Failed</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="table-head">
+              <div>
+                <div class="eyebrow">Empty State</div>
+                <div class="table-title">When the library is empty</div>
+              </div>
+            </div>
+            <div class="empty-card">
+              <div class="empty-box">
+                <div>
+                  <h3>No documents yet</h3>
+                  <p>Upload your first file to start OCR, citation review, summarization, and downstream legal analysis.</p>
+                  <button class="solid-btn">Upload First Document</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

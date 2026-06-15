@@ -1,0 +1,21 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: adalbot_db
+    restart: always
+    environment:
+      POSTGRES_DB: adalbot
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - ../Data/postgres_db:/var/lib/postgresql/data
+
+  # ADD THIS SECTION BELOW
+  adminer:
+    image: adminer
+    container_name: adalbot_adminer
+    restart: always
+    ports:
+      - "8080:8080"

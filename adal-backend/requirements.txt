@@ -1,0 +1,141 @@
+annotated-doc==0.0.4
+annotated-types==0.7.0
+anyio==4.11.0
+asttokens==3.0.1
+bcrypt==5.0.0
+blinker==1.9.0
+certifi==2025.11.12
+cffi==2.0.0
+click==8.3.0
+colorama==0.4.6
+comm==0.2.3
+cryptography==46.0.3
+debugpy==1.8.17
+decorator==5.2.1
+dnspython==2.8.0
+ecdsa==0.19.1
+email-validator==2.3.0
+executing==2.2.1
+fastapi==0.121.1
+Flask==3.1.2
+greenlet==3.2.4
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.11
+iniconfig==2.3.0
+ipykernel==7.1.0
+ipython==9.7.0
+ipython_pygments_lexers==1.1.1
+itsdangerous==2.2.0
+jedi==0.19.2
+Jinja2==3.1.6
+joblib==1.5.2
+jupyter_client==8.6.3
+jupyter_core==5.9.1
+lxml>=5.3.0,<6
+MarkupSafe==3.0.3
+matplotlib-inline==0.2.1
+nest-asyncio==1.6.0
+numpy==2.3.5
+packaging==25.0
+pandas==2.3.3
+parso==0.8.5
+passlib==1.7.4
+platformdirs==4.5.0
+pluggy==1.6.0
+prompt_toolkit==3.0.52
+psutil==7.1.3
+pure_eval==0.2.3
+pyasn1==0.6.1
+pycparser==2.23
+pydantic==2.12.4
+pydantic-settings==2.12.0
+pydantic_core>=2.20,<3
+Pygments==2.19.2
+pytest==9.0.1
+pytest-asyncio==1.3.0
+python-dateutil==2.9.0.post0
+python-docx==1.2.0
+python-dotenv==1.2.1
+python-jose==3.5.0
+pytz==2025.2
+pyzmq==27.1.0
+rsa==4.9.1
+scikit-learn==1.7.2
+scipy==1.16.3
+six==1.17.0
+sniffio==1.3.1
+SQLAlchemy==2.0.44
+stack-data==0.6.3
+starlette==0.49.3
+threadpoolctl==3.6.0
+tornado==6.5.2
+traitlets==5.14.3
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+tzdata==2025.2
+uvicorn==0.38.0
+wcwidth==0.2.14
+Werkzeug==3.1.3
+
+# =============================================================================
+# Additional Dependencies for ADAL Features
+# =============================================================================
+# Install these packages based on which features you need:
+
+# Database (PostgreSQL) - REQUIRED
+psycopg2-binary>=2.9.0
+
+# Supabase (for hybrid database setup) - OPTIONAL
+# Install if using Supabase for online collaboration
+supabase>=2.0.0
+
+# OCR and Document Processing - OPTIONAL
+# Install if using OCR features
+pytesseract>=0.3.13
+pdf2image>=1.17.0
+Pillow>=12.0.0
+
+# ML/AI Dependencies - OPTIONAL
+# Install if using InLegalBERT, embeddings, or FAISS
+transformers>=4.30.0
+torch>=2.0.0
+sentencepiece>=0.1.99
+sentence-transformers>=2.2.0
+faiss-cpu>=1.7.4  # Use faiss-gpu if you have GPU support
+tqdm>=4.66.0
+
+# Natural Language Processing - OPTIONAL
+# Install if using NLTK features
+nltk>=3.8.0
+
+# HTTP Requests - OPTIONAL (for Ollama API calls)
+requests>=2.31.0
+
+# LLM Clients - OPTIONAL
+# Install if using OpenAI summarization/verification flows
+openai>=1.0.0
+langgraph>=0.2.0
+
+# Add these lines to adal-backend/requirements.txt
+redis==5.0.1
+hiredis==2.2.3  # Optional: Faster parser (C extension)
+
+# Chat/drafting retrieval helpers
+pgvector>=0.3.0
+beautifulsoup4>=4.12.0
+
+# FastAPI form/file parsing (required for multipart upload endpoints)
+python-multipart==0.0.20
+
+# =============================================================================
+# Installation Notes:
+# =============================================================================
+# WSL (avoid timeout): pip install -r requirements-wsl.txt
+# 1. Core dependencies (FastAPI, SQLAlchemy, etc.) are already installed above
+# 2. For ML features, install: pip install transformers torch sentence-transformers faiss-cpu
+# 3. For OCR features, install: pip install pytesseract pdf2image Pillow
+# 4. For Supabase, install: pip install supabase psycopg2-binary
+# 5. Install all optional: pip install -r requirements.txt
+# =============================================================================

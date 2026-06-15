@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link id="app-favicon" rel="icon" type="image/svg+xml" href="/adal-icon-light.svg" />
+    <link id="app-apple-touch-icon" rel="apple-touch-icon" href="/adal-icon-light.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-driven Analysis for Law</title>
+    <script>
+      (function () {
+        const storedTheme = localStorage.getItem("theme");
+        const resolvedTheme = storedTheme || (
+          window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+        );
+        const iconHref = resolvedTheme === "dark" ? "/adal-icon.svg" : "/adal-icon-light.svg";
+
+        document.documentElement.setAttribute("data-theme", resolvedTheme);
+        document.getElementById("app-favicon")?.setAttribute("href", iconHref);
+        document.getElementById("app-apple-touch-icon")?.setAttribute("href", iconHref);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

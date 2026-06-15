@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "document_id": 1,
+    "claim_text": "The above system would break down completely if a dispute as between the seller and the purchaser was to have the effect of freezing the sum in respect of which the Letter of Credit was opened.",
+    "claim_type": "general",
+    "position_start": 15326,
+    "position_end": 15522,
+    "confidence_score": 0.85,
+    "created_at": "2026-03-14T21:52:54.604763+05:00"
+  },
+  {
+    "id": 2,
+    "document_id": 1,
+    "claim_text": "Hamzeh Malas an d Sons v. British Imex Industries Ltd. 1958 (2) Q.B. 127; united city merchants (investments)Ltd. v. Royal Bank of Canda [1983] AC 168; S. A. Hameed v. Allied Bank of Pakistan Limited 2004 CLD 1620; Haral Textiles Limited v. Banque Indosuez Belgium, S.A. 1999 SCMR 591; Power Curber International Ltd. v. National Bank of Kuwait (1981) All ELR 607; Haroon Rashid Chaudhri v. Muslim Commercial Bank 2006 CLD 1140. Article of UCP 500; Blonder & Co. v. Citibank N.A. Limited v. ICC Chemical Corporation 2020 CLD 720. and of 2012 The Exception to the rule of autonomy - fraud 13. The rule of autonomy is, however, not absolute.",
+    "claim_type": "constitutional",
+    "position_start": 15576,
+    "position_end": 16342,
+    "confidence_score": 0.85,
+    "created_at": "2026-03-14T21:52:54.604776+05:00"
+  },
+  {
+    "id": 3,
+    "document_id": 1,
+    "claim_text": "It has an exception, when fraud is alleged and established.",
+    "claim_type": "general",
+    "position_start": 16343,
+    "position_end": 16403,
+    "confidence_score": 0.85,
+    "created_at": "2026-03-14T21:52:54.604787+05:00"
+  },
+  {
+    "id": 4,
+    "document_id": 1,
+    "claim_text": "We also note that Mr. Shiraz Taqi (PW-1) during his cross -examination admitted that there was a possibility of his agent Muhammad Hussain with the connivance of the supplier -company to have designed the fraud. This admission on the part of Mr. Shiraz Taqi further dilutes the claim of forgery/fraud asserted in the plaint. Ghulam Rasul v. Muhammad Akram (1988 SCMR 1080), Muhammad Ishfaq v. Chouhdri Muhammad Nawaz (2008 SCMR 1095), Haji Abdul Ghafoor through legal heirs v. Ghulam Sadiq through legal heirs (PLD 2007 SC 43) and Muhammad Saleem v. Muhammad Tariq (2009 CLC 1295 ).",
+    "claim_type": "general",
+    "position_start": 49407,
+    "position_end": 50053,
+    "confidence_score": 0.85,
+    "created_at": "2026-03-14T21:52:54.604795+05:00"
+  },
+  {
+    "id": 5,
+    "document_id": 1,
+    "claim_text": "And of 2012 However, any findings recorded in the present decision ought not to prejudice the appellant -company, if it decides to seek it s rightful remedy before an appropriate legal forum, against the seller, the shipper or any other person, with reference to the performance of the main contract.",
+    "claim_type": "civil",
+    "position_start": 50073,
+    "position_end": 50391,
+    "confidence_score": 0.85,
+    "created_at": "2026-03-14T21:52:54.604803+05:00"
+  }
+]

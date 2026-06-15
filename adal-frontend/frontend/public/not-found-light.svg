@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none">
+  <defs>
+    <linearGradient id="nfLightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A8783F"/>
+      <stop offset="55%" stop-color="#B98A48"/>
+      <stop offset="100%" stop-color="#C8A477"/>
+    </linearGradient>
+  </defs>
+  <text x="100" y="90" text-anchor="middle" font-family="system-ui, sans-serif" font-size="48" font-weight="800" fill="#2E2A25" opacity="0.86">404</text>
+  <path d="M60 125 Q70 110 85 115 Q95 120 105 115 Q115 110 125 115" stroke="url(#nfLightGrad)" stroke-width="2.5" fill="none" opacity="0.88"/>
+  <path d="M95 115 L105 125 M105 115 L95 125" stroke="#6B5F52" stroke-width="2.5" stroke-linecap="round" opacity="0.72"/>
+</svg>

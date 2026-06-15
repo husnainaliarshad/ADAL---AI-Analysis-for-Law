@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none">
+  <defs>
+    <linearGradient id="searchLightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A8783F"/>
+      <stop offset="55%" stop-color="#B98A48"/>
+      <stop offset="100%" stop-color="#C8A477"/>
+    </linearGradient>
+  </defs>
+  <circle cx="85" cy="75" r="45" stroke="url(#searchLightGrad)" stroke-width="3" fill="#F5EDE0" opacity="0.88"/>
+  <line x1="115" y1="105" x2="155" y2="145" stroke="#2E2A25" stroke-width="4" stroke-linecap="round" opacity="0.72"/>
+  <line x1="40" y1="130" x2="160" y2="30" stroke="#6B5F52" stroke-width="3" stroke-linecap="round" opacity="0.42"/>
+</svg>

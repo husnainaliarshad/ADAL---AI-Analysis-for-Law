@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAL — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --obsidian:       #1A1814;
+    --surface:        #2C2A26;
+    --surface2:       #3A3832;
+    --surface3:       #222018;
+    --violet:         #7F77DD;
+    --violet-dim:     #534AB7;
+    --violet-glow:    rgba(127,119,221,0.12);
+    --lavender:       #AFA9EC;
+    --fog:            #EEEDFE;
+    --text-primary:   #EEEDFE;
+    --text-secondary: #AFA9EC;
+    --text-muted:     #6B6A7A;
+    --border:         rgba(127,119,221,0.13);
+    --border-bright:  rgba(127,119,221,0.35);
+    --sidebar-w:      240px;
+    --sidebar-w-col:  64px;
+    --topbar-h:       56px;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--obsidian);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow: hidden;
+  }
+
+  /* ═══════════════════════════════
+     APP SHELL
+  ═══════════════════════════════ */
+  .app {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+
+  /* ═══════════════════════════════
+     SIDEBAR
+  ═══════════════════════════════ */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--surface3);
+    border-right: 0.5px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: width 0.3s cubic-bezier(.4,0,.2,1),
+                min-width 0.3s cubic-bezier(.4,0,.2,1);
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  .sidebar.collapsed {
+    width: var(--sidebar-w-col);
+    min-width: var(--sidebar-w-col);
+  }
+
+  /* subtle grid texture on sidebar */
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(127,119,221,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(127,119,221,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  /* violet top accent line */
+  .sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--violet) 0%, transparent 100%);
+  }
+
+  /* ── LOGO ── */
+  .sb-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1.1rem;
+    height: var(--topbar-h);
+    border-bottom: 0.5px solid var(--border);
+    flex-shrink: 0;
+    text-decoration: none;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .sb-logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--violet-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--fog);
+    letter-spacing: 0.05em;
+    border: 0.5px solid var(--border-bright);
+  }
+
+  .sb-logo-text {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sb-logo-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--fog);
+    letter-spacing: 0.1em;
+    line-height: 1;
+  }
+
+  .sb-logo-sub {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    white-space: nowrap;
+  }
+
+  /* ── COLLAPSE TOGGLE ── */
+  .collapse-btn {
+    position: absolute;
+    top: calc(var(--topbar-h) + 1.2rem);
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 0.5px solid var(--border-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s, transform 0.3s;
+    color: var(--text-muted);
+  }
+
+  .collapse-btn:hover {
+    background: var(--violet-dim);
+    color: var(--fog);
+  }
+
+  .sidebar.collapsed .collapse-btn {
+    transform: rotate(180deg);
+  }
+
+  .collapse-btn svg { width: 10px; height: 10px; }
+
+  /* ── NAV BODY ── */
+  .sb-nav {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .sb-nav::-webkit-scrollbar { width: 3px; }
+  .sb-nav::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+  /* ── SECTION LABELS ── */
+  .sb-section {
+    margin-bottom: 0.25rem;
+  }
+
+  .sb-section-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.6rem 1.1rem 0.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 0.2s;
+  }
+
+  .sidebar.collapsed .sb-section-label {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+  }
+
+  /* ── NAV ITEMS ── */
+  .sb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.62rem 1.1rem;
+    cursor: pointer;
+    border-radius: 0;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: background 0.15s;
+    color: var(--text-secondary);
+  }
+
+  .sb-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--violet);
+    transform: scaleY(0);
+    transition: transform 0.2s;
+  }
+
+  .sb-item:hover {
+    background: rgba(127,119,221,0.06);
+    color: var(--lavender);
+  }
+
+  .sb-item.active {
+    background: rgba(127,119,221,0.1);
+    color: var(--fog);
+  }
+
+  .sb-item.active::before {
+    transform: scaleY(1);
+  }
+
+  .sb-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+    background: transparent;
+  }
+
+  .sb-item:hover .sb-item-icon,
+  .sb-item.active .sb-item-icon {
+    background: rgba(127,119,221,0.12);
+  }
+
+  .sb-item-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    flex-shrink: 0;
+  }
+
+  .sb-item-label {
+    font-size: 0.82rem;
+    font-weight: 400;
+    overflow: hidden;
+    transition: opacity 0.2s, width 0.3s;
+  }
+
+  .sidebar.collapsed .sb-item-label {
+    opacity: 0;
+    width: 0;
+  }
+
+  .sb-badge {
+    margin-left: auto;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: var(--violet-dim);
+    color: var(--fog);
+    font-size: 0.62rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+
+  .sidebar.collapsed .sb-badge { opacity: 0; }
+
+  .sb-new {
+    margin-left: auto;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--violet);
+    border: 0.5px solid var(--border-bright);
+    padding: 1px 5px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+
+  .sidebar.collapsed .sb-new { opacity: 0; }
+
+  /* separator */
+  .sb-sep {
+    height: 0.5px;
+    background: var(--border);
+    margin: 0.6rem 1.1rem;
+    transition: margin 0.3s;
+  }
+
+  .sidebar.collapsed .sb-sep { margin: 0.6rem 0.8rem; }
+
+  /* ── TOOLTIP on collapsed ── */
+  .sb-item {
+    position: relative;
+  }
+
+  .sidebar.collapsed .sb-item::after {
+    content: attr(data-label);
+    position: absolute;
+    left: calc(var(--sidebar-w-col) + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--surface2);
+    border: 0.5px solid var(--border-bright);
+    color: var(--fog);
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 200;
+  }
+
+  .sidebar.collapsed .sb-item:hover::after { opacity: 1; }
+
+  /* ── USER FOOTER ── */
+  .sb-footer {
+    border-top: 0.5px solid var(--border);
+    padding: 0.85rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .sb-footer:hover { background: rgba(127,119,221,0.06); }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--violet-dim) 0%, #3C3489 100%);
+    border: 1px solid var(--border-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--fog);
+  }
+
+  .user-info {
+    overflow: hidden;
+    flex: 1;
+    transition: opacity 0.2s;
+  }
+
+  .sidebar.collapsed .user-info { opacity: 0; width: 0; }
+
+  .user-name {
+    font-size: 0.82rem;
+    color: var(--fog);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .user-role {
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  .user-chevron {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: opacity 0.2s;
+  }
+
+  .sidebar.collapsed .user-chevron { opacity: 0; }
+
+  .user-chevron svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 1.5; fill: none; }
+
+  /* ═══════════════════════════════
+     MAIN AREA
+  ═══════════════════════════════ */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    height: var(--topbar-h);
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    flex-shrink: 0;
+    gap: 1rem;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .breadcrumb span { color: var(--text-secondary); }
+  .breadcrumb .sep { color: var(--text-muted); font-size: 0.65rem; }
+
+  .topbar-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 3px;
+    padding: 0.45rem 0.8rem;
+    width: 260px;
+    transition: border-color 0.2s;
+  }
+
+  .topbar-search:focus-within { border-color: var(--violet); }
+
+  .topbar-search svg { width: 13px; height: 13px; stroke: var(--text-muted); stroke-width: 1.5; fill: none; flex-shrink: 0; }
+
+  .topbar-search input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    width: 100%;
+  }
+
+  .topbar-search input::placeholder { color: var(--text-muted); }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .topbar-btn {
+    width: 32px; height: 32px;
+    border-radius: 4px;
+    border: 0.5px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    position: relative;
+  }
+
+  .topbar-btn:hover {
+    background: var(--surface2);
+    color: var(--lavender);
+    border-color: var(--border-bright);
+  }
+
+  .topbar-btn svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .notif-dot {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+
+  /* ── CONTENT AREA ── */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .content::-webkit-scrollbar { width: 3px; }
+  .content::-webkit-scrollbar-thumb { background: var(--border-bright); }
+
+  /* ── DEMO CONTENT ── */
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--fog);
+    margin-bottom: 0.3rem;
+  }
+
+  .page-sub {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    padding: 1.4rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1.5px;
+    background: transparent;
+    transition: background 0.2s;
+  }
+
+  .stat-card:hover::after { background: var(--violet); }
+
+  .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--fog);
+    line-height: 1;
+  }
+
+  .stat-change {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+  }
+
+  .stat-change.up { color: #1D9E75; }
+
+  .recent-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .doc-row {
+    background: var(--surface);
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  .doc-row:hover { background: var(--surface2); }
+
+  .doc-icon {
+    width: 32px; height: 32px;
+    border-radius: 5px;
+    background: rgba(127,119,221,0.1);
+    border: 0.5px solid var(--border-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--violet);
+  }
+
+  .doc-icon svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .doc-name {
+    font-size: 0.85rem;
+    color: var(--fog);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .doc-meta {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .doc-status {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .status-verified  { background: rgba(29,158,117,0.12); color: #1D9E75; }
+  .status-pending   { background: rgba(127,119,221,0.12); color: var(--lavender); }
+  .status-flagged   { background: rgba(226,75,74,0.12);  color: #E24B4A; }
+
+  /* upload prompt card */
+  .upload-card {
+    border: 0.5px dashed var(--border-bright);
+    border-radius: 4px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 1rem;
+  }
+
+  .upload-card:hover { background: rgba(127,119,221,0.04); }
+
+  .upload-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: rgba(127,119,221,0.1);
+    margin: 0 auto 0.8rem;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--violet);
+  }
+
+  .upload-icon svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .upload-card h4 { font-size: 0.88rem; color: var(--fog); margin-bottom: 0.3rem; }
+  .upload-card p { font-size: 0.78rem; color: var(--text-muted); }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ══════════════════════════════
+       SIDEBAR
+  ══════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- collapse toggle -->
+    <button class="collapse-btn" id="collapseBtn" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+      <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 2L3 5l4 3"/>
+      </svg>
+    </button>
+
+    <!-- logo -->
+    <a href="adal_landing.html" class="sb-logo">
+      <div class="sb-logo-mark">A</div>
+      <div class="sb-logo-text">
+        <span class="sb-logo-name">ADAL</span>
+        <span class="sb-logo-sub">AI Analysis for Law</span>
+      </div>
+    </a>
+
+    <!-- nav -->
+    <nav class="sb-nav">
+
+      <!-- MAIN -->
+      <div class="sb-section">
+        <div class="sb-section-label">Main</div>
+
+        <a class="sb-item active" data-label="Dashboard" href="#" onclick="setActive(this,'Dashboard')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <span class="sb-item-label">Dashboard</span>
+        </a>
+
+        <a class="sb-item" data-label="Documents" href="#" onclick="setActive(this,'Documents')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <span class="sb-item-label">Documents</span>
+          <span class="sb-badge">4</span>
+        </a>
+
+        <a class="sb-item" data-label="Upload" href="#" onclick="setActive(this,'Upload')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <span class="sb-item-label">Upload Document</span>
+        </a>
+
+      </div>
+
+      <div class="sb-sep"></div>
+
+      <!-- AI TOOLS -->
+      <div class="sb-section">
+        <div class="sb-section-label">AI Tools</div>
+
+        <a class="sb-item" data-label="Citation Verifier" href="#" onclick="setActive(this,'Citation Verifier')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <span class="sb-item-label">Citation Verifier</span>
+        </a>
+
+        <a class="sb-item" data-label="AI Summarizer" href="#" onclick="setActive(this,'AI Summarizer')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M11 8v6M8 11h6"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <span class="sb-item-label">AI Summarizer</span>
+          <span class="sb-new">New</span>
+        </a>
+
+        <a class="sb-item" data-label="Legal Assistant" href="#" onclick="setActive(this,'Legal Assistant')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <span class="sb-item-label">Legal Assistant</span>
+        </a>
+
+        <a class="sb-item" data-label="Draft Generator" href="#" onclick="setActive(this,'Draft Generator')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <span class="sb-item-label">Draft Generator</span>
+        </a>
+
+        <a class="sb-item" data-label="Precedent Search" href="#" onclick="setActive(this,'Precedent Search')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <span class="sb-item-label">Precedent Search</span>
+        </a>
+
+      </div>
+
+      <div class="sb-sep"></div>
+
+      <!-- WORKSPACE -->
+      <div class="sb-section">
+        <div class="sb-section-label">Workspace</div>
+
+        <a class="sb-item" data-label="Knowledge Graph" href="#" onclick="setActive(this,'Knowledge Graph')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </div>
+          <span class="sb-item-label">Knowledge Graph</span>
+        </a>
+
+        <a class="sb-item" data-label="Reports" href="#" onclick="setActive(this,'Reports')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <span class="sb-item-label">Reports</span>
+        </a>
+
+        <a class="sb-item" data-label="Collaboration" href="#" onclick="setActive(this,'Collaboration')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <span class="sb-item-label">Collaboration</span>
+          <span class="sb-badge">2</span>
+        </a>
+
+      </div>
+
+      <div class="sb-sep"></div>
+
+      <!-- ACCOUNT -->
+      <div class="sb-section">
+        <div class="sb-section-label">Account</div>
+
+        <a class="sb-item" data-label="Settings" href="#" onclick="setActive(this,'Settings')">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <span class="sb-item-label">Settings</span>
+        </a>
+
+        <a class="sb-item" data-label="Sign Out" href="adal_login.html">
+          <div class="sb-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </div>
+          <span class="sb-item-label">Sign Out</span>
+        </a>
+
+      </div>
+
+    </nav>
+
+    <!-- user footer -->
+    <div class="sb-footer">
+      <div class="user-avatar">H</div>
+      <div class="user-info">
+        <div class="user-name">Hasan Ali</div>
+        <div class="user-role">Lawyer</div>
+      </div>
+      <div class="user-chevron">
+        <svg viewBox="0 0 12 12" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 5l3 3 3-3"/>
+        </svg>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════ -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="breadcrumb">
+          ADAL <span class="sep">/</span> <span id="breadcrumb-page">Dashboard</span>
+        </div>
+      </div>
+
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Search cases, citations…">
+      </div>
+
+      <div class="topbar-right">
+        <div class="topbar-btn" title="Notifications">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </div>
+        <div class="topbar-btn" title="Help">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="content">
+      <h1 class="page-title" id="page-title">Dashboard</h1>
+      <p class="page-sub">Welcome back, Hasan. Here's your workspace at a glance.</p>
+
+      <!-- stats -->
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-label">Documents</div>
+          <div class="stat-value">24</div>
+          <div class="stat-change up">↑ 4 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Citations Verified</div>
+          <div class="stat-value">187</div>
+          <div class="stat-change up">↑ 96.4% accuracy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">AI Summaries</div>
+          <div class="stat-value">31</div>
+          <div class="stat-change">Last: 2 hrs ago</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Drafts Generated</div>
+          <div class="stat-value">9</div>
+          <div class="stat-change up">↑ 3 this month</div>
+        </div>
+      </div>
+
+      <!-- recent docs -->
+      <div class="recent-label">Recent Documents</div>
+      <div class="doc-list">
+        <div class="doc-row">
+          <div class="doc-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="doc-name">Bhutto v. State — PLD 1978 SC 89</div>
+          <div class="doc-meta">2 hrs ago</div>
+          <span class="doc-status status-verified">Verified</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="doc-name">Land Acquisition Act 1894 — Annotated</div>
+          <div class="doc-meta">Yesterday</div>
+          <span class="doc-status status-pending">Processing</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="doc-name">Muhammad Nawaz Sharif v. Federation</div>
+          <div class="doc-meta">3 days ago</div>
+          <span class="doc-status status-flagged">Flagged</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="doc-name">Constitution of Pakistan 1973 — Art. 10-A</div>
+          <div class="doc-meta">4 days ago</div>
+          <span class="doc-status status-verified">Verified</span>
+        </div>
+      </div>
+
+      <!-- upload prompt -->
+      <div class="upload-card">
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h4>Upload a new document</h4>
+        <p>PDF, DOCX, or scanned image — English & Urdu supported</p>
+      </div>
+
+    </main>
+  </div>
+
+</div>
+
+<script>
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+  }
+
+  function setActive(el, label) {
+    document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('breadcrumb-page').textContent = label;
+    document.getElementById('page-title').textContent = label;
+  }
+</script>
+
+</body>
+</html>

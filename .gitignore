@@ -1,0 +1,10 @@
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+.commandcode
+Dataset/
+Data/hf_models/
+adal-backend/Temp/
