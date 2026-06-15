@@ -6,5 +6,6 @@
 !**/.env.example
 .commandcode
 Dataset/
-Data/hf_models/
+Data/
+chroma_migrate_tmp/
 adal-backend/Temp/
