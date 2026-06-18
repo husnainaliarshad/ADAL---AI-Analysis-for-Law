@@ -17,8 +17,7 @@ const resolveApiUrl = () => {
   if (deprecatedBaseUrl) {
     return `${trimTrailingSlash(deprecatedBaseUrl)}/api`
   }
-
-  return 'http://localhost:9006/api'
+  return 'http://13.53.135.100:9006/api'
 }
 
 export const API_URL = resolveApiUrl()
