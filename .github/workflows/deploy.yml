@@ -21,15 +21,19 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # 1. Navigate to your project directory on the EC2 machine
-            cd /home/ec2-user/adal-backend
+            # 1. Force move to the absolute correct repository root path
+            cd /home/ec2-user/ADAL---AI-Analysis-for-Law
             
-            # 2. Pull the latest code changes from GitHub
-            git pull origin main
+            # 2. Fetch everything and force reset the local branch to mirror GitHub exactly
+            git fetch --all
+            git reset --hard origin/main
             
-            # 3. Install dependencies from both files into your venv
+            # 3. Move into the specific backend folder for python environment tasks
+            cd adal-backend
+            
+            # 4. Install dependencies from both files into your venv cleanly
             ./venv/bin/pip install -r old-requirements.txt
             ./venv/bin/pip install -r requirements.txt
             
-            # 4. Restart your background FastAPI service
+            # 5. Restart your background FastAPI service
             sudo systemctl restart fastapi
