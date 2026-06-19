@@ -1,0 +1,35 @@
+name: Deploy FastAPI to EC2
+
+on:
+  push:
+    branches:
+      - main  # Triggers the pipeline whenever you push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }} # This will be ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            # 1. Navigate to your project directory on the EC2 machine
+            cd /home/ec2-user/adal-backend
+            
+            # 2. Pull the latest code changes from GitHub
+            git pull origin main
+            
+            # 3. Install dependencies from both files into your venv
+            ./venv/bin/pip install -r old-requirements.txt
+            ./venv/bin/pip install -r requirements.txt
+            
+            # 4. Restart your background FastAPI service
+            sudo systemctl restart fastapi
